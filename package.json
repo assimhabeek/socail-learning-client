@@ -2,11 +2,14 @@
   "name": "social-learning",
   "version": "0.0.0",
   "license": "MIT",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
+    "electron": "ng build && electron .",
+    "electron-aot": "ng build --prod && electron .",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -33,6 +36,8 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
+    "electron": "^1.8.2",
+    "electron-packager": "^11.0.0",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~2.0.0",
