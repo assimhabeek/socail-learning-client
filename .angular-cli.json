@@ -18,8 +18,26 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
+      "serviceWorker": true,
       "styles": [
-        "styles.css"
+        "main.scss",
+        "highlightjs/material-light.css",
+        {
+          "input": "assets/pink-bluegrey.css",
+          "lazy": true
+        },
+        {
+          "input": "assets/deeppurple-amber.css",
+          "lazy": true
+        },
+        {
+          "input": "assets/indigo-pink.css",
+          "lazy": true
+        },
+        {
+          "input": "assets/purple-green.css",
+          "lazy": true
+        }
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
