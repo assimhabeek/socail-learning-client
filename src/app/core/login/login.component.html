@@ -1,0 +1,49 @@
+<div class="sl-login">
+  <span class="sl-primary-background"></span>
+  <mat-card class="sl-login-card mat-elevation-z6">
+    <mat-icon class="logo" color="primary" svgIcon="sl-logo"></mat-icon>
+    <mat-card-content>
+      <form novalidate #form="ngForm" (ngSubmit)="submit(form.valid)">
+        <mat-form-field focused="true">
+          <mat-placeholder>
+            <mat-icon>account_circle</mat-icon>
+            USERNAME
+          </mat-placeholder>
+          <input matInput [required]="true"
+                 [(ngModel)]="user.username" #username="ngModel" type="username" name="username">
+          <mat-error *ngIf="username.hasError('required')">
+            <strong>REQUIRED</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>
+            <mat-icon>lock</mat-icon>
+            PASSWORD
+          </mat-placeholder>
+          <input matInput
+                 [required]="true" [(ngModel)]="user.password" #password="ngModel" type="password"
+                 name="password"
+                 minlength="6">
+          <mat-error *ngIf="password.hasError('required')">
+            <strong>REQUIRED</strong>
+          </mat-error>
+          <mat-error *ngIf="password.hasError('minlength')">
+            Password should be at least 6 characters
+          </mat-error>
+        </mat-form-field>
+        <div class="sl-remember-me">
+          <mat-checkbox>REMEMBER</mat-checkbox>
+        </div>
+        <div class="sl-submit">
+          <button mat-raised-button type="submit" color="primary">
+            SIGNIN
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button color="primary" routerLink="/register">DO_NOT_HAVE_ACCOUNT</a>
+
+    </mat-card-actions>
+  </mat-card>
+</div>

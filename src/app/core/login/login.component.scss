@@ -1,0 +1,36 @@
+.sl-login {
+  .sl-primary-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 250px;
+    width: 100%;
+    content: '';
+  }
+}
+
+.sl-login-card {
+  max-width: 250px;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.sl-login-card .logo {
+  width: 120px;
+  height: 60px;
+  margin: auto;
+}
+
+.sl-login-card .mat-form-field {
+  width: 220px !important;
+}
+
+.sl-login-card .sl-remember-me {
+  width: 220px;
+  margin: 8px auto;
+  text-align: left;
+}
+
+.sl-login-card .sl-submit {
+  margin-top: 16px !important;
+}

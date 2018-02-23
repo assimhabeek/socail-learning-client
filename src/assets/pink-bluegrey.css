@@ -1005,7 +1005,5 @@ Orginal Style from https://github.com/Kelbster/highlightjs-material-dark-theme  
 .sl-app-background {
   background: #303030; }
 
-.sl-primary-header {
-  background: #e91e63; }
-  .sl-primary-header h1 {
-    color: white; }
+.sl-primary-background {
+  background-color: #e91e63; }

@@ -907,7 +907,5 @@
 .sl-app-background {
   background: #fafafa; }
 
-.sl-primary-header {
-  background: #3f51b5; }
-  .sl-primary-header h1 {
-    color: white; }
+.sl-primary-background {
+  background-color: #3f51b5; }
