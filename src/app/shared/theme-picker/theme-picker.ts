@@ -6,6 +6,7 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import {CommonModule} from '@angular/common';
+import {TranslateModule} from '@ngx-translate/core';
 
 
 @Component({
@@ -21,30 +22,54 @@ export class ThemePickerComponent {
 
   themes = [
     {
-      primary: '#673AB7',
-      accent: '#FFC107',
-      href: 'deeppurple-amber.css',
-      isDark: false,
-    },
-    {
-      primary: '#3F51B5',
-      accent: '#E91E63',
-      href: 'indigo-pink.css',
-      isDark: false,
+      primary: '#00BCD4',
+      accent: '#009688',
+      href: 'cyan-teal.css',
       isDefault: true,
+      isDark: false,
     },
     {
-      primary: '#E91E63',
-      accent: '#607D8B',
-      href: 'pink-bluegrey.css',
+      primary: '#00BCD4',
+      accent: '#009688',
+      href: 'cyan-teal-dark.css',
       isDark: true,
     },
     {
-      primary: '#9C27B0',
-      accent: '#4CAF50',
-      href: 'purple-green.css',
+      primary: '#43a047',
+      accent: '#607d8b',
+      href: 'green-bluegrey.css',
+      isDark: false,
+    },
+    {
+      primary: '#43a047',
+      accent: '#607d8b',
+      href: 'green-bluegrey-dark.css',
       isDark: true,
     },
+    {
+      primary: '#f44336',
+      accent: '#9C27B0',
+      href: 'red-purple.css',
+      isDark: false,
+    },
+    {
+      primary: '#f44336',
+      accent: '#9C27B0',
+      href: 'red-purple-dark.css',
+      isDark: true,
+    },
+    {
+      primary: '#d84315',
+      accent: '#795548',
+      href: 'orange-brown.css',
+      isDark: false,
+    },
+    {
+      primary: '#d84315',
+      accent: '#ffc107',
+      href: 'orange-amber-dark.css',
+      isDark: true,
+    }
   ];
 
   constructor(public styleManager: StyleManager,
@@ -81,6 +106,7 @@ export class ThemePickerComponent {
     MatMenuModule,
     MatGridListModule,
     MatTooltipModule,
+    TranslateModule,
     CommonModule
   ],
   exports: [ThemePickerComponent],

@@ -1,0 +1,44 @@
+$formMarginTop: 100px;
+$coloredBackgroundHeight: $formMarginTop + 100px;
+
+.sl-register {
+  &:before{
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.66);
+  }
+  overflow: auto;
+  height: 100%;
+  background: url("../../../assets/img/register-background.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.sl-register-card {
+  max-width: 320px;
+  margin: $formMarginTop auto;
+  text-align: center;
+}
+
+.sl-register-card .logo {
+  width: 120px;
+  height: 60px;
+  margin: auto;
+}
+
+.sl-register-card .mat-form-field {
+  width: 220px !important;
+}
+
+.sl-register-card .sl-remember-me {
+  width: 220px;
+  margin: 8px auto;
+  text-align: left;
+}
+
+.sl-register-card .sl-submit {
+  margin-top: 16px !important;
+}

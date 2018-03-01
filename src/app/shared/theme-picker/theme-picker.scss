@@ -4,7 +4,6 @@ $theme-picker-grid-cells-per-row: 2;
 $theme-picker-swatch-size: 36px;
 $theme-picker-accent-stripe-size: 6px;
 
-
 .sl-theme-picker-menu {
   .mat-menu-content {
     padding: $theme-picker-menu-padding;
@@ -25,9 +24,11 @@ $theme-picker-accent-stripe-size: 6px;
     overflow: hidden;
 
     .sl-theme-chosen-icon {
+      margin: 0 !important;
       color: white;
       position: absolute;
-      left: 50%; top: 50%;
+      left: 50%;
+      top: 50%;
       transform: translate(-50%, -50%);
     }
 
@@ -39,7 +40,7 @@ $theme-picker-accent-stripe-size: 6px;
       width: 100%;
       height: 100%;
       box-sizing: border-box;
-      border: 1px solid rgba(0,0,0,.2);
+      border: 1px solid rgba(0, 0, 0, .2);
       border-radius: 50%;
     }
   }
@@ -48,7 +49,11 @@ $theme-picker-accent-stripe-size: 6px;
     width: 100%;
     height: 100%;
   }
-
+  .sl-theme-picker-dark {
+    background-color: #2B2B2D;
+    width: 40%;
+    height: 40%;
+  }
   .sl-theme-picker-accent {
     position: absolute;
     bottom: $theme-picker-accent-stripe-size;

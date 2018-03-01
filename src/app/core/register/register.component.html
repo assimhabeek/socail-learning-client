@@ -1,54 +1,48 @@
-<div class="sl-login">
-  <mat-card class="sl-login-card mat-elevation-z6">
+<div class="sl-register">
+  <mat-card class="sl-register-card mat-elevation-z6">
     <mat-icon class="logo" color="primary" svgIcon="sl-logo"></mat-icon>
     <mat-card-content>
       <form novalidate #form="ngForm" (ngSubmit)="submit(form.valid)">
         <mat-form-field focused="true">
           <mat-placeholder>
             <mat-icon>account_circle</mat-icon>
-            {{'USERNAME' |translate}}
+            USERNAME
           </mat-placeholder>
-
           <input matInput [required]="true"
                  [(ngModel)]="user.username" #username="ngModel" type="username" name="username">
           <mat-error *ngIf="username.hasError('required')">
-            <strong>{{'REQUIRED'|translate}}</strong>
+            <strong>REQUIRED</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-placeholder>
             <mat-icon>lock</mat-icon>
-            {{'PASSWORD' | translate}}
+            PASSWORD
           </mat-placeholder>
           <input matInput
-                 [required]="true" [(ngModel)]="user.password" #password="ngModel"
-                 [type]="showPassword?'text':'password'"
+                 [required]="true" [(ngModel)]="user.password" #password="ngModel" type="password"
                  name="password"
                  minlength="6">
-          <mat-icon class="indicator" [color]="showPassword?'accent':'auto'"
-                    matSuffix (click)="showPassword = !showPassword">
-            {{showPassword ? 'visibility' : 'visibility_off'}}
-          </mat-icon>
           <mat-error *ngIf="password.hasError('required')">
-            <strong>{{'REQUIRED'|translate}}</strong>
+            <strong>REQUIRED</strong>
           </mat-error>
           <mat-error *ngIf="password.hasError('minlength')">
-            <strong>{{'AT_LEAST'|translate:{number:6} }}</strong>
+            Password should be at least 6 characters
           </mat-error>
         </mat-form-field>
-
         <div class="sl-remember-me">
-          <mat-checkbox>{{'REMEMBER_ME' | translate}}</mat-checkbox>
+          <mat-checkbox>REMEMBER</mat-checkbox>
         </div>
         <div class="sl-submit">
           <button mat-raised-button type="submit" color="primary">
-            {{'SIGN_IN' | translate}}
+            SIGNIN
           </button>
         </div>
       </form>
     </mat-card-content>
     <mat-card-actions>
-      <a mat-button color="primary" routerLink="/register">{{'DO_NOT_HAVE_ACCOUNT'| translate}}</a>
+      <a mat-button color="primary" routerLink="/login">HAVE_ACCOUNT</a>
+
     </mat-card-actions>
   </mat-card>
 </div>

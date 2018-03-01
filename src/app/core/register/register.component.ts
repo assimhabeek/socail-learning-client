@@ -3,22 +3,20 @@ import {User} from '../domain/user';
 import {slideInLeftAnimation} from '../../shared/animations';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
   animations: [slideInLeftAnimation]
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   @HostBinding('@routeAnimation') routeAnimation = true;
   @HostBinding('style.display') display = 'block';
   @HostBinding('style.position') position = 'absolute';
 
-  public user: User;
-  public showPassword: boolean;
+  user: User;
 
   ngOnInit() {
     this.user = new User('', '');
-    this.showPassword = false;
   }
 
   submit(state: boolean) {
@@ -26,5 +24,6 @@ export class LoginComponent implements OnInit {
       console.log(this.user.password + this.user.username);
     }
   }
+
 
 }

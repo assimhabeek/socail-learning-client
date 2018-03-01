@@ -1,0 +1,13 @@
+{
+  "USERNAME": "Username",
+  "REQUIRED": "This field is required",
+  "PASSWORD": "Password",
+  "AT_LEAST": "must be at least {{ number }} characters",
+  "REMEMBER_ME": "Remember me",
+  "SIGN_IN": "Sign in",
+  "DO_NOT_HAVE_ACCOUNT": "Don't have an account sign up",
+  "SELECT_THEME": "Select a theme",
+  "SELECT_LANGUAGE": "Select a language",
+  "SHARE_CONTENT": "Share Content",
+  "SHARE_CONTENT_DESCRIPTION": "Share solutions, documents...etc"
+}

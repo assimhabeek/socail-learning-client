@@ -1,24 +1,33 @@
+$formMarginTop: 100px;
+$formWidth: 220px;
+$coloredBackgroundHeight: $formMarginTop + 100px;
+$imageMargin: ($formWidth - 120px)/2;
+
 .sl-login {
-  .sl-primary-background {
+  &:before {
     position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
     top: 0;
     left: 0;
-    height: 250px;
-    width: 100%;
-    content: '';
+    background-color: rgba(0, 0, 0, 0.66);
   }
+  overflow: auto;
+  height: 100%;
+  background: url("../../../assets/img/login-background.jpg") no-repeat center;
+  background-size: cover;
 }
 
 .sl-login-card {
-  max-width: 250px;
-  margin: 100px auto;
-  text-align: center;
+  max-width: $formWidth;
+  margin: $formMarginTop auto;
 }
 
 .sl-login-card .logo {
   width: 120px;
   height: 60px;
-  margin: auto;
+  margin: auto $imageMargin;
 }
 
 .sl-login-card .mat-form-field {
@@ -26,11 +35,20 @@
 }
 
 .sl-login-card .sl-remember-me {
-  width: 220px;
   margin: 8px auto;
-  text-align: left;
 }
 
 .sl-login-card .sl-submit {
+  text-align: center;
+  width: 100%;
   margin-top: 16px !important;
 }
+
+.sl-login-card .indicator {
+  cursor: pointer;
+}
+
+.sl-login-card mat-card-actions{
+  text-align: center;
+}
+

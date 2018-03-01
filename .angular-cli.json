@@ -23,19 +23,35 @@
         "main.scss",
         "highlightjs/material-light.css",
         {
-          "input": "assets/pink-bluegrey.css",
+          "input": "assets/cyan-teal.css",
           "lazy": true
         },
         {
-          "input": "assets/deeppurple-amber.css",
+          "input": "assets/cyan-teal-dark.css",
           "lazy": true
         },
         {
-          "input": "assets/indigo-pink.css",
+          "input": "assets/green-bluegrey.css",
           "lazy": true
         },
         {
-          "input": "assets/purple-green.css",
+          "input": "assets/green-bluegrey-dark.css",
+          "lazy": true
+        },
+        {
+          "input": "assets/orange-amber-dark.css",
+          "lazy": true
+        },
+        {
+          "input": "assets/orange-brown.css",
+          "lazy": true
+        },
+        {
+          "input": "assets/red-purple.css",
+          "lazy": true
+        },
+        {
+          "input": "assets/red-purple-dark.css",
           "lazy": true
         }
       ],

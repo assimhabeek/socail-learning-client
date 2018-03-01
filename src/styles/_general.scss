@@ -1,7 +1,6 @@
 html,body {
   margin: 0!important;
   padding: 0!important;
-  overflow: hidden;
   height: 100%;
   width: 100%;
   font-family: "Roboto", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -12,3 +11,6 @@ h1, h2 {
   margin: auto !important;
 }
 
+.mat-form-field-prefix{
+  margin: auto 8px !important;
+}

@@ -16,7 +16,7 @@ export const slideInLeftAnimation: AnimationMetadata =
         opacity: 0,
         transform: 'translateX(-100%)',
       }),
-      animate('0.5s ease-out')
+      animate('0.2s ease-out')
     ]),
     transition(':leave', [
       animate('0.5s ease-out', style({

@@ -1,4 +1,4 @@
-<button mat-icon-button [mat-menu-trigger-for]="themeMenu" matTooltip="Select a theme!"
+<button mat-icon-button [mat-menu-trigger-for]="themeMenu" matTooltip="{{'SELECT_THEME'|translate}}"
         tabindex="-1">
   <mat-icon>format_color_fill</mat-icon>
 </button>
@@ -10,7 +10,11 @@
       <div mat-menu-item (click)="installTheme(theme)">
         <div class="sl-theme-picker-swatch">
           <mat-icon class="sl-theme-chosen-icon" *ngIf="currentTheme === theme">check_circle</mat-icon>
-          <div class="sl-theme-picker-primary" [style.background]="theme.primary"></div>
+          <div class="sl-theme-picker-primary" [style.background]="theme.primary">
+            <div *ngIf="theme.isDark" class="sl-theme-picker-dark">
+
+            </div>
+          </div>
         </div>
       </div>
     </mat-grid-tile>

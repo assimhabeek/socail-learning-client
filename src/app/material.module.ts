@@ -5,8 +5,9 @@ import {
   MatToolbarModule,
   MatCardModule,
   MatInputModule,
-  MatCheckboxModule
+  MatCheckboxModule, MatMenuModule, MatTooltipModule, MatSidenavModule, MatListModule
 } from '@angular/material';
+import {BidiModule} from '@angular/cdk/bidi';
 
 @NgModule({
   imports: [
@@ -15,7 +16,11 @@ import {
     MatCheckboxModule,
     MatInputModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatSidenavModule,
+    MatListModule
   ],
   exports: [
     MatButtonModule,
@@ -23,7 +28,12 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatToolbarModule,
-    MatCardModule],
+    MatCardModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatSidenavModule,
+    MatListModule
+  ],
 })
 export class MaterialModule {
 }

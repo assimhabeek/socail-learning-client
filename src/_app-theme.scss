@@ -13,7 +13,13 @@
   }
 
   .sl-primary-background {
+    color: mat-color($primary, default-contrast) !important;
     background-color: mat-color($primary);
+  }
+
+  .sl-accent-background {
+    color: mat-color($accent, default-contrast);
+    background-color: mat-color($accent);
   }
 
 }
