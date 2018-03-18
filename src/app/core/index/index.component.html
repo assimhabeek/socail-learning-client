@@ -1,0 +1,40 @@
+<div class="index-container" cdkScrollable>
+  <mat-toolbar color="primary" class="sl-toolbar mat-elevation-z6">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/login">{{ 'LOGIN' |translate}}</a>
+    <a mat-button routerLink="/register">{{ 'REGISTER' |translate}}</a>
+    <app-theme-picker></app-theme-picker>
+    <app-language-selector></app-language-selector>
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav
+      class="sideNav mat-elevation-z6"
+      #snav
+      (openedChange)="toggleMenu()"
+      [position]="'start'"
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches?56:64">
+      <div class="profile-info">
+        <div class="profile-image" [style.backgroundImage]="'url(./assets/img/person-img.jpg)'">
+
+        </div>
+        <h3 mat-subheader><b>FirstName LastName</b></h3>
+      </div>
+      <mat-nav-list [@listAnimation]="menuItems.length" dense>
+        <mat-list-item *ngFor="let item of menuItems">
+          <mat-icon color="primary" mat-list-icon>{{item.icon}}</mat-icon>
+          <h3 mat-line><b>{{item.title | translate}}</b></h3>
+          <p mat-line> {{item.description | translate}} </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content [style.marginTop.px]="mobileQuery.matches ? 56 : 64">
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

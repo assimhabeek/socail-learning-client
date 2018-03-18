@@ -1,0 +1,8 @@
+@mixin social-learning-login-theme($theme) {
+  $warn: map-get($theme, warn);
+  .sl-error-message {
+    border-left: 3px solid mat-color($warn);
+    color: mat-color($warn);
+    font-weight: bold;
+  }
+}

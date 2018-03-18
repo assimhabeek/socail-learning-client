@@ -15,25 +15,30 @@ import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {LanguageSelectorComponent} from './shared/language-selector/language-selector.component';
 import {LanguageStorage} from './shared/language-selector/language.storage';
+import {IndexComponent} from './core/index/index.component';
+import {HttpService} from './core/http.service';
+import {UsersService} from './core/users.service';
+import {TokenStorage} from './core/token.storage';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-/*
     RoutingModule,
-*/
     ThemePickerModule,
-    HttpClientModule,
+    FlexLayoutModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -42,7 +47,7 @@ import {LanguageStorage} from './shared/language-selector/language.storage';
       }
     })
   ],
-  providers: [ThemeStorage, LanguageStorage],
+  providers: [ThemeStorage, LanguageStorage, HttpService, UsersService, TokenStorage],
   bootstrap: [AppComponent]
 })
 export class AppModule {

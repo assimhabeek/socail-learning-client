@@ -1,6 +1,8 @@
-import {animate, AnimationMetadata, state, style, transition, trigger} from '@angular/animations';
+import {
+  animate, AnimationMetadata, keyframes, query, stagger, state, style, transition,
+  trigger
+} from '@angular/animations';
 
-// Component transition animations
 export const slideInLeftAnimation: AnimationMetadata =
   trigger('routeAnimation', [
     state('*',
@@ -16,7 +18,7 @@ export const slideInLeftAnimation: AnimationMetadata =
         opacity: 0,
         transform: 'translateX(-100%)',
       }),
-      animate('0.2s ease-out')
+      animate('0.3s ease-out')
     ]),
     transition(':leave', [
       animate('0.5s ease-out', style({
@@ -26,5 +28,28 @@ export const slideInLeftAnimation: AnimationMetadata =
     ])
   ]);
 
+export const fadeListItems: AnimationMetadata =
+  trigger('listAnimation', [
+    transition('* => *', [ // each time the binding value changes
+      query(':enter', [
+        style({opacity: 0, transform: 'translateX(-20%)'}),
+        stagger(100, [
+          animate('0.3s', style({opacity: 1, transform: 'translateX(0)'}))
+        ])
+      ], {optional: true})
+    ])
+  ]);
 
+export const debounce: AnimationMetadata =
+  trigger('debounce', [
+    state('in', style({transform: 'translateX(0)'})),
+    transition('* => *', [
+      animate(400, keyframes([
+        style({transform: 'translateX(-15%)', offset: 0}),
+        style({transform: 'translateX(15%)', offset: 0.4}),
+        style({transform: 'translateX(-15%)', offset: 0.8}),
+        style({transform: 'translateX(0%)', offset: 1})
+      ]))
+    ])
+  ]);
 

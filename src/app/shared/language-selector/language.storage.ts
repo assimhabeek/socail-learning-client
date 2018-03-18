@@ -8,14 +8,21 @@ export class LanguageStorage {
   static storageKey = 'sl-language-storage-current';
   public onLanguageUpdate: EventEmitter<Lang> = new EventEmitter<Lang>();
 
+  languages: Lang[] = [
+    {description: 'English', direction: 'ltr', abb: 'en', defaultLanguage: true},
+    {description: 'العربية', direction: 'rtl', abb: 'ar'},
+    {description: 'Français', direction: 'ltr', abb: 'fr'}
+
+  ];
+
   constructor(private translate: TranslateService) {
   }
 
 
-  public languageInit(defaultLanguage: Lang) {
-    const languageUsed = this.getStoredLanguage() || defaultLanguage;
+  public languageInit(): Lang {
+    const languageUsed = this.getStoredLanguage() || this.languages.find(item => item.defaultLanguage);
     this.translate.use(languageUsed.abb);
-    this.onLanguageUpdate.emit(languageUsed);
+    return languageUsed;
   }
 
   public updateLanguage(language: Lang) {
@@ -29,6 +36,7 @@ export class LanguageStorage {
     try {
       window.localStorage[LanguageStorage.storageKey] = JSON.stringify(language);
     } catch (e) {
+      console.log(e);
     }
 
   }

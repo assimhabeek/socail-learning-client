@@ -1,15 +1,22 @@
 <div class="sl-login">
-  <mat-card class="sl-login-card mat-elevation-z6">
-    <mat-icon class="logo" color="primary" svgIcon="sl-logo"></mat-icon>
+  <mat-card [@debounce]="errorMessage" class="sl-login-card mat-elevation-z6">
+    <mat-card-header>
+      <img class="logo" src="assets/img/sl-logo.png" alt="logo">
+    </mat-card-header>
     <mat-card-content>
+      <mat-card *ngIf="errorMessage" class="sl-error-message">
+        <mat-card-content>
+          {{errorMessage | translate}}
+        </mat-card-content>
+      </mat-card>
       <form novalidate #form="ngForm" (ngSubmit)="submit(form.valid)">
-        <mat-form-field focused="true">
+        <mat-form-field>
           <mat-placeholder>
             <mat-icon>account_circle</mat-icon>
             {{'USERNAME' |translate}}
           </mat-placeholder>
 
-          <input matInput [required]="true"
+          <input [autofocus]="true" matInput [required]="true"
                  [(ngModel)]="user.username" #username="ngModel" type="username" name="username">
           <mat-error *ngIf="username.hasError('required')">
             <strong>{{'REQUIRED'|translate}}</strong>
@@ -21,6 +28,7 @@
             {{'PASSWORD' | translate}}
           </mat-placeholder>
           <input matInput
+                 autocomplete=""
                  [required]="true" [(ngModel)]="user.password" #password="ngModel"
                  [type]="showPassword?'text':'password'"
                  name="password"
@@ -49,6 +57,12 @@
     </mat-card-content>
     <mat-card-actions>
       <a mat-button color="primary" routerLink="/register">{{'DO_NOT_HAVE_ACCOUNT'| translate}}</a>
+      <div class="sl-vspace"></div>
+      <a mat-button color="primary" routerLink="/passwordRecovery">{{'FORGOT_PASSWORD' | translate}}</a>
+      <div class="sl-vspace"></div>
+      <a mat-button routerLink="/index">
+        <mat-icon>arrow_back</mat-icon>
+        {{'BACK_TO_INDEX' | translate}}</a>
     </mat-card-actions>
   </mat-card>
 </div>

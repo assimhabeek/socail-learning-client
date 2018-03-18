@@ -1,12 +1,14 @@
 import {Component, HostBinding, OnInit} from '@angular/core';
 import {User} from '../domain/user';
-import {slideInLeftAnimation} from '../../shared/animations';
+import {debounce, slideInLeftAnimation} from '../../shared/animations';
+import {UsersService} from '../users.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  animations: [slideInLeftAnimation]
+  animations: [slideInLeftAnimation, debounce]
 })
 export class RegisterComponent implements OnInit {
   @HostBinding('@routeAnimation') routeAnimation = true;
@@ -15,13 +17,21 @@ export class RegisterComponent implements OnInit {
 
   user: User;
 
+  constructor(private usersService: UsersService) {
+  }
+
   ngOnInit() {
     this.user = new User('', '');
   }
 
   submit(state: boolean) {
     if (state) {
-      console.log(this.user.password + this.user.username);
+      this.usersService.register(this.user)
+        .subscribe(res => {
+          console.log(res);
+        }, (error: HttpErrorResponse) => {
+          console.log(error);
+        });
     }
   }
 

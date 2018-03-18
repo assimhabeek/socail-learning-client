@@ -1,51 +1,23 @@
-import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material';
+import {Component} from '@angular/core';
 import {LanguageStorage} from './shared/language-selector/language.storage';
 import {Lang} from './shared/language-selector/language-selector.component';
-import {MediaMatcher} from '@angular/cdk/layout';
 
-interface MenuItem {
-  description: string;
-  icon: string;
-  title: string;
-}
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnDestroy {
-  public dir;
-  mobileQuery: MediaQueryList;
-
-  menuItems: MenuItem[] = [
-    {description: 'SHARE_CONTENT_DESCRIPTION', icon: 'share', title: 'SHARE_CONTENT'}
-  ];
+export class AppComponent {
+  public dir = 'ltr';
 
 
-  private _mobileQueryListener: () => void;
-
-
-  constructor(iconRegistry: MatIconRegistry,
-              sanitizer: DomSanitizer,
-              languageStorage: LanguageStorage,
-              changeDetectorRef: ChangeDetectorRef,
-              media: MediaMatcher) {
-    iconRegistry.addSvgIcon('sl-logo',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/img/social-logo.svg'));
-    languageStorage.onLanguageUpdate.subscribe((language: Lang) => {
-      this.dir = language.direction;
+  constructor(lang: LanguageStorage) {
+    this.dir = lang.languageInit().direction;
+    lang.onLanguageUpdate.subscribe((l: Lang) => {
+      this.dir = l.direction;
     });
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
 
 }

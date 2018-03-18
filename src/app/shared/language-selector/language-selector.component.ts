@@ -17,15 +17,10 @@ export interface Lang {
 export class LanguageSelectorComponent {
 
 
-  languages: Lang[] = [
-    {description: 'English', direction: 'ltr', abb: 'en', defaultLanguage: true},
-    {description: 'العربية', direction: 'rtl', abb: 'ar'},
-    {description: 'Français', direction: 'ltr', abb: 'fr'}
-
-  ];
+  languages: Lang[];
 
   constructor(private languageStorage: LanguageStorage) {
-    this.languageStorage.languageInit(this.languages.find((item: Lang) => item.defaultLanguage));
+    this.languages = this.languageStorage.languages;
   }
 
 

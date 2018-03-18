@@ -1,44 +1,57 @@
-$formMarginTop: 100px;
-$coloredBackgroundHeight: $formMarginTop + 100px;
+$formMarginTop: 40px;
 
 .sl-register {
-  &:before{
-    position: absolute;
-    content: '';
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba(0,0,0,0.66);
-  }
   overflow: auto;
-  height: 100%;
-  background: url("../../../assets/img/register-background.jpg") no-repeat center;
-  background-size: cover;
+
 }
 
 .sl-register-card {
-  max-width: 320px;
   margin: $formMarginTop auto;
-  text-align: center;
 }
 
 .sl-register-card .logo {
-  width: 120px;
-  height: 60px;
+  width: 180px;
+  height: auto;
+  display: block;
   margin: auto;
 }
 
 .sl-register-card .mat-form-field {
-  width: 220px !important;
+  margin: 15px auto;
+  width: 90% !important;
 }
 
 .sl-register-card .sl-remember-me {
-  width: 220px;
-  margin: 8px auto;
-  text-align: left;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .sl-register-card .sl-submit {
+  text-align: center;
+  width: 100%;
   margin-top: 16px !important;
+}
+
+.sl-register-card .indicator {
+  cursor: pointer;
+}
+
+.sl-register-card mat-card-actions {
+  text-align: center;
+}
+
+.sl-vspace {
+  width: 100%;
+  height: 5px;
+}
+
+.sl-form-section-header{
+  h4{
+    font-weight: bolder;
+    margin: 0!important;
+  }
+  mat-divider{
+    position: relative;
+    width: 90%;
+  }
 }

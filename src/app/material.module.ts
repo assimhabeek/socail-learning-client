@@ -5,9 +5,13 @@ import {
   MatToolbarModule,
   MatCardModule,
   MatInputModule,
-  MatCheckboxModule, MatMenuModule, MatTooltipModule, MatSidenavModule, MatListModule
+  MatCheckboxModule,
+  MatMenuModule,
+  MatTooltipModule,
+  MatSidenavModule,
+  MatListModule,
+  MatDialogModule, MatSelectModule
 } from '@angular/material';
-import {BidiModule} from '@angular/cdk/bidi';
 
 @NgModule({
   imports: [
@@ -15,12 +19,14 @@ import {BidiModule} from '@angular/cdk/bidi';
     MatIconModule,
     MatCheckboxModule,
     MatInputModule,
+    MatSelectModule,
     MatToolbarModule,
     MatCardModule,
     MatMenuModule,
     MatTooltipModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule
   ],
   exports: [
     MatButtonModule,
@@ -30,9 +36,11 @@ import {BidiModule} from '@angular/cdk/bidi';
     MatToolbarModule,
     MatCardModule,
     MatMenuModule,
+    MatSelectModule,
     MatTooltipModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule
   ],
 })
 export class MaterialModule {
