@@ -1,7 +1,6 @@
-html,body {
-  margin: 0!important;
-  padding: 0!important;
-  height: 100%;
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
   width: 100%;
   overflow-x: hidden;
   ms-overflow-x: hidden;
@@ -9,10 +8,26 @@ html,body {
 }
 
 h1, h2 {
-  font-weight: 100 !important;
+  font-weight: 300 !important;
   margin: auto !important;
 }
 
-.mat-form-field-prefix{
-  margin: auto 8px !important;
+
+.sl-message {
+  width: 300px;
+  margin: 100px auto;
 }
+
+.sl-message mat-card-content {
+  padding-top: 20px !important;
+}
+
+.sl-message mat-card-actions {
+  text-align: center;
+}
+
+.sl-message .mat-form-field {
+  width: 90% !important;
+}
+
+

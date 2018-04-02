@@ -1,0 +1,46 @@
+.sl-publication .publish-avatar {
+  background-size: cover;
+}
+
+.sl-publication .space {
+  flex: 1 0 auto;
+}
+
+.sl-publication h3 {
+  &:first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.sl-publication mat-card-content {
+  margin-top: 20px;
+}
+
+.sl-publication .attachment-button {
+  margin: 5px auto;
+}
+
+.sl-publication .attachment-button a {
+  display: block;
+  text-decoration: none;
+  font-family: "Roboto", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: bold;
+}
+
+.comment {
+  padding-left: 20px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+form {
+  text-align: center;
+  .mat-form-field {
+    width: 90%;
+    margin: auto;
+    display: block;
+  }
+
+}

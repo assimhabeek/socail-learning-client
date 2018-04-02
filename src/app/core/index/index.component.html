@@ -1,13 +1,25 @@
-<div class="index-container" cdkScrollable>
+<div class="sl-index-container" cdkScrollable>
+  <mat-toolbar *ngIf="user && !user.verified && showConfirmBar" class="sl-toolbar verify-account mat-elevation-z8">
+    <p>{{ 'PLEASE_CONFIRM_EMAIL' | translate}}</p>
+    <span class="spacer"></span>
+    <button mat-button color="primary" (click)="confirm()">{{ 'CONFIRM' | translate}}</button>
+    <button mat-button (click)="showConfirmBar=false">{{'DISMISS' | translate}}</button>
+  </mat-toolbar>
   <mat-toolbar color="primary" class="sl-toolbar mat-elevation-z6">
     <button mat-icon-button (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
     <span class="spacer"></span>
-    <a mat-button routerLink="/login">{{ 'LOGIN' |translate}}</a>
-    <a mat-button routerLink="/register">{{ 'REGISTER' |translate}}</a>
-    <app-theme-picker></app-theme-picker>
-    <app-language-selector></app-language-selector>
+    <div *ngIf="!user">
+      <a mat-button routerLink="/login">{{ 'LOGIN' | translate }}</a>
+      <a mat-button routerLink="/register">{{ 'REGISTER' |translate}}</a>
+      <app-theme-picker></app-theme-picker>
+      <app-language-selector></app-language-selector>
+    </div>
+    <div *ngIf="user">
+      <app-user-setting-menu></app-user-setting-menu>
+    </div>
+
   </mat-toolbar>
 
   <mat-sidenav-container>
@@ -19,10 +31,14 @@
       [mode]="mobileQuery.matches ? 'over' : 'side'"
       [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches?56:64">
       <div class="profile-info">
-        <div class="profile-image" [style.backgroundImage]="'url(./assets/img/person-img.jpg)'">
+        <div class="profile-image"
+             [style.backgroundImage]="'url('+ (user && user.profileImage ? user.profileImage : './assets/img/sl-logo.png') +')'">
 
         </div>
-        <h3 mat-subheader><b>FirstName LastName</b></h3>
+        <div *ngIf="user">
+          <h3 mat-subheader><b>{{ user.lastName +' '+ user.firstName | uppercase }}</b></h3>
+          <p><b>{{ user.about }}</b></p>
+        </div>
       </div>
       <mat-nav-list [@listAnimation]="menuItems.length" dense>
         <mat-list-item *ngFor="let item of menuItems">
@@ -34,7 +50,10 @@
       </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content [style.marginTop.px]="mobileQuery.matches ? 56 : 64">
+    <mat-sidenav-content>
+      <div class="container" [style.marginTop.px]="mobileQuery.matches ? 56 : 64">
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

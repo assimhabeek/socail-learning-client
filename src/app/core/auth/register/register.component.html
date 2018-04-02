@@ -1,0 +1,180 @@
+<div class="sl-register" fxLayout="row">
+
+  <mat-card [@debounce]="errorMessage" class="sl-register-card mat-elevation-z6"
+            fxFlex.xs="95%" fxFlex.sm="90%" fxFlex.md="80%" fxFlex="60%">
+    <mat-card-header>
+      <img class="logo" src="assets/img/sl-logo.png" alt="logo">
+    </mat-card-header>
+    <mat-card-content>
+      <mat-card *ngIf="errorMessage" class="sl-error-message">
+        <mat-card-content>
+          {{errorMessage | translate}}
+        </mat-card-content>
+      </mat-card>
+      <form novalidate #form="ngForm" (ngSubmit)="submit(form.valid)">
+        <div fxLayout="row wrap">
+          <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="50%" fxFlex="33%">
+            <div class="sl-form-section-header">
+              <h4>{{'PERSONAL_INFORMATION'| translate}}</h4>
+              <mat-divider></mat-divider>
+            </div>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>person</mat-icon>
+                {{'FIRST_NAME' |translate}}
+              </mat-placeholder>
+              <input [autofocus]="true" autocomplete="firstname" matInput [required]="true"
+                     [(ngModel)]="user.firstName" #firstName="ngModel" type="text" name="firstName">
+              <mat-error *ngIf="firstName.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>person</mat-icon>
+                {{'LAST_NAME' |translate}}
+              </mat-placeholder>
+              <input matInput [required]="true"
+                     [(ngModel)]="user.lastName" autocomplete="lastname" #lastName="ngModel" type="text"
+                     name="lastName">
+              <mat-error *ngIf="lastName.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>face</mat-icon>
+                {{'ABOUT' |translate}}
+              </mat-placeholder>
+              <textarea matInput [(ngModel)]="user.about"
+                        autocomplete="about"
+                        matTextareaAutosize
+                        matAutosizeMinRows="5"
+                        matAutosizeMaxRows="5"
+                        #about="ngModel"
+                        name="about"></textarea>
+            </mat-form-field>
+
+          </div>
+          <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="50%" fxFlex="33%">
+            <div class="sl-form-section-header">
+              <h4>{{'ACCOUNT_INFORMATION' | translate}}</h4>
+              <mat-divider></mat-divider>
+            </div>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>account_circle</mat-icon>
+                {{'USERNAME' |translate}}
+              </mat-placeholder>
+              <input matInput [required]="true"
+                     [notEqual]="'username'"
+                     [(ngModel)]="user.username"
+                     #username="ngModel" type="text" name="username">
+              <mat-error *ngIf="username.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+              <mat-error *ngIf="username.hasError('notEqual')">
+                <strong>{{'THIS_USERNAME_EXISTS'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>lock</mat-icon>
+                {{'PASSWORD' | translate}}
+              </mat-placeholder>
+              <input matInput
+                     autocomplete=""
+                     [required]="true" [(ngModel)]="user.password" #password="ngModel"
+                     [type]="showPassword?'text':'password'"
+                     name="password"
+                     minlength="6">
+              <mat-icon class="indicator" [color]="showPassword?'accent':'auto'"
+                        matSuffix (click)="showPassword = !showPassword">
+                {{showPassword ? 'visibility' : 'visibility_off'}}
+              </mat-icon>
+              <mat-error *ngIf="password.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+              <mat-error *ngIf="password.hasError('minlength')">
+                <strong>{{'AT_LEAST'|translate:{number:6} }}</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>email</mat-icon>
+                {{'EMAIL' |translate}}
+              </mat-placeholder>
+              <input matInput [required]="true"
+                     autocomplete="email"
+                     [notEqual]="'email'"
+                     pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                     [(ngModel)]="user.email" #email="ngModel"
+                     type="email" name="email">
+              <mat-error *ngIf="email.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+              <mat-error *ngIf="email.hasError('pattern')">
+                <strong>{{'INVALID_EMAIL'|translate}}</strong>
+              </mat-error>
+              <mat-error *ngIf="email.hasError('notEqual')">
+                <strong>{{'THIS_EMAIL_EXISTS'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="50%" fxFlex="33%">
+            <div class="sl-form-section-header">
+              <h4>{{'ACADEMIC_INFORMATION' | translate}}</h4>
+              <mat-divider></mat-divider>
+            </div>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>timer</mat-icon>
+                {{'YEAR' |translate}}
+              </mat-placeholder>
+              <mat-select [required]="true"
+                          [(ngModel)]="user.year"
+                          (ngModelChange)="yearChanged()"
+                          #year="ngModel" type="number" name="year">
+                <mat-option [value]="1">{{'FIRST_YEAR' | translate}}</mat-option>
+                <mat-option [value]="1">{{'SECOND_YEAR' | translate}}</mat-option>
+                <mat-option [value]="3">{{'Third_YEAR' | translate}}</mat-option>
+                <mat-option [value]="4">{{'MASTER' | translate:{num:1} }}</mat-option>
+                <mat-option [value]="5">{{'MASTER' | translate:{num:2} }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="year.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-placeholder>
+                {{'SPECIALTY' |translate}}
+              </mat-placeholder>
+              <mat-select [required]="true"
+                          [(ngModel)]="user.specialtyId"
+                          #specialty="ngModel" type="number" name="specialtyId">
+                <mat-option *ngFor="let sp of specailties" [value]="sp.id">{{sp.abb}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="specialty.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100%">
+            <div class="sl-submit">
+              <button mat-raised-button type="submit" color="primary">
+                {{'SIGN_UP' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button color="primary" routerLink="/login">{{'HAVE_ACCOUNT'| translate}}</a>
+      <div class="sl-vspace"></div>
+      <a mat-button routerLink="/index">
+        <mat-icon>arrow_back</mat-icon>
+        {{'BACK_TO_INDEX' | translate}}</a>
+    </mat-card-actions>
+  </mat-card>
+</div>

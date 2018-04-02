@@ -1,30 +1,50 @@
-.index-container .sl-toolbar {
+.sl-index-container .verify-account {
+  bottom: 0;
+  text-align: center;
+  max-height: 42px;
+  p {
+    font-weight: normal !important;
+    font-size: 70%;
+    line-height: 42px;
+    margin: 0 !important;
+  }
+}
+
+.sl-index-container .sl-toolbar {
   position: fixed;
   z-index: 5;
 }
 
-.index-container .sideNav {
+.sl-index-container .sideNav {
   width: 320px;
 }
 
-.index-container .spacer {
+.sl-index-container .spacer {
   flex: 1 1 auto;
 }
 
-.index-container .profile-info {
+.sl-index-container .profile-info {
   box-sizing: border-box;
   width: 100%;
-  padding: 10px 5px 0 5px;
+  padding: 10px 5px 5px 5px;
   background: url("../../../assets/img/profile-bg.jpg") no-repeat center;
-  background-size: auto 100%;
+  background-size: cover;
   font-weight: bold;
 }
 
-.index-container .profile-info h3 {
+.sl-index-container .profile-info h3 {
   margin: 0 !important;
+  padding-bottom: 0 !important;
 }
 
-.index-container .profile-info .profile-image {
+.sl-index-container .profile-info p {
+  margin-left: 16px !important;
+  &:first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.sl-index-container .profile-info .profile-image {
   height: 150px;
   width: 150px;
   border-radius: 50%;
@@ -33,4 +53,9 @@
   background-position: center;
   display: block;
   margin: 0 auto;
+}
+
+.sl-index-container .container{
+  height: 100%;
+  display: block;
 }

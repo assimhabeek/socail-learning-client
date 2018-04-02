@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>{{ 'TERMS' | translate }}</h1>
+<mat-dialog-content #content cdkScrollable>
+  <mat-list>
+    <mat-list-item *ngFor="let item of terms ">
+      <h3 mat-line>{{ item.title | translate }}</h3>
+      <p mat-line>{{ item.description | translate }}</p>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="center" [ngSwitch]="disableAgree">
+    <button *ngSwitchCase="true" (click)="scrollDown()" mat-mini-fab color="primary">
+      <mat-icon>arrow_downward</mat-icon>
+    </button>
+    <div *ngSwitchCase="false">
+      <button mat-button (click)="disAgree()">{{ 'DISAGREE' | translate}}</button>
+      <button mat-raised-button (click)="agree()" color="primary" [disabled]="disableAgree">{{ 'AGREE' | translate}}
+      </button>
+    </div>
+  </div>
+</mat-dialog-actions>

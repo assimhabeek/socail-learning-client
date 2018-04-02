@@ -21,6 +21,7 @@ export class LanguageStorage {
 
   public languageInit(): Lang {
     const languageUsed = this.getStoredLanguage() || this.languages.find(item => item.defaultLanguage);
+    this.translate.setDefaultLang('en');
     this.translate.use(languageUsed.abb);
     return languageUsed;
   }

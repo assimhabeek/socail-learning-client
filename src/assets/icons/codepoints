@@ -426,7 +426,7 @@ insert_emoticon e24e
 insert_invitation e24f
 insert_link e250
 insert_photo e251
-invert_colors e891
+ e891
 invert_colors_off e0c4
 iso e3f6
 keyboard e312

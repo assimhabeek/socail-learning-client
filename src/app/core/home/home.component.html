@@ -1,0 +1,7 @@
+<div fxLayout="row wrap">
+  <app-publication fxFlex.xs="90%" fxFlex.sm="80%" fxFlex.md="45%" fxFlex="30%" *ngFor="let pub of publications"
+                   [currentUser]="{id:5}"
+                   [publication]="pub"></app-publication>
+</div>
+
+<button mat-button color="accent" (click)="loadMore()">{{'MORE'| translate}}</button>

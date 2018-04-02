@@ -1,0 +1,240 @@
+<div class="sl-accounts" fxLayout="row wrap">
+  <mat-card fxFlex.xs="95%" fxFlex.sm="90%" fxFlex.md="80%" fxFlex="70%">
+    <h1 mat-card-title>{{ 'ACCOUNT_INFORMATION' | translate}}</h1>
+    <mat-card-content>
+      <form novalidate #userform="ngForm" (ngSubmit)="updateInfo(userform.valid)">
+        <div fxLayout="row wrap">
+          <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="50%" fxFlex="25%">
+            <div class="sl-form-section-header">
+              <h4>{{'PERSONAL_INFORMATION'| translate}}</h4>
+              <mat-divider></mat-divider>
+            </div>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>person</mat-icon>
+                {{'FIRST_NAME' |translate}}
+              </mat-placeholder>
+              <input [autofocus]="true" autocomplete="firstname" matInput [required]="true"
+                     [(ngModel)]="user.firstName" #firstName="ngModel" type="text" name="firstName">
+              <mat-error *ngIf="firstName.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>person</mat-icon>
+                {{'LAST_NAME' |translate}}
+              </mat-placeholder>
+              <input matInput [required]="true"
+                     [(ngModel)]="user.lastName" autocomplete="lastname" #lastName="ngModel" type="text"
+                     name="lastName">
+              <mat-error *ngIf="lastName.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>face</mat-icon>
+                {{'ABOUT' |translate}}
+              </mat-placeholder>
+              <textarea matInput [(ngModel)]="user.about"
+                        autocomplete="about"
+                        matTextareaAutosize
+                        matAutosizeMinRows="5"
+                        matAutosizeMaxRows="5"
+                        #about="ngModel"
+                        name="about"></textarea>
+            </mat-form-field>
+
+          </div>
+          <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="50%" fxFlex="25%">
+            <div class="sl-form-section-header">
+              <h4>{{'ACCOUNT_INFORMATION' | translate}}</h4>
+              <mat-divider></mat-divider>
+            </div>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>account_circle</mat-icon>
+                {{'USERNAME' |translate}}
+              </mat-placeholder>
+              <input matInput
+                     [readonly]="true"
+                     [(ngModel)]="user.username"
+                     #username="ngModel" type="text" name="username">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>email</mat-icon>
+                {{'EMAIL' |translate}}
+              </mat-placeholder>
+              <input matInput
+                     autocomplete="email"
+                     [readonly]="true"
+                     [(ngModel)]="user.email"
+                     type="email" name="email">
+            </mat-form-field>
+          </div>
+          <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="50%" fxFlex="25%">
+            <div class="sl-form-section-header">
+              <h4>{{'ACADEMIC_INFORMATION' | translate}}</h4>
+              <mat-divider></mat-divider>
+            </div>
+            <mat-form-field>
+              <mat-placeholder>
+                <mat-icon>timer</mat-icon>
+                {{'YEAR' |translate}}
+              </mat-placeholder>
+              <mat-select [required]="true"
+                          [(ngModel)]="user.year"
+                          (ngModelChange)="yearChanged()"
+                          #year="ngModel" type="number" name="year">
+                <mat-option [value]="1">{{'FIRST_YEAR' | translate}}</mat-option>
+                <mat-option [value]="1">{{'SECOND_YEAR' | translate}}</mat-option>
+                <mat-option [value]="3">{{'Third_YEAR' | translate}}</mat-option>
+                <mat-option [value]="4">{{'MASTER' | translate:{num:1} }}</mat-option>
+                <mat-option [value]="5">{{'MASTER' | translate:{num:2} }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="year.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-placeholder>
+                {{'SPECIALTY' |translate}}
+              </mat-placeholder>
+              <mat-select [required]="true"
+                          [(ngModel)]="user.specialtyId"
+                          #specialty="ngModel" type="number" name="specialtyId">
+                <mat-option *ngFor="let sp of specailties" [value]="sp.id">{{sp.abb}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="specialty.hasError('required')">
+                <strong>{{'REQUIRED'|translate}}</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.xs="100%" fxFlex.sm="50%" fxFlex.md="50%" fxFlex="25%">
+            <div class="sl-form-section-header">
+              <h4>{{'PROFILE_IMAGE' | translate}}</h4>
+              <mat-divider></mat-divider>
+            </div>
+            <div class="image-display"
+                 (click)="input.click()">
+              <img *ngIf="user.profileImage" [src]="user.profileImage"/>
+            </div>
+            <div class="fileupload">
+              <button mat-raised-button type="button"
+                      (click)="input.click()"
+                      color="accent">{{'UPLOAD' | translate}}
+              </button>
+              <input #input id="upload" type="file" (change)="fileChangeEvent($event)" accept="image/*"/>
+            </div>
+            <div class="profile-image">
+
+              <image-cropper
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 4"
+                [resizeToWidth]="130"
+                format="png"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded()"
+                (loadImageFailed)="loadImageFailed()"></image-cropper>
+            </div>
+          </div>
+
+          <div fxFlex="100%">
+            <div class="sl-submit">
+              <button mat-raised-button type="submit" color="primary">
+                {{'UPDATE' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card fxFlex.xs="95%" fxFlex.sm="90%" fxFlex.md="80%" fxFlex="70%">
+    <h1 mat-card-title>{{ 'CHANGE_PASSWORD' | translate}}</h1>
+    <mat-card-content>
+      <form novalidate #passwordform="ngForm" (ngSubmit)="changePassword(passwordform.valid)">
+        <div class="change-password">
+          <mat-form-field>
+            <mat-placeholder>
+              <mat-icon>lock</mat-icon>
+              {{'OLD_PASSWORD' | translate}}
+            </mat-placeholder>
+            <input matInput
+                   autocomplete=""
+                   [required]="true"
+                   [(ngModel)]="password.oldPassword"
+                   #oldPassword="ngModel"
+                   [type]="oldShowPassword?'text':'password'"
+                   name="oldPassword"
+                   minlength="6">
+            <mat-icon class="indicator" [color]="oldShowPassword?'accent':'auto'"
+                      matSuffix (click)="oldShowPassword = !oldShowPassword">
+              {{oldShowPassword ? 'visibility' : 'visibility_off'}}
+            </mat-icon>
+            <mat-error *ngIf="oldPassword.hasError('required')">
+              <strong>{{'REQUIRED'|translate}}</strong>
+            </mat-error>
+            <mat-error *ngIf="oldPassword.hasError('minlength')">
+              <strong>{{'AT_LEAST'|translate:{number:6} }}</strong>
+            </mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field>
+            <mat-placeholder>
+              <mat-icon>lock</mat-icon>
+              {{'NEW_PASSWORD' | translate}}
+            </mat-placeholder>
+            <input matInput
+                   autocomplete=""
+                   [required]="true"
+                   [(ngModel)]="password.newPassword"
+                   #newPassword="ngModel"
+                   [type]="newShowPassword?'text':'password'"
+                   name="newPassword"
+                   minlength="6">
+            <mat-icon class="indicator" [color]="newShowPassword?'accent':'auto'"
+                      matSuffix (click)="newShowPassword = !newShowPassword">
+              {{newShowPassword ? 'visibility' : 'visibility_off'}}
+            </mat-icon>
+            <mat-error *ngIf="newPassword.hasError('required')">
+              <strong>{{'REQUIRED'|translate}}</strong>
+            </mat-error>
+            <mat-error *ngIf="newPassword.hasError('minlength')">
+              <strong>{{'AT_LEAST'|translate:{number:6} }}</strong>
+            </mat-error>
+          </mat-form-field>
+          <div>
+            <div class="sl-submit">
+              <button mat-raised-button type="submit" color="primary">
+                {{'CHANGE' | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card fxFlex.xs="95%" fxFlex.sm="90%" fxFlex.md="80%" fxFlex="70%">
+    <h1 mat-card-title>{{ 'ACCOUNT_PREFERENCES' | translate}}</h1>
+    <mat-card-content>
+      <div class="setting-display">
+        <div>
+          <h5>{{ 'CHANGE_THEM' | translate}}</h5>
+          <app-theme-picker></app-theme-picker>
+        </div>
+        <div>
+          <h5>{{ 'CHANGE_LANGUAGE' | translate}}</h5>
+          <app-language-selector></app-language-selector>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

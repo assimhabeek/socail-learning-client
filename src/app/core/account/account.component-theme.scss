@@ -1,0 +1,14 @@
+@mixin social-learning-accounts-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  .sl-accounts .image-display {
+    border: 2px dashed mat-color($primary);
+  }
+  .setting-display > div {
+    border: 4px dashed mat-color($primary);
+  }
+}
+

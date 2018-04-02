@@ -10,8 +10,9 @@ import {
   MatTooltipModule,
   MatSidenavModule,
   MatListModule,
-  MatDialogModule, MatSelectModule
+  MatDialogModule, MatSelectModule, MatSnackBarModule, MatExpansionModule
 } from '@angular/material';
+import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -26,10 +27,14 @@ import {
     MatTooltipModule,
     MatSidenavModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule,
+    ScrollDispatchModule,
+    MatExpansionModule
   ],
   exports: [
     MatButtonModule,
+    MatExpansionModule,
     MatIconModule,
     MatInputModule,
     MatCheckboxModule,
@@ -40,7 +45,9 @@ import {
     MatTooltipModule,
     MatSidenavModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule,
+    ScrollDispatchModule
   ],
 })
 export class MaterialModule {

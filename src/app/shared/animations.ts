@@ -9,8 +9,7 @@ export const slideInLeftAnimation: AnimationMetadata =
       style({
         opacity: 1,
         transform: 'translateX(0)',
-        width: '100%',
-        height: '100%'
+        width: '100%'
       })
     ),
     transition(':enter', [
@@ -24,6 +23,29 @@ export const slideInLeftAnimation: AnimationMetadata =
       animate('0.5s ease-out', style({
         opacity: 0,
         transform: 'translateX(100%)'
+      }))
+    ])
+  ]);
+
+export const fadeAnimation: AnimationMetadata =
+  trigger('fadeAnimation', [
+    state('*',
+      style({
+        opacity: 1,
+        transform: 'scaleY(1)'
+      })
+    ),
+    transition(':enter', [
+      style({
+        opacity: 0,
+        transform: 'scaleY(0)'
+      }),
+      animate('0.3s ease-out')
+    ]),
+    transition(':leave', [
+      animate('0.5s ease-out', style({
+        opacity: 0,
+        transform: 'scaleY(0)'
       }))
     ])
   ]);

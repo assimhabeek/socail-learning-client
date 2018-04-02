@@ -7,12 +7,16 @@ export class User {
   public username: string;
   public password: string;
   public year: number;
-  public specialty: number;
-
+  public specialtyId: number;
+  public isAdmin: boolean;
+  public remmberMe: boolean;
+  public verified: boolean;
+  public profileImage: string;
 
   constructor(username: string, password: string,
               firstName?: string, lastName?: string, about?: string,
-              email?: string, year?: number, specialty?: number) {
+              email?: string, year?: number, specialtyId?: number,
+              isAdmin?: boolean, remmberMe?: boolean, verified?: boolean, profileImage?: string) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -20,7 +24,11 @@ export class User {
     this.about = about;
     this.email = email;
     this.year = year;
-    this.specialty = specialty;
+    this.specialtyId = specialtyId;
+    this.isAdmin = isAdmin;
+    this.remmberMe = remmberMe;
+    this.verified = verified;
+    this.profileImage = profileImage;
   }
 
 }

@@ -1,0 +1,68 @@
+<mat-card class="sl-publication">
+  <mat-card-header>
+    <div mat-card-avatar class="publish-avatar"
+         [style.backgroundImage]="'url('+ publication.user.profileImage +')'"></div>
+    <mat-card-title><b>{{publication.user.lastName +' ' + publication.user.firstName | uppercase}}</b></mat-card-title>
+    <mat-card-subtitle>{{publication.user.about}}</mat-card-subtitle>
+    <div class="space"></div>
+    <div>{{publication.date | timeAgo}}</div>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <h3><b>{{publication.title}}</b></h3>
+    <p>{{ publication.description }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <mat-expansion-panel class="mat-elevation-z0" (opened)="attachmentOpened()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{'ATTACHMENTS'}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let attach of publication.attachments">
+          <mat-icon mat-list-icon>file_download</mat-icon>
+          <a *ngIf="!currentUser"
+             [routerLink]="'./login'  ">{{attach.name | uppercase}}</a>
+          <a *ngIf="currentUser"
+             [href]="attach.link">{{attach.name | uppercase}}</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="commentOpened()" class="mat-elevation-z0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{'COMMENTS'}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-card class="comment mat-elevation-z0" *ngFor="let oomment of publication.comments">
+        <mat-card-header>
+          <div mat-card-avatar class="publish-avatar"
+               [style.backgroundImage]="'url('+ oomment.user.profileImage +')'"></div>
+          <h6 mat-card-title><b>{{oomment.user.lastName +' ' + oomment.user.firstName | uppercase}}</b>
+          </h6>
+          <h5 mat-card-subtitle>{{oomment.description}}</h5>
+          <h5 mat-card-subtitle>{{oomment.date | timeAgo}}</h5>
+        </mat-card-header>
+      </mat-card>
+      <form novalidate #commentform="ngForm" (ngSubmit)="commented(commentform.valid)">
+        <mat-form-field>
+          <mat-placeholder>
+            {{'COMMENT' |translate}}
+          </mat-placeholder>
+          <textarea matInput [(ngModel)]="newComment.description"
+                    autocomplete="description"
+                    matTextareaAutosize
+                    matAutosizeMinRows="1"
+                    matAutosizeMaxRows="5"
+                    #comment="ngModel"
+                    name="description"></textarea>
+        </mat-form-field>
+        <button mat-raised-button type="submit" color="primary">
+          {{'COMMENT' | translate}}
+        </button>
+      </form>
+    </mat-expansion-panel>
+  </mat-card-actions>
+</mat-card>
