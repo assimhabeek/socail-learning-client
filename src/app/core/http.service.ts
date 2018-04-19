@@ -21,14 +21,25 @@ export class HttpService {
     return this.http.get(this.httpUrl + url, args);
   }
 
-  getWithAuth(url, args?): Observable<any> {
-    return this.get(url, this.addAuthHeader(args));
-  }
-
   put(url, data, opti ?): Observable<any> {
     return this.http.put(this.httpUrl + url, data, this.addAuthHeader(opti));
   }
 
+  postWithAuth(url, data, options ?): Observable<any> {
+    return this.http.post(this.httpUrl + url, data, this.addAuthHeader(options));
+  }
+
+  getWithAuth(url, args?): Observable<any> {
+    return this.get(url, this.addAuthHeader(args));
+  }
+
+  putWithAuth(url, data, options ?): Observable<any> {
+    return this.http.put(this.httpUrl + url, data, this.addAuthHeader(options));
+  }
+
+  deleteWithAuth(url, args?): Observable<any> {
+    return this.http.delete(this.httpUrl + url, this.addAuthHeader(args));
+  }
 
   addAuthHeader(opti) {
     const options: any = opti || {};

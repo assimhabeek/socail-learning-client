@@ -18,7 +18,7 @@
     "prod-build": "npm run build-themes && ng build --aot --prod",
     "publish-prod": "npm run build-themes && ng build --aot --prod && firebase use material-angular-io && firebase deploy",
     "publish-dev": "npm run build-themes && ng build --aot --prod && firebase use material2-docs-dev && firebase deploy",
-    "ext-tr": "ngx-translate-extract --input ./src  --output ./src/assets/i18n/ar.json ./src/assets/i18n/fr.json ./src/assets/i18n/en.json  --clean  --format namespaced-json --marker _"
+    "ext-tr": "ngx-translate-extract --input ./src  --output ./src/assets/i18n/ar.json ./src/assets/i18n/fr.json ./src/assets/i18n/en.json    --format namespaced-json --marker _"
   },
   "private": true,
   "dependencies": {

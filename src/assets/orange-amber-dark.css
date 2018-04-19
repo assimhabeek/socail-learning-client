@@ -908,9 +908,27 @@
   background: #303030; }
 
 .sl-primary-background {
-  color: white;
+  color: white !important;
   background-color: #e65100; }
 
 .sl-accent-background {
   color: rgba(0, 0, 0, 0.87);
   background-color: #ffc107; }
+
+a {
+  color: #ffc107; }
+
+.sl-error-message {
+  border-left: 3px solid #f44336;
+  color: #f44336;
+  font-weight: bold; }
+
+.sl-accounts .image-display {
+  border: 2px dashed #e65100; }
+
+.setting-display > div {
+  border: 4px dashed #e65100; }
+
+.no-saved {
+  box-sizing: border-box;
+  border: 2px solid #f44336; }

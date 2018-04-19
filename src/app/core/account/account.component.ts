@@ -2,7 +2,7 @@ import {Component, HostBinding, OnInit} from '@angular/core';
 import {fadeAnimation} from '../../shared/animations';
 import {UsersService} from '../auth/users.service';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {SpecialtiesService} from '../specialty/specialties.service';
+import {SpecialtiesService} from '../specialties.service';
 import {Specialty} from '../domain/spcialty';
 
 

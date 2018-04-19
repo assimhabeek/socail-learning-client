@@ -1,9 +1,9 @@
-import {Contribution} from './contribution';
-import {User} from './user';
+import { Contribution } from './contribution';
+import { User } from './user';
 
 export class Comment extends Contribution {
 
-  constructor(id: number, date: string, user: User, description: string) {
-    super(id, date, user, description);
+  constructor(id: number, date: string, user: User, description: string, userId?: number) {
+    super(id, date, user, userId, description);
   }
 }

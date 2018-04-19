@@ -1,6 +1,7 @@
 @import '../node_modules/@angular/material/theming';
 @import 'app/core/auth/login/login.component.theme';
 @import 'app/core/account/account.component-theme';
+@import 'app/core/publication/publication-form-theme.component';
 
 // Styles for the docs app that are based on the current theme.
 @mixin social-learning-app-theme($theme) {
@@ -24,10 +25,11 @@
     background-color: mat-color($accent);
   }
 
-  a{
+  a {
     color: mat-color($accent);
   }
 
   @include social-learning-login-theme($theme);
   @include social-learning-accounts-theme($theme);
+  @include social-learning-publication-form-theme($theme);
 }

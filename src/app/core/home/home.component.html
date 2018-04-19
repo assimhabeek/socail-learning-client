@@ -1,7 +1,63 @@
-<div fxLayout="row wrap">
-  <app-publication fxFlex.xs="90%" fxFlex.sm="80%" fxFlex.md="45%" fxFlex="30%" *ngFor="let pub of publications"
-                   [currentUser]="{id:5}"
-                   [publication]="pub"></app-publication>
+<div class="top-section">
+  <h1>{{'HOME' | translate}}</h1>
+  <span class="space"></span>
+  <mat-slider [max]="3" [min]="0.50" [step]="0.2" thumb-label="true" [(ngModel)]="publicationSize">
+  </mat-slider>
 </div>
+<div class="add-button">
+  <mat-divider></mat-divider>
+  <a routerLink="./publicationForm/0" mat-fab color="primary" matTooltip="{{'ADD'|translate}}">
+    <mat-icon>add</mat-icon>
+  </a>
+</div>
+<mat-card class="filter mat-elevation-z1">
+  <form #form="ngForm" novalidate (ngSubmit)="filterPublications()">
+    <mat-form-field>
+      <mat-placeholder>
+        {{'SEARCH' |translate}}
+      </mat-placeholder>
+      <input type="text" matInput [(ngModel)]="filter.text" name="text">
+    </mat-form-field>
 
-<button mat-button color="accent" (click)="loadMore()">{{'MORE'| translate}}</button>
+    <mat-form-field>
+      <mat-placeholder>
+        {{'CATEGORY' |translate}}
+      </mat-placeholder>
+      <mat-select [(ngModel)]="filter.categoryId" type="number" name="categoryId">
+        <mat-option *ngFor="let cat of categories" [value]="cat.id">{{cat.title | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-placeholder>
+        {{'SPECIALTY' |translate}}
+      </mat-placeholder>
+      <mat-select [(ngModel)]="filter.specialtyId" type="number" name="specialtyId">
+        <mat-option *ngFor="let sp of specialties" [value]="sp.id">{{sp.abb}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-placeholder>
+        <mat-icon>timer</mat-icon>
+        {{'YEAR' |translate}}
+      </mat-placeholder>
+      <mat-select [(ngModel)]="filter.year" type="number" name="year">
+        <mat-option [value]="1">{{'FIRST_YEAR' | translate}}</mat-option>
+        <mat-option [value]="1">{{'SECOND_YEAR' | translate}}</mat-option>
+        <mat-option [value]="3">{{'Third_YEAR' | translate}}</mat-option>
+        <mat-option [value]="4">{{'MASTER' | translate:{num:1} }}</mat-option>
+        <mat-option [value]="5">{{'MASTER' | translate:{num:2} }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button type="submit" color="primary">{{'FILTER' | translate}}</button>
+  </form>
+
+</mat-card>
+
+<div class="pub-container" fxLayout="row wrap">
+  <app-publication *ngFor="let pub of publications" [fxFlex.xs]="(publicationSize*90)+'%'" [fxFlex.sm]="(publicationSize*80)+'%'"
+    [fxFlex.md]="(publicationSize*45)+'%'" [fxFlex]="(publicationSize*30)+'%'" [currentUser]="currentUser" [publication]="pub"
+    [categories]="categories" [specialties]="specialties" [modules]="modules"></app-publication>
+</div>
+<mat-toolbar *ngIf="!publicationEnd" class="bottom">
+  <button mat-button color="accent" (click)="loadMore()">{{'MORE'| translate}}</button>
+</mat-toolbar>

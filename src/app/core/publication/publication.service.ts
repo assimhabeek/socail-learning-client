@@ -1,17 +1,23 @@
-import {Injectable} from '@angular/core';
-import {HttpService} from '../http.service';
-import {URLS} from '../urls';
-import {WsService} from '../ws.service';
+import { Injectable } from '@angular/core';
+import { HttpService } from '../http.service';
+import { URLS } from '../urls';
+import { WsService } from '../ws.service';
+import { Attachment } from '../domain/attachments';
+import { Publication } from '../domain/publication';
 
 @Injectable()
 export class PublicationService {
 
   constructor(private _http: HttpService,
-              private _ws: WsService) {
+    private _ws: WsService) {
   }
 
-  public getPublications(page: number) {
-    return this._http.get(URLS.publications, {params: {page: page}});
+  public getPublications(filter: any) {
+    return this._http.get(URLS.publications, { params: filter });
+  }
+
+  public getPublication(id: number) {
+    return this._http.get(URLS.publications, { params: { id: id } });
   }
 
   public getStreamedPublications() {
@@ -19,11 +25,51 @@ export class PublicationService {
   }
 
   public getAttachments(id: number) {
-    return this._http.get(URLS.attachments, {params: {publicationId: id}});
+    return this._http.get(URLS.attachments, { params: { publicationId: id } });
   }
 
   public getComments(id: number) {
-    return this._http.get(URLS.comments, {params: {publicationId: id}});
+    return this._http.get(URLS.comments, { params: { publicationId: id } });
+  }
+
+  public getStreamedComment(id: number) {
+    return this._ws.connect(URLS.comments + `/stream?publicationId=${id}`);
+  }
+
+  public addPublication(publication: Publication) {
+    return this._http.postWithAuth(URLS.publications, publication, { responseType: 'text' });
+  }
+
+  public editPublication(publication: Publication) {
+    return this._http.putWithAuth(URLS.publications, publication, { responseType: 'text' });
+  }
+
+  public addComment(comment: Comment) {
+    return this._http.postWithAuth(URLS.comments, comment, { responseType: 'text' });
+  }
+
+  public editComment(comment: Comment) {
+    return this._http.putWithAuth(URLS.comments, comment, { responseType: 'text' });
+  }
+
+  public addAttachment(attachment: Attachment) {
+    return this._http.postWithAuth(URLS.attachments, attachment, { responseType: 'text' });
+  }
+
+  public editAttachment(attachment: Attachment) {
+    return this._http.putWithAuth(URLS.attachments, attachment, { responseType: 'text' });
+  }
+
+  public deletePublication(id: number) {
+    return this._http.deleteWithAuth(URLS.publications, {
+      responseType: 'text', params: { id: id }
+    });
+  }
+
+  public deleteAttachment(id: number) {
+    return this._http.deleteWithAuth(URLS.attachments, {
+      responseType: 'text', params: { id: id }
+    });
   }
 
 }

@@ -1,34 +1,42 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {AppComponent} from './app.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MaterialModule} from './material.module';
-import {RoutingModule} from './routing.module';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {IndexComponent, UserSettingMenuComponent} from './core/index/index.component';
-import {HttpService} from './core/http.service';
-import {UsersService} from './core/auth/users.service';
-import {TokenStorage} from './core/auth/token.storage';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {TermsComponent} from './core/auth/register/terms.component';
-import {StorageServiceModule} from 'angular-webstorage-service';
-import {NoConnectionComponent} from './core/no-connection/no-connection.component';
-import {AccountComponent} from './core/account/account.component';
-import {AuthModule} from './core/auth/auth.module';
-import {LanguageSelectorModule} from './shared/language-selector/language-selector.module';
-import {ThemePickerModule} from './shared/theme-picker/theme-picker.module';
-import {HomeComponent} from './core/home/home.component';
-import {ImageCropperModule} from 'ngx-image-cropper';
-import {SuccessMessageComponent} from './core/success-message/success-message.component';
-import {SpecialtiesService} from './core/specialty/specialties.service';
-import {PublicationComponent} from './core/publication/publication.component';
-import {Attachments} from './core/domain/attachments';
-import {PublicationService} from './core/publication/publication.service';
-import {TimeAgoPipe} from './shared/time-ago.pipe';
-import {WsService} from './core/ws.service';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+import { RoutingModule } from './routing.module';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { IndexComponent, UserSettingMenuComponent } from './core/index/index.component';
+import { HttpService } from './core/http.service';
+import { UsersService } from './core/auth/users.service';
+import { TokenStorage } from './core/auth/token.storage';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { StorageServiceModule } from 'angular-webstorage-service';
+import { NoConnectionComponent } from './core/no-connection/no-connection.component';
+import { AccountComponent } from './core/account/account.component';
+import { AuthModule } from './core/auth/auth.module';
+import { LanguageSelectorModule } from './shared/language-selector/language-selector.module';
+import { ThemePickerModule } from './shared/theme-picker/theme-picker.module';
+import { HomeComponent } from './core/home/home.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { SuccessMessageComponent } from './core/success-message/success-message.component';
+import { SpecialtiesService } from './core/specialties.service';
+import {
+  AttachmentFormComponent,
+  PublicationComponent, DeleteConfirmationComponent,
+  PublicationFormComponent
+} from './core/publication/publication.component';
+import { Attachment } from './core/domain/attachments';
+import { PublicationService } from './core/publication/publication.service';
+import { TimeAgoPipe } from './shared/time-ago.pipe';
+import { WsService } from './core/ws.service';
+import { ModulesService } from './core/modules.service';
+import { CategoriesService } from './core/categories.service';
+import { NotificationService } from './core/notification.service';
+import { NotificationComponent } from './core/notification/notification.component';
+import { FaqComponent } from './core/faq/faq.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -44,10 +52,16 @@ export function createTranslateLoader(http: HttpClient) {
     HomeComponent,
     PublicationComponent,
     SuccessMessageComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    PublicationFormComponent,
+    DeleteConfirmationComponent,
+    AttachmentFormComponent,
+    NotificationComponent,
+    FaqComponent
   ],
   entryComponents: [
-    SuccessMessageComponent
+    SuccessMessageComponent,
+    DeleteConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +90,10 @@ export function createTranslateLoader(http: HttpClient) {
     UsersService,
     WsService,
     SpecialtiesService,
-    PublicationService],
+    ModulesService,
+    CategoriesService,
+    PublicationService,
+    NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

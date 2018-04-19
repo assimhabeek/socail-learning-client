@@ -16,5 +16,6 @@ do
   $(npm bin)/node-sass $FILE > $DEST_PATH/$BASENAME.css
 done
 
+pause
 echo Finished building CSS.
 

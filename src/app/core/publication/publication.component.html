@@ -5,7 +5,7 @@
     <mat-card-title><b>{{publication.user.lastName +' ' + publication.user.firstName | uppercase}}</b></mat-card-title>
     <mat-card-subtitle>{{publication.user.about}}</mat-card-subtitle>
     <div class="space"></div>
-    <div>{{publication.date | timeAgo}}</div>
+    {{publication.date | timeAgo}}
   </mat-card-header>
   <mat-divider></mat-divider>
   <mat-card-content>
@@ -46,7 +46,7 @@
           <h5 mat-card-subtitle>{{oomment.date | timeAgo}}</h5>
         </mat-card-header>
       </mat-card>
-      <form novalidate #commentform="ngForm" (ngSubmit)="commented(commentform.valid)">
+      <form *ngIf="currentUser" novalidate #commentform="ngForm" (ngSubmit)="commented(commentform.valid)">
         <mat-form-field>
           <mat-placeholder>
             {{'COMMENT' |translate}}
@@ -65,4 +65,28 @@
       </form>
     </mat-expansion-panel>
   </mat-card-actions>
+  <mat-divider></mat-divider>
+  <mat-card-footer>
+    <mat-chip-list>
+      <mat-chip  color="primary" selected="true">{{getCategoryById(publication.categoryId) | translate}}</mat-chip>
+      <mat-chip  *ngIf="publication.specialtyId" color="accent" selected="true">
+        {{displaySpecialtyModule(publication.moduleId,publication.specialtyId)}}
+      </mat-chip>
+    </mat-chip-list>
+    <div class="space"></div>
+
+    <a [routerLink]="'./publicationForm/' + publication.id" *ngIf="currentUser && currentUser.id==publication.userId"
+       mat-icon-button color="accent"
+       matTooltip="{{'EDIT'|translate}}"
+       tabindex="-1">
+      <mat-icon>edit</mat-icon>
+    </a>
+    &nbsp;
+    <button *ngIf="currentUser && currentUser.id==publication.userId"
+            mat-icon-button color="warn" matTooltip="{{'DELETE'|translate}}"
+            tabindex="-1" (click)="deletePublication()">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+  </mat-card-footer>
 </mat-card>

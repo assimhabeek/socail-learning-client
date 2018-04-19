@@ -19,7 +19,10 @@
 .sl-publication .attachment-button {
   margin: 5px auto;
 }
-
+.sl-publication mat-card-footer{
+  display: flex;
+  padding: 16px;
+}
 .sl-publication .attachment-button a {
   display: block;
   text-decoration: none;

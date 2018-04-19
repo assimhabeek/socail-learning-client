@@ -1,0 +1,70 @@
+<div class="sl-publication-form">
+  <h1 mat-card-title>{{ 'PUBLICATION' | translate}}</h1>
+  <form novalidate #publicationform="ngForm" (ngSubmit)="submit(publicationform.valid)">
+    <div fxLayout="row wrap">
+      <mat-card fxFlex.xs="100%" fxFlex.sm="90%" fxFlex.md="45%" fxFlex="45%">
+        <div class="sl-form-section-header">
+          <h4>{{'PUBLICATION_BODY'| translate}}</h4>
+          <mat-divider></mat-divider>
+        </div>
+        <mat-form-field>
+          <mat-placeholder>
+            {{'TITLE' |translate}}
+          </mat-placeholder>
+          <input [autofocus]="true" autocomplete="title" matInput [required]="true"
+                 [(ngModel)]="publication.title" #title="ngModel" type="text" name="title">
+          <mat-error *ngIf="title.hasError('required')">
+            <strong>{{'REQUIRED'|translate}}</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>
+            {{'DESCRIPTION' |translate}}
+          </mat-placeholder>
+          <textarea matInput [(ngModel)]="publication.description"
+                    autocomplete="description"
+                    matTextareaAutosize
+                    matAutosizeMinRows="5"
+                    matAutosizeMaxRows="5"
+                    #description="ngModel"
+                    name="description"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>
+            {{'CATEGORY' |translate}}
+          </mat-placeholder>
+          <mat-select [required]="true"
+                      [(ngModel)]="publication.categoryId"
+                      #category="ngModel" type="number" name="categoryId">
+            <mat-option *ngFor="let cat of categories" [value]="cat.id">{{cat.title | translate}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="category.hasError('required')">
+            <strong>{{'REQUIRED'|translate}}</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <a mat-button routerLink="/index">
+          <mat-icon>arrow_back</mat-icon>
+          {{'BACK_TO_INDEX' | translate}}</a>
+        <button mat-raised-button type="submit" color="primary">
+          {{'SUBMIT' | translate}}
+        </button>
+      </mat-card>
+      <mat-card class="attachments" fxFlex.xs="100%" fxFlex.sm="90%" fxFlex.md="50%" fxFlex="45%">
+        <div class="sl-form-section-header">
+          <h4>{{'ATTACHMENTS'| translate}}</h4>
+          <mat-divider></mat-divider>
+        </div>
+        <app-attachment-form *ngFor="let item of attachments"
+                             [attachment]="item"
+                             (attachmentDelete)="deleteAttachment($event)"></app-attachment-form>
+        <h5 *ngIf="publication.id===0">{{'SAVE_PUB_BEFORE_ATTACH' | translate}}</h5>
+
+        <button [disabled]="!publication.id" (click)="addAttachment()" mat-mini-fab color="primary"
+                matTooltip="{{'ADD'|translate}}">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-card>
+    </div>
+  </form>
+</div>

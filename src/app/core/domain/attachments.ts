@@ -1,4 +1,4 @@
-export class Attachments {
+export class Attachment {
 
   id: number;
   link: string;

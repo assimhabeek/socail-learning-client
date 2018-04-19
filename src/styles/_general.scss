@@ -30,4 +30,24 @@ h1, h2 {
   width: 90% !important;
 }
 
-
+.notificationMenu {
+  width: 320px;
+  max-width: 500px !important;
+  .header{
+    padding:5px 20px;
+    text-align: right;
+  }
+  .mat-menu-item{
+    display: flex;
+    padding: 5px 20px;
+    h5{
+      white-space: normal;
+      line-height: 25px !important;
+      margin: 0!important;
+    }
+    .space{
+      min-width: 10px;
+      flex: 1 1 auto;
+    }
+  }
+}

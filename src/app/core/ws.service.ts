@@ -13,14 +13,10 @@ export class WsService {
   constructor() {
   }
 
-  private subject: Subject<MessageEvent>;
 
   public connect(url): Subject<MessageEvent> {
-    if (!this.subject) {
-      this.subject = this.create(this.webSocket + url);
-      console.log('Successfully connected: ' + url);
-    }
-    return this.subject;
+
+    return this.create(this.webSocket + url);
   }
 
   private create(url): Subject<MessageEvent> {

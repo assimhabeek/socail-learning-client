@@ -1,16 +1,29 @@
-import {ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit} from '@angular/core';
-import {MediaMatcher} from '@angular/cdk/layout';
-import {fadeListItems, slideInLeftAnimation} from '../../shared/animations';
-import {UsersService} from '../auth/users.service';
-import {User} from '../domain/user';
-import {Router} from '@angular/router';
+import { ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { fadeListItems, slideInLeftAnimation } from '../../shared/animations';
+import { UsersService } from '../auth/users.service';
+import { User } from '../domain/user';
+import { Router } from '@angular/router';
+import { Category } from '../domain/category';
+import { CategoriesService } from '../categories.service';
+import { NotificationService, Notification } from '../notification.service';
 
 
-interface MenuItem {
+class MenuItem {
   description: string;
   icon: string;
   title: string;
+  router: string;
+
+  constructor(description: string, icon: string, title: string, router: string) {
+    this.description = description;
+    this.icon = icon;
+    this.title = title;
+    this.router = router;
+  }
+
 }
+
 
 @Component({
   selector: 'app-index',
@@ -23,7 +36,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   @HostBinding('@routeAnimation') routeAnimation = true;
 
 
-  user = {};
+  user: any = {};
   showConfirmBar = true;
   mobileQuery: MediaQueryList;
   menuItems: MenuItem[] = [];
@@ -33,31 +46,34 @@ export class IndexComponent implements OnInit, OnDestroy {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef,
-              media: MediaMatcher,
-              private router: Router,
-              private usersService: UsersService) {
+    media: MediaMatcher,
+    private router: Router,
+    private usersService: UsersService,
+    private categoriesService: CategoriesService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
   ngOnInit(): void {
+    this.loadUser();
+  }
+
+
+  showItems() {
+    this.menuItems = [
+      new MenuItem('PUBLICATIONS_DESCRIPTION', 'book', 'PUBLICATIONS', '/index'),
+      new MenuItem('FAQ_DESCRIPTION', 'book', 'FAQ', '/indexa/faq')
+    ];
+  }
+
+  loadUser() {
     this.usersService.user
       .subscribe((user: User) => {
         this.user = user;
       });
   }
 
-  showItems() {
-    this.menuItems = [
-      {description: 'SHARE_CONTENT_DESCRIPTION', icon: 'share', title: 'SHARE_CONTENT'},
-      {description: 'SHARE_CONTENT_DESCRIPTION', icon: 'share', title: 'SHARE_CONTENT'},
-      {description: 'SHARE_CONTENT_DESCRIPTION', icon: 'share', title: 'SHARE_CONTENT'},
-      {description: 'SHARE_CONTENT_DESCRIPTION', icon: 'share', title: 'SHARE_CONTENT'},
-      {description: 'SHARE_CONTENT_DESCRIPTION', icon: 'share', title: 'SHARE_CONTENT'},
-      {description: 'SHARE_CONTENT_DESCRIPTION', icon: 'share', title: 'SHARE_CONTENT'},
-    ];
-  }
 
 
   hideItems() {
@@ -103,7 +119,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 export class UserSettingMenuComponent {
 
   constructor(private userService: UsersService,
-              private router: Router) {
+    private router: Router) {
   }
 
   logout() {

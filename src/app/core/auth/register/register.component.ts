@@ -1,14 +1,13 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {User} from '../../domain/user';
-import {debounce, slideInLeftAnimation} from '../../../shared/animations';
-import {UsersService} from '../users.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {TermsComponent} from './terms.component';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TokenStorage} from '../token.storage';
-import {Specialty} from '../../domain/spcialty';
-import {SpecialtiesService} from '../../specialty/specialties.service';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { User } from '../../domain/user';
+import { debounce, slideInLeftAnimation } from '../../../shared/animations';
+import { UsersService } from '../users.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { TermsComponent } from './terms.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Specialty } from '../../domain/spcialty';
+import { SpecialtiesService } from '../../specialties.service';
 
 @Component({
   selector: 'app-register',
@@ -27,13 +26,14 @@ export class RegisterComponent implements OnInit {
   specailties: Specialty[] = [];
 
   constructor(private usersService: UsersService,
-              private specialtiesService: SpecialtiesService,
-              private _dialog: MatDialog,
-              private router: Router) {
+    private specialtiesService: SpecialtiesService,
+    private _dialog: MatDialog,
+    private router: Router) {
   }
 
   ngOnInit() {
     this.user = new User('', '');
+    this.openDialog();
   }
 
   submit(state: boolean) {
@@ -107,7 +107,7 @@ export class RegistrationTokenValidationComponent implements OnInit {
   valid: boolean;
 
   constructor(private usersService: UsersService,
-              private router: ActivatedRoute) {
+    private router: ActivatedRoute) {
   }
 
   ngOnInit() {

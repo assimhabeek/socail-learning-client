@@ -1,0 +1,34 @@
+<form novalidate #attachmentform="ngForm" (ngSubmit)="submit(attachmentform.valid);attachmentform.reset(attachment)">
+  <mat-card [class.no-saved]="attachment.id==0 || attachmentform.dirty">
+    <mat-card-content>
+      <mat-form-field>
+        <mat-placeholder>
+          {{'NAME' |translate}}
+        </mat-placeholder>
+        <input [autofocus]="true" autocomplete="name" matInput [required]="true"
+               [(ngModel)]="attachment.name" #name="ngModel" type="text" name="name">
+        <mat-error *ngIf="name.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>
+          {{'LINK' |translate}}
+        </mat-placeholder>
+        <input autocomplete="link" matInput [required]="true"
+               [(ngModel)]="attachment.link" #link="ngModel" type="text" name="link">
+        <mat-error *ngIf="link.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+      <div class="center" [style.textAlign]="'center'">
+        <button mat-icon-button matTooltip="{{'SAVE' | translate}}" type="submit" color="primary">
+          <mat-icon>save</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onDelete()" matTooltip="{{'DELETE' | translate}}" type="submit" color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>
