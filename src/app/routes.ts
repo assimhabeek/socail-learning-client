@@ -15,6 +15,7 @@ import { AccountComponent } from './core/account/account.component';
 import { HomeComponent } from './core/home/home.component';
 import { PublicationFormComponent } from './core/publication/publication.component';
 import { FaqComponent } from './core/faq/faq.component';
+import { ChatComponent } from './core/chat/chat.component'
 
 const authRoutes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [NotForLoggedUsers] },
@@ -31,8 +32,9 @@ export const appRoutes: Routes = [
     children: [
       { path: 'accounts', component: AccountComponent },
       { path: 'faq', component: FaqComponent },
-      { path: 'publicationForm/:id', component: PublicationFormComponent, canActivate: [IsLoggedIn] },
-      { path: '', component: HomeComponent },
+      { path: 'chat', component: ChatComponent },
+      { path: 'publicationForm/:id', component: PublicationFormComponent },
+      { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: '**', pathMatch: 'full', redirectTo: '' }
     ]
   },

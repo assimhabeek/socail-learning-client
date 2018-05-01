@@ -11,29 +11,11 @@
     </button>
     <h1>Socail learning</h1>
     <span class="spacer"></span>
-    <mat-menu class="notificationMenu" #notificationMenu="matMenu" xPosition="before">
-      <div class="header">
-        <mat-slide-toggle>
-          {{'READ_ALL' | translate}}
-        </mat-slide-toggle>
-      </div>
-      <div mat-menu-item *ngFor="let item of notifications">
-        <mat-icon>{{item.icon}}</mat-icon>
-        <h5>{{item.message}}</h5>
-        <span class="space"></span>
-        <mat-slide-toggle name="read" [(ngModel)]="item.isRead">
-          {{'READ' | translate}}
-        </mat-slide-toggle>
-      </div>
-    </mat-menu>
 
 
     <div *ngIf="!user">
       <a mat-button routerLink="/login">{{ 'LOGIN' | translate }}</a>
       <a mat-button routerLink="/register">{{ 'REGISTER' |translate}}</a>
-      <button mat-icon-button [matMenuTriggerFor]="notificationMenu" matTooltip="{{'READ_NOTIFICATIONS'| translate}}" tabindex="-1">
-        <mat-icon>notifications</mat-icon>
-      </button>
       <app-notification></app-notification>
       <app-theme-picker></app-theme-picker>
       <app-language-selector></app-language-selector>
@@ -46,8 +28,8 @@
   </mat-toolbar>
 
   <mat-sidenav-container>
-    <mat-sidenav class="sideNav mat-elevation-z6" #snav (openedChange)="toggleMenu()" [position]="'start'" [mode]="mobileQuery.matches ? 'over' : 'side'"
-      [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches?56:64">
+    <mat-sidenav class="sideNav mat-elevation-z6" #snav [opened]="!mobileQuery.matches" (openedChange)="toggleMenu()" [position]="'start'"
+      [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches?56:64">
       <div class="profile-info">
         <div class="profile-image" [style.backgroundImage]="'url('+ (user && user.profileImage ? user.profileImage : './assets/img/sl-logo.png') +')'">
         </div>
@@ -60,9 +42,9 @@
           </p>
         </div>
       </div>
-      <mat-nav-list [@listAnimation]="menuItems.length" dense>
+      <mat-nav-list [@listAnimation]="menuItems.length">
         <a mat-list-item *ngFor="let item of menuItems" [routerLink]="item.router">
-          <mat-icon color="primary" mat-list-icon>{{item.icon}}</mat-icon>
+          <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
           <h3 mat-line>
             <b>{{item.title | translate}}</b>
           </h3>

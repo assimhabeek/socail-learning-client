@@ -12,6 +12,10 @@
   }
 }
 
+.sl-publication mat-card-actions{
+  text-align: end;
+}
+
 .sl-publication mat-card-content {
   margin-top: 20px;
 }
@@ -37,7 +41,10 @@
   word-break: break-all;
   word-wrap: break-word;
 }
-
+.comment mat-icon{
+  font-size: 48px;
+  font-weight: bolder;
+}
 form {
   text-align: center;
   .mat-form-field {

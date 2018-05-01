@@ -1,6 +1,7 @@
 import { Contribution } from './contribution';
 import { User } from './user';
 import { Attachment } from './attachments';
+import { Comment } from './comment';
 
 export class Publication extends Contribution {
   public title: string;
@@ -9,6 +10,9 @@ export class Publication extends Contribution {
   public moduleId: number;
   public categoryId: number;
   public attachments: Attachment[];
+  public commentable: boolean;
+  public likes: number;
+  public dislikes: number;
 
   constructor(id: number, date: string, title: string, user: User, categorieId: number,
     description?: string, attachments?: Attachment[],

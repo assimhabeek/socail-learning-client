@@ -5,15 +5,38 @@ import { WsService } from '../ws.service';
 import { Attachment } from '../domain/attachments';
 import { Publication } from '../domain/publication';
 
+const removeFalsy = (obj) => {
+  let newObj = {};
+  Object.keys(obj).forEach((prop) => {
+    if (obj[prop] != null) { newObj[prop] = obj[prop]; }
+  });
+  return newObj;
+};
+
+const formatDate = (obj) => {
+  let newObj = {};
+  Object.keys(obj).forEach((prop) => {
+    if (prop == 'date') {
+      newObj[prop] = obj[prop].format("YYYY-MM-DD HH:mm:ss");
+    } else {
+      newObj[prop] = obj[prop];
+    }
+  });
+  return newObj;
+};
+
 @Injectable()
 export class PublicationService {
+
 
   constructor(private _http: HttpService,
     private _ws: WsService) {
   }
 
   public getPublications(filter: any) {
-    return this._http.get(URLS.publications, { params: filter });
+    return this._http.get(URLS.publications, {
+      params: formatDate(removeFalsy(filter))
+    });
   }
 
   public getPublication(id: number) {

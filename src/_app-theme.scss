@@ -11,14 +11,20 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
+
   .sl-app-background {
     background: mat-color($background, background);
+  }
+
+ .sl-primary-font {
+    color: mat-color($primary) !important;
   }
 
   .sl-primary-background {
     color: mat-color($primary, default-contrast) !important;
     background-color: mat-color($primary);
   }
+
 
   .sl-accent-background {
     color: mat-color($accent, default-contrast);
@@ -27,6 +33,15 @@
 
   a {
     color: mat-color($accent);
+  }
+
+  re-captcha{
+    display: block;
+    width: 304px;
+    height: 78px;
+    &.ng-captcha-invalid{
+    border: 1px solid mat-color($warn);
+    }
   }
 
   @include social-learning-login-theme($theme);

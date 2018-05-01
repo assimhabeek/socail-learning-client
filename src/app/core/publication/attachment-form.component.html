@@ -5,8 +5,8 @@
         <mat-placeholder>
           {{'NAME' |translate}}
         </mat-placeholder>
-        <input [autofocus]="true" autocomplete="name" matInput [required]="true"
-               [(ngModel)]="attachment.name" #name="ngModel" type="text" name="name">
+        <input [autofocus]="true" autocomplete="name" matInput [required]="true" [(ngModel)]="attachment.name" #name="ngModel" type="text"
+          name="name">
         <mat-error *ngIf="name.hasError('required')">
           <strong>{{'REQUIRED'|translate}}</strong>
         </mat-error>
@@ -15,10 +15,13 @@
         <mat-placeholder>
           {{'LINK' |translate}}
         </mat-placeholder>
-        <input autocomplete="link" matInput [required]="true"
-               [(ngModel)]="attachment.link" #link="ngModel" type="text" name="link">
+        <input autocomplete="link" matInput [required]="true" pattern="^http(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$"
+          [(ngModel)]="attachment.link" #link="ngModel" type="text" name="link">
         <mat-error *ngIf="link.hasError('required')">
           <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+        <mat-error *ngIf="link.hasError('pattern')">
+          <strong>{{'INVALID_URL'|translate}}</strong>
         </mat-error>
       </mat-form-field>
       <div class="center" [style.textAlign]="'center'">

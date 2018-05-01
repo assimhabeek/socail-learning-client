@@ -6,7 +6,7 @@ export class Contribution {
   description: string;
   userId: number;
   date: string;
-  user: User;
+  public user: User;
 
   constructor(id: number, date: string, user: User, userId?: number, description?: string) {
     this.id = id;

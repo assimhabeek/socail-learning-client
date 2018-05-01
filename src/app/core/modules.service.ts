@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {URLS} from './urls';
-import {Specialty} from './domain/spcialty';
-import {HttpService} from './http.service';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { URLS } from './urls';
+import { HttpService } from './http.service';
+import { Module } from './domain/module';
 
 @Injectable()
 export class ModulesService {
@@ -11,7 +11,12 @@ export class ModulesService {
   }
 
 
-  getModules(): Observable<Specialty[]> {
+  getModules(): Observable<Module[]> {
     return this.httpService.get(URLS.modules);
   }
+
+  getModulesBySpecialty(spId: number): Observable<Module[]> {
+    return this.httpService.get(URLS.modules, { params: { specialtyId: spId } });
+  }
+
 }

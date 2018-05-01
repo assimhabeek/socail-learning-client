@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {Observer} from 'rxjs/Observer';
-import {Observable} from 'rxjs/Observable';
-import {environment} from '../../environments/environment';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Observer } from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
@@ -15,7 +15,6 @@ export class WsService {
 
 
   public connect(url): Subject<MessageEvent> {
-
     return this.create(this.webSocket + url);
   }
 

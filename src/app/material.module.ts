@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
   MatIconModule,
@@ -16,9 +16,13 @@ import {
   MatSnackBarModule,
   MatExpansionModule,
   MatChipsModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 } from '@angular/material';
-import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 @NgModule({
   imports: [
@@ -39,8 +43,9 @@ import {ScrollDispatchModule} from '@angular/cdk/scrolling';
     MatExpansionModule,
     MatChipsModule,
     MatSliderModule,
-    MatSlideToggleModule
-  ],
+    MatSlideToggleModule,
+    MatDatepickerModule,
+    MatNativeDateModule],
   exports: [
     MatButtonModule,
     MatExpansionModule,
@@ -59,8 +64,14 @@ import {ScrollDispatchModule} from '@angular/cdk/scrolling';
     ScrollDispatchModule,
     MatChipsModule,
     MatSliderModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
+  ]
 })
 export class MaterialModule {
 }

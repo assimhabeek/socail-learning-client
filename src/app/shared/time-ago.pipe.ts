@@ -1,10 +1,10 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
 import 'moment/locale/fr';
 import 'moment/locale/ar';
 
 
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
   name: 'timeAgo',

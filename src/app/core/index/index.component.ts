@@ -63,7 +63,8 @@ export class IndexComponent implements OnInit, OnDestroy {
   showItems() {
     this.menuItems = [
       new MenuItem('PUBLICATIONS_DESCRIPTION', 'book', 'PUBLICATIONS', '/index'),
-      new MenuItem('FAQ_DESCRIPTION', 'book', 'FAQ', '/indexa/faq')
+      new MenuItem('FAQ_DESCRIPTION', 'question_answer', 'FAQ', '/index/faq'),
+      new MenuItem('CHAT_DESCRIPTION', 'chat', 'CHAT', '/index/chat')
     ];
   }
 

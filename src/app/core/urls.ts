@@ -9,5 +9,7 @@ export const URLS = {
   attachments: '/attachments',
   comments: '/comments',
   modules: '/modules',
-  publications: '/publications'
+  publications: '/publications',
+  chat: '/chat',
+  opinion: '/opinions'
 };

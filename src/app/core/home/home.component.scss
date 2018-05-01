@@ -24,7 +24,7 @@ app-publication {
 }
 
 .pub-container {
-  margin: 36px;
+  margin: 0  36px 36px 36px;
 }
 
 .add-button {
@@ -43,10 +43,17 @@ app-publication {
 }
 
 .filter{
-  width: 80%;
+  width: 90%;
   margin:10px auto;
   text-align: center;
   .mat-form-field{
     margin: auto 20px;
+  }
+}
+
+mat-panel-title{
+  mat-icon{
+    font-size: 120%;
+    margin:auto 10px !important;
   }
 }

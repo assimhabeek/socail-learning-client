@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {LanguageStorage} from './shared/language-selector/language.storage';
-import {Lang} from './shared/language-selector/language-selector.component';
-import {UsersService} from './core/auth/users.service';
-import {StyleManager} from './shared/theme-picker/style-manager';
-
+import { Component, OnInit } from '@angular/core';
+import { LanguageStorage } from './shared/language-selector/language.storage';
+import { Lang } from './shared/language-selector/language-selector.component';
+import { UsersService } from './core/auth/users.service';
+import { StyleManager } from './shared/theme-picker/style-manager';
+import { DateAdapter } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -19,10 +19,16 @@ export class AppComponent {
 
 
   constructor(lang: LanguageStorage,
-              theme: StyleManager) {
+    theme: StyleManager,
+    private adapter: DateAdapter<any>) {
+
     theme.themeInit();
-    this.dir = lang.languageInit().direction;
+    const lan = lang.languageInit();
+    this.dir = lan.direction;
+    this.adapter.setLocale(lan.abb);
+
     lang.onLanguageUpdate.subscribe((l: Lang) => {
+      this.adapter.setLocale(l.abb);
       this.dir = l.direction;
     });
   }

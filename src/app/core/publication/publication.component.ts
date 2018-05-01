@@ -4,6 +4,7 @@ import { User } from '../domain/user';
 import { PublicationService } from './publication.service';
 import { Specialty } from '../domain/spcialty';
 import { Category } from '../domain/category';
+import { Module } from '../domain/module';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +12,16 @@ import { CategoriesService } from '../categories.service';
 import { UsersService } from '../auth/users.service';
 import { fadeAnimation } from '../../shared/animations';
 import { SpecialtiesService } from '../specialties.service';
+import { ModulesService } from '../modules.service';
 import { NotificationService } from '../notification.service';
+import { OpinionService } from '../opinion.service';
+import { Opinion } from '../domain/opinion';
+
+const OpinionType = {
+  LIKE: 1,
+  DISLIKE: 2,
+  REPORT: 3
+}
 
 @Component({
   selector: 'app-publication',
@@ -24,19 +34,42 @@ export class PublicationComponent implements OnInit {
   @Input() currentUser: User;
   @Input() categories: Category[];
   @Input() specialties: Specialty[];
-  @Input() modules: Specialty[];
+  @Input() modules: Module[];
 
   private attachmentsAreFetched = false;
   private commentsAreFetched = false;
-
+  public openAttachments = false;
   newComment: any = {};
 
   constructor(private publicationService: PublicationService,
+    private opinionService: OpinionService,
     private _dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.resetComment();
+  }
+
+  report() {
+
+  }
+
+  like() {
+    this.opinionService.postOpinion(new Opinion(0, this.currentUser.id, this.publication.id, OpinionType.LIKE))
+      .subscribe(res => {
+        this.publication.likes++;
+      });
+  }
+
+  disLike() {
+    this.opinionService.postOpinion(new Opinion(0, this.currentUser.id, this.publication.id, OpinionType.DISLIKE))
+      .subscribe(res => {
+        this.publication.dislikes++;
+      });
+  }
+
+  markAsBest() {
+
   }
 
   resetComment() {
@@ -93,6 +126,7 @@ export class PublicationComponent implements OnInit {
   displaySpecialtyModule(modId: number, specId: number) {
     const mod = this.getModuleById(modId);
     const spe = this.getSpecialtyById(specId);
+
     return mod ? mod + '-' + spe : spe;
   }
 
@@ -130,11 +164,13 @@ export class PublicationFormComponent implements OnInit {
   attachments: any = [];
   categories: Category[];
   specialties: Specialty[];
+  modules: Module[];
   user: User;
 
   constructor(private publicationService: PublicationService,
     private categoriesService: CategoriesService,
     private specialtiesService: SpecialtiesService,
+    private modulesService: ModulesService,
     private _dialog: MatDialog,
     private userService: UsersService,
     public route: ActivatedRoute,
@@ -151,8 +187,10 @@ export class PublicationFormComponent implements OnInit {
       } else {
         this.publication.id = 0;
       }
+
       this.loadUser();
       this.loadCategories();
+      this.loadSpecialties();
     });
 
   }
@@ -161,6 +199,9 @@ export class PublicationFormComponent implements OnInit {
     this.publicationService.getPublication(id)
       .subscribe(res => {
         this.publication = res;
+        if (this.publication.specialtyId) {
+          this.loadModules(this.publication.specialtyId);
+        }
       });
   }
 
@@ -171,9 +212,19 @@ export class PublicationFormComponent implements OnInit {
   }
 
   loadSpecialties() {
-    this.specialtiesService.getSpecialties().subscribe(res => {
-      this.specialties = res;
-    });
+    this.specialtiesService.getSpecialties()
+      .subscribe(res => {
+        this.specialties = res;
+      });
+  }
+
+
+
+  loadModules(spe: number) {
+    this.modulesService.getModulesBySpecialty(spe)
+      .subscribe(res => {
+        this.modules = res;
+      });
   }
 
   loadAttachmments(id: number) {
@@ -223,8 +274,9 @@ export class PublicationFormComponent implements OnInit {
           }
         }
       });
-
   }
+
+
 }
 
 @Component({

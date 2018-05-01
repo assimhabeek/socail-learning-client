@@ -37,6 +37,11 @@ import { CategoriesService } from './core/categories.service';
 import { NotificationService } from './core/notification.service';
 import { NotificationComponent } from './core/notification/notification.component';
 import { FaqComponent } from './core/faq/faq.component';
+import { ChatComponent, ChatRequestedComponent } from './core/chat/chat.component';
+import { ChatService } from './core/chat/chat.service';
+import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
+import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
+import { OpinionService } from './core/opinion.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -57,11 +62,14 @@ export function createTranslateLoader(http: HttpClient) {
     DeleteConfirmationComponent,
     AttachmentFormComponent,
     NotificationComponent,
-    FaqComponent
+    FaqComponent,
+    ChatComponent,
+    ChatRequestedComponent
   ],
   entryComponents: [
     SuccessMessageComponent,
-    DeleteConfirmationComponent
+    DeleteConfirmationComponent,
+    ChatRequestedComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +90,9 @@ export function createTranslateLoader(http: HttpClient) {
         useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
-    })
+    }),
+    RecaptchaModule.forRoot(),
+    RecaptchaFormsModule
   ],
   providers: [
     HttpService,
@@ -93,7 +103,16 @@ export function createTranslateLoader(http: HttpClient) {
     ModulesService,
     CategoriesService,
     PublicationService,
-    NotificationService],
+    NotificationService,
+    OpinionService,
+    ChatService,
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: '6Ld9XFYUAAAAACxqpTBzHQh6yyYwzOHMoE-8TItT'
+      } as RecaptchaSettings,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

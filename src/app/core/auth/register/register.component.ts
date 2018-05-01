@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   @HostBinding('style.display') display = 'block';
   @HostBinding('style.position') position = 'absolute';
 
-  user: User;
+  user: any;
   public showPassword: boolean;
   public errorMessage: string;
   specailties: Specialty[] = [];
@@ -32,8 +32,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = new User('', '');
-    this.openDialog();
+    this.user = {};
   }
 
   submit(state: boolean) {

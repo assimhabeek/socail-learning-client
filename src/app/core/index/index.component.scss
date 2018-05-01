@@ -25,12 +25,24 @@
 }
 
 .sl-index-container .profile-info {
+  &::before{
+    z-index: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    content: '';
+    left: 0;
+    background-color:rgba($color: #000000, $alpha: 0.3);
+  }
+  position: relative;
   box-sizing: border-box;
   width: 100%;
   padding: 10px 5px 5px 5px;
   background: url("../../../assets/img/profile-bg.jpg") no-repeat center;
   background-size: cover;
   font-weight: bold;
+
 }
 
 .sl-index-container .profile-info h3 {

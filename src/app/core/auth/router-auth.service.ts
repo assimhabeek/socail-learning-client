@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
-import {User} from '../domain/user';
-import {UsersService} from './users.service';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { User } from '../domain/user';
+import { UsersService } from './users.service';
 
 @Injectable()
 export class IsConnected implements CanActivate {
   constructor(public usersService: UsersService,
-              public router: Router) {
+    public router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -24,7 +24,7 @@ export class IsConnected implements CanActivate {
 @Injectable()
 export class IsLoggedIn implements CanActivate {
   constructor(public usersService: UsersService,
-              public router: Router) {
+    public router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -44,7 +44,7 @@ export class IsLoggedIn implements CanActivate {
 @Injectable()
 export class IsNotVerified implements CanActivate {
   constructor(public usersService: UsersService,
-              public router: Router) {
+    public router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -65,7 +65,7 @@ export class IsNotVerified implements CanActivate {
 @Injectable()
 export class NotForLoggedUsers implements CanActivate {
   constructor(public usersService: UsersService,
-              public router: Router) {
+    public router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

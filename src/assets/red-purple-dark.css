@@ -907,6 +907,9 @@
 .sl-app-background {
   background: #303030; }
 
+.sl-primary-font {
+  color: #f44336 !important; }
+
 .sl-primary-background {
   color: white !important;
   background-color: #f44336; }
@@ -917,6 +920,13 @@
 
 a {
   color: #9c27b0; }
+
+re-captcha {
+  display: block;
+  width: 304px;
+  height: 78px; }
+  re-captcha.ng-captcha-invalid {
+    border: 1px solid #f44336; }
 
 .sl-error-message {
   border-left: 3px solid #f44336;
