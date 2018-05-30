@@ -1,0 +1,13 @@
+<mat-card class="sl-message">
+    <mat-card-header>
+        <h1>{{'ONE_MORE_STEP' | translate}}</h1>
+    </mat-card-header>
+    <mat-card-content>
+        <p>{{'MESSAGE_SENT' | translate}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+        <div class="center">
+            <button mat-raised-button color="primary" (click)="resendEmail()">{{'RESEND' | translate}}</button>
+        </div>
+    </mat-card-actions>
+</mat-card>

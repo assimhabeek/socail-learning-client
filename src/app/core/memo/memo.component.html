@@ -1,0 +1,35 @@
+<div class="top-section">
+  <h1>{{'MEMO' | translate}}</h1>
+  <span class="space"></span>
+  <mat-slider [max]="1.80" [min]="0.20" [step]="0.2" thumb-label="true" [(ngModel)]="publicationSize">
+  </mat-slider>
+</div>
+<div fxLayout="row wrap" fxLayoutAlign="center start" fxLayoutGap="20px">
+  <mat-card class="sl-publication mat-elevation-z6" *ngFor="let pub of publications" [fxFlex.xs]="(publicationSize*90)+'%'"
+    [fxFlex.sm]="(publicationSize*80)+'%'" [fxFlex.md]="(publicationSize*48)+'%'" [fxFlex]="(publicationSize*45)+'%'">
+    <mat-card-header>
+      <mat-card-title>
+        <b>{{ pub.title | uppercase}}</b>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content [innerHtml]="pub.description">
+    </mat-card-content>
+    <mat-accordion>
+      <mat-expansion-panel class="mat-elevation-z0" (opened)="showReCap(pub)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{'DOWNLOAD' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <re-captcha *ngIf="openAttachments && useRecaptch" (resolved)="attachmentOpened(pub)"></re-captcha>
+        <mat-nav-list>
+          <mat-list-item *ngFor="let attach of pub.attachments">
+            <mat-icon mat-list-icon>file_download</mat-icon>
+            <a *ngIf="!currentUser" [routerLink]="'/login'">{{attach.name | uppercase}}</a>
+            <a *ngIf="currentUser" [href]="attach.link" target="_blank">{{attach.name | uppercase}}</a>
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card>
+</div>

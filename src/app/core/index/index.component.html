@@ -9,7 +9,10 @@
     <button mat-icon-button (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
-    <h1>Socail learning</h1>
+    <img class="logo" src="assets/img/sl-logo-bg.png" alt="logo">
+
+    <h1>NTICBOOK</h1>
+
     <span class="spacer"></span>
 
 
@@ -22,7 +25,7 @@
     </div>
     <div *ngIf="user">
       <app-notification></app-notification>
-      <app-user-setting-menu></app-user-setting-menu>
+      <app-user-setting-menu [user]="user"></app-user-setting-menu>
     </div>
 
   </mat-toolbar>
@@ -31,26 +34,25 @@
     <mat-sidenav class="sideNav mat-elevation-z6" #snav [opened]="!mobileQuery.matches" (openedChange)="toggleMenu()" [position]="'start'"
       [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches?56:64">
       <div class="profile-info">
-        <div class="profile-image" [style.backgroundImage]="'url('+ (user && user.profileImage ? user.profileImage : './assets/img/sl-logo.png') +')'">
+        <div class="profile-image" [style.backgroundImage]="'url('+ (user && user.profileImage ? user.profileImage : './assets/img/sl-logo-bg.png') +')'">
         </div>
         <div *ngIf="user">
-          <h3 mat-subheader>
-            <b>{{ user.lastName +' '+ user.firstName | uppercase }}</b>
+          <h3>
+            {{ user.lastName +' '+ user.firstName | uppercase }}
           </h3>
-          <p>
-            <b>{{ user.about }}</b>
-          </p>
         </div>
       </div>
-      <mat-nav-list [@listAnimation]="menuItems.length">
-        <a mat-list-item *ngFor="let item of menuItems" [routerLink]="item.router">
-          <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
-          <h3 mat-line>
-            <b>{{item.title | translate}}</b>
-          </h3>
-          <p mat-line> {{item.description | translate}} </p>
-          <mat-divider></mat-divider>
-        </a>
+      <mat-nav-list [@listAnimation]="menuItems.length" dense>
+        <div *ngFor="let item of menuItems">
+          <a *ngIf="(user && user.isAdmin && item.forAdmin) || !item.forAdmin" mat-list-item [routerLink]="item.router">
+            <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
+            <h3 mat-line>
+              <b>{{item.title | translate}}</b>
+            </h3>
+            <p mat-line> {{item.description | translate}} </p>
+            <mat-divider></mat-divider>
+          </a>
+        </div>
       </mat-nav-list>
     </mat-sidenav>
 

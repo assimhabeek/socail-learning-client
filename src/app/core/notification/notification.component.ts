@@ -10,22 +10,14 @@ import { User } from '../domain/user';
 
 export class NotificationComponent implements OnInit {
 
-  notifications: Notification[] = [new Notification('test', 'book', new User('sdaf', 'fsad'), false)];
+  notifications: Notification[] = [];
 
   constructor(private notificationService: NotificationService) { }
 
   ngOnInit() {
-    this.loadNotification();
     this.listenToNotifications();
   }
 
-
-  loadNotification() {
-    this.notificationService.notificationArrived
-      .subscribe(res => {
-        this.notifications.push(res);
-      })
-  }
 
   listenToNotifications() {
     this.notificationService.notificationArrived
@@ -33,6 +25,12 @@ export class NotificationComponent implements OnInit {
         this.notifications.unshift(notification);
       });
   }
+
+
+  toggleAll(value) {
+    this.notifications.forEach(i => i.isRead = value.checked);
+  }
+
 
   unReadNotificationCount(): number {
     return this.notifications.filter(x => !x.isRead).length;

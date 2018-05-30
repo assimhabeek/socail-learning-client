@@ -17,11 +17,6 @@
   text-align: center;
 }
 
-app-publication {
-  margin: 20px auto;
-  display: block;
-  width: 400px;
-}
 
 .pub-container {
   margin: 0  36px 36px 36px;
@@ -43,8 +38,8 @@ app-publication {
 }
 
 .filter{
-  width: 90%;
-  margin:10px auto;
+  width: 100%;
+  margin:20px auto;
   text-align: center;
   .mat-form-field{
     margin: auto 20px;
@@ -56,4 +51,9 @@ mat-panel-title{
     font-size: 120%;
     margin:auto 10px !important;
   }
+}
+
+mat-tab-group{
+  width: 90%;
+  margin: 10px auto;
 }

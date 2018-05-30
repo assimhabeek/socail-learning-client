@@ -16,6 +16,8 @@ import { ModulesService } from '../modules.service';
 import { NotificationService } from '../notification.service';
 import { OpinionService } from '../opinion.service';
 import { Opinion } from '../domain/opinion';
+import { environment } from '../../../environments/environment';
+import { DeleteConfirmationComponent } from '../delete-confiremation/delete-confiremation.component';
 
 const OpinionType = {
   LIKE: 1,
@@ -39,7 +41,9 @@ export class PublicationComponent implements OnInit {
   private attachmentsAreFetched = false;
   private commentsAreFetched = false;
   public openAttachments = false;
+  public opinion: Opinion;
   newComment: any = {};
+  public useRecaptch = window.location.protocol.indexOf('https') > -1;
 
   constructor(private publicationService: PublicationService,
     private opinionService: OpinionService,
@@ -48,24 +52,59 @@ export class PublicationComponent implements OnInit {
 
   ngOnInit() {
     this.resetComment();
+    this.loadOpinion();
   }
 
-  report() {
+  showReCap() {
+    if (!this.useRecaptch) {
+      this.attachmentOpened();
+    } else {
+      this.openAttachments = true;
+    }
+  }
 
+  loadOpinion() {
+    if (this.currentUser) {
+      this.opinionService.getOpinion(this.currentUser.id, this.publication.id)
+        .subscribe(res => {
+          this.opinion = res ? res : new Opinion(0, this.currentUser.id, this.publication.id, -1);
+        });
+    }
+  }
+
+  report(description: string) {
+    if (this.opinion.opinion != OpinionType.REPORT) {
+      this.opinion.opinion = OpinionType.REPORT;
+      this.opinion.description = description;
+      this.opinionService.postOpinion(this.opinion)
+        .subscribe(res => {
+          this.publication.likes = res.likes;
+          this.publication.dislikes = res.dislikes;
+        });
+    }
   }
 
   like() {
-    this.opinionService.postOpinion(new Opinion(0, this.currentUser.id, this.publication.id, OpinionType.LIKE))
-      .subscribe(res => {
-        this.publication.likes++;
-      });
+    if (this.opinion.opinion != OpinionType.LIKE) {
+      this.opinion.opinion = OpinionType.LIKE;
+      this.opinionService.postOpinion(this.opinion)
+        .subscribe(res => {
+          this.publication.likes = res.likes;
+          this.publication.dislikes = res.dislikes;
+        });
+
+    }
   }
 
   disLike() {
-    this.opinionService.postOpinion(new Opinion(0, this.currentUser.id, this.publication.id, OpinionType.DISLIKE))
-      .subscribe(res => {
-        this.publication.dislikes++;
-      });
+    if (this.opinion.opinion != OpinionType.DISLIKE) {
+      this.opinion.opinion = OpinionType.DISLIKE;
+      this.opinionService.postOpinion(this.opinion)
+        .subscribe(res => {
+          this.publication.likes = res.likes;
+          this.publication.dislikes = res.dislikes;
+        });
+    }
   }
 
   markAsBest() {
@@ -135,9 +174,22 @@ export class PublicationComponent implements OnInit {
       this.categories.find(item => item.id === id).title : '';
   }
 
+  reportPublication() {
+    const config = new MatDialogConfig();
+    config.disableClose = true;
+    config.width = '300px';
+    this._dialog.open(ReportPublicationComponent, config).afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.report(res);
+        }
+      });
+  }
+
   deletePublication() {
     const config = new MatDialogConfig();
     config.disableClose = true;
+    config.data = 'ARE_YOU_SURE';
     this._dialog.open(DeleteConfirmationComponent, config).afterClosed()
       .subscribe(res => {
         if (res) {
@@ -166,7 +218,8 @@ export class PublicationFormComponent implements OnInit {
   specialties: Specialty[];
   modules: Module[];
   user: User;
-
+  imageEndPoint = "https://" + environment.socket + "/upload";
+  useRecaptch = window.location.protocol.indexOf('https') > -1;
   constructor(private publicationService: PublicationService,
     private categoriesService: CategoriesService,
     private specialtiesService: SpecialtiesService,
@@ -253,6 +306,7 @@ export class PublicationFormComponent implements OnInit {
           .subscribe(res => {
             this.publication.id = +res;
             this.router.navigate(['/index/publicationForm', +res]);
+            this.useRecaptch = false;
           });
       } else {
         this.publicationService.editPublication(this.publication)
@@ -279,6 +333,94 @@ export class PublicationFormComponent implements OnInit {
 
 }
 
+
+@Component({
+  selector: 'app-publication-preview',
+  templateUrl: './publication-preview.component.html',
+  styleUrls: ['./publication-preview.component.scss'],
+  animations: [fadeAnimation]
+})
+export class PublicationPreviewComponent implements OnInit {
+  @HostBinding('@fadeAnimation') fadeAnimation = true;
+  @HostBinding('style.display') display = 'block';
+
+
+  public publication: any = {};
+  public categories: Category[];
+  public specialties: Specialty[];
+  public modules: Module[];
+  public currentUser: User;
+
+  constructor(private publicationService: PublicationService,
+    private categoriesService: CategoriesService,
+    private specialtiesService: SpecialtiesService,
+    private modulesService: ModulesService,
+    private userService: UsersService,
+    public route: ActivatedRoute,
+    public router: Router) {
+  }
+
+
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (+id !== 0) {
+        this.loadPublication(id);
+        this.loadUser();
+        this.loadCategories();
+        this.loadSpecialties();
+      } else {
+        this.router.navigate['/index'];
+      }
+
+    });
+
+  }
+
+  loadPublication(id) {
+    this.publicationService.getPublicationExtanded(id)
+      .subscribe(res => {
+        this.publication = res;
+        if (this.publication.specialtyId) {
+          this.loadModules(this.publication.specialtyId);
+        }
+      });
+  }
+
+  loadUser() {
+    this.userService.user.subscribe(res => {
+      this.currentUser = res;
+    });
+  }
+
+  loadSpecialties() {
+    this.specialtiesService.getSpecialties()
+      .subscribe(res => {
+        this.specialties = res;
+      });
+  }
+
+
+
+  loadModules(spe: number) {
+    this.modulesService.getModulesBySpecialty(spe)
+      .subscribe(res => {
+        this.modules = res;
+      });
+  }
+
+  loadCategories() {
+    this.categoriesService.getCategories().subscribe(res => {
+      this.categories = res;
+    });
+  }
+
+
+
+
+}
+
+
 @Component({
   selector: 'app-attachment-form',
   templateUrl: './attachment-form.component.html'
@@ -298,7 +440,6 @@ export class AttachmentFormComponent {
       if (this.attachment.id === 0) {
         this.attachmentService.addAttachment(this.attachment)
           .subscribe(res => {
-            console.log(res);
             this.attachment.id = res;
           });
       } else {
@@ -315,39 +456,33 @@ export class AttachmentFormComponent {
 }
 
 
+
+
+
 @Component({
-  selector: 'app-publication-delete',
-  template: `
-    <h1 mat-dialog-title>{{ 'DELETE_CONFIRMATION' | translate }}</h1>
-    <mat-dialog-content>
-      {{ 'ARE_YOU_SURE' | translate }}
-    </mat-dialog-content>
-    <mat-dialog-actions>
-      <div>
-        <button mat-button (click)="disAgree()">{{ 'NO' | translate}}</button>
-        <button mat-raised-button (click)="agree()" color="primary">{{ 'YES' | translate}}
-        </button>
-      </div>
-    </mat-dialog-actions>`,
+  selector: 'app-report-publication',
+  templateUrl: 'report-publication.component.html',
   styles: [`
     mat-dialog-content {
-      padding: 20px;
+      padding: 40px;
     }
   `]
 })
-export class DeleteConfirmationComponent {
+export class ReportPublicationComponent {
 
+  public description: string = '';
 
-  constructor(private _dialogRef: MatDialogRef<DeleteConfirmationComponent>) {
+  constructor(private _dialogRef: MatDialogRef<ReportPublicationComponent>) {
   }
 
-  disAgree() {
-    this._dialogRef.close(false);
+  submit(state) {
+    if (state) {
+      this._dialogRef.close(this.description);
+    }
   }
 
-  agree() {
-    this._dialogRef.close(true);
+  cancel() {
+    this._dialogRef.close(null);
   }
-
 
 }

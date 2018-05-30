@@ -8,7 +8,7 @@ import { TermsComponent } from './register/terms.component';
 import { PasswordRecoveryComponent, PasswordSentComponent } from './password-recovery/password-recovery.component';
 import { NotEqualValidator } from './register/not-equal.directive';
 import { LoginComponent } from './login/login.component';
-import { IsConnected, IsLoggedIn, IsNotVerified, NotForLoggedUsers } from './router-auth.service';
+import { IsConnected, IsLoggedIn, IsNotVerified, NotForLoggedUsers, IsAdmin } from './router-auth.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RoutingModule } from '../../routing.module';
@@ -47,6 +47,7 @@ import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
     IsNotVerified,
     IsLoggedIn,
     IsConnected,
+    IsAdmin,
     NotForLoggedUsers]
 })
 export class AuthModule {

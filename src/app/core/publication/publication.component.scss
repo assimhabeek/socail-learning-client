@@ -1,3 +1,9 @@
+.sl-publication{
+  margin: 10px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
 .sl-publication .publish-avatar {
   background-size: cover;
 }
@@ -12,19 +18,23 @@
   }
 }
 
+a{
+  text-decoration: none;
+}
+
 .sl-publication mat-card-actions{
   text-align: end;
 }
 
 .sl-publication mat-card-content {
-  margin-top: 20px;
+  max-height: 200px;
+  overflow: auto;
 }
 
 .sl-publication .attachment-button {
   margin: 5px auto;
 }
 .sl-publication mat-card-footer{
-  display: flex;
   padding: 16px;
 }
 .sl-publication .attachment-button a {
@@ -53,4 +63,7 @@ form {
     display: block;
   }
 
+}
+.pub-title{
+  margin-top:10px;
 }

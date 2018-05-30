@@ -74,27 +74,7 @@ export class RegisterComponent implements OnInit {
 
 @Component({
   selector: 'app-registration-token-validation',
-  template: `
-    <mat-card class="sl-message">
-      <mat-card-header>
-        <h1>{{'EMAIL_VALIDATION' | translate}}</h1>
-      </mat-card-header>
-      <mat-card-content>
-        <div [ngSwitch]="valid">
-          <p *ngSwitchCase="true">{{ 'CONGRATULATION' | translate}}</p>
-          <p *ngSwitchCase="false">{{ 'FAILED' | translate}}</p>
-
-        </div>
-
-      </mat-card-content>
-      <mat-card-actions>
-        <div class="center">
-          <a mat-button routerLink="/index">
-            <mat-icon>arrow_back</mat-icon>
-            {{'BACK_TO_INDEX' | translate}}</a>
-        </div>
-      </mat-card-actions>
-    </mat-card>`,
+  templateUrl: './registration-token-validation.component.html',
   animations: [slideInLeftAnimation]
 
 })
@@ -127,21 +107,7 @@ export class RegistrationTokenValidationComponent implements OnInit {
 
 @Component({
   selector: 'app-email-send',
-  template: `
-    <mat-card class="sl-message">
-      <mat-card-header>
-        <h1>{{'ONE_MORE_STEP' | translate}}</h1>
-      </mat-card-header>
-      <mat-card-content>
-        <p>{{'MESSAGE_SENT' | translate}}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <div class="center">
-          <button mat-raised-button color="primary" (click)="resendEmail()">{{'RESEND' | translate}}</button>
-        </div>
-      </mat-card-actions>
-    </mat-card>
-  `,
+  templateUrl: './email-send.component.html',
   animations: [slideInLeftAnimation]
 
 })

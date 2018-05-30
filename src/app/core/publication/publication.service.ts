@@ -34,7 +34,7 @@ export class PublicationService {
   }
 
   public getPublications(filter: any) {
-    return this._http.get(URLS.publications, {
+    return this._http.getWithAuth(URLS.publications, {
       params: formatDate(removeFalsy(filter))
     });
   }
@@ -42,6 +42,19 @@ export class PublicationService {
   public getPublication(id: number) {
     return this._http.get(URLS.publications, { params: { id: id } });
   }
+  public getPublicationExtanded(id: number) {
+    return this._http.get(URLS.publications, { params: { eid: id } });
+  }
+
+
+  public getPublicationsByUser(id: number) {
+    return this._http.get(URLS.publications, { params: { user: id } });
+  }
+
+  public getReportedPublications() {
+    return this._http.get(URLS.publications + '/reported');
+  }
+
 
   public getStreamedPublications() {
     return this._ws.connect(URLS.publications + '/stream');

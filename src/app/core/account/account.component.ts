@@ -1,9 +1,9 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {fadeAnimation} from '../../shared/animations';
-import {UsersService} from '../auth/users.service';
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {SpecialtiesService} from '../specialties.service';
-import {Specialty} from '../domain/spcialty';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { fadeAnimation } from '../../shared/animations';
+import { UsersService } from '../auth/users.service';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { SpecialtiesService } from '../specialties.service';
+import { Specialty } from '../domain/spcialty';
 
 
 @Component({
@@ -22,12 +22,13 @@ export class AccountComponent implements OnInit {
   src = './assets/img/sl-logo.png';
   public oldShowPassword: boolean;
   public newShowPassword: boolean;
+
   imageChangedEvent: any = '';
   croppedImage: any = '';
 
   constructor(private usersService: UsersService,
-              private specialtiesService: SpecialtiesService,
-              public snackBar: MatSnackBar) {
+    private specialtiesService: SpecialtiesService,
+    public snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -60,7 +61,9 @@ export class AccountComponent implements OnInit {
   }
 
   fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
+    if (event.target.files[0]) {
+      this.imageChangedEvent = event;
+    }
   }
 
   imageCropped(image: string) {

@@ -1,0 +1,39 @@
+<div *ngIf="user">
+  <mat-card>
+    <img class="mat-elevation-z6" [src]="user.profileImage ? user.profileImage : './assets/img/profile-default.png'">
+    <h1>{{ (user.lastName + ' ' + user.firstName) | uppercase}}</h1>
+    <mat-card-content>
+      <p class="display-2">{{ user.about }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <div>
+        <span>
+          <b>{{'YEAR' | translate}} :</b>
+        </span>
+        {{user.year}}
+      </div>
+      <div>
+        <span>
+          <b>{{'SPECIALTY' | translate}} : </b>
+        </span>
+        {{ getSpec() ? getSpec().name : '' }}
+      </div>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <h1> {{'PUBLICATIONS' | translate}}</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list class="publications-list">
+        <a mat-list-item *ngFor="let item of publications" [routerLink]="'/index/publicationPreview/'+item[0]">
+          <b>
+            {{ item[1] }}
+          </b>
+          <span class="space"></span>
+          <button mat-button color="accent">{{'GO' | translate }}</button>
+        </a>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

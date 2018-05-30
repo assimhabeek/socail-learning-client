@@ -23,7 +23,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('form') ngForm: NgForm;
 
   filter: any = {};
-  publicationSize = 1;
+  currentTab: number = 0;
+  publicationSize = 1.2;
   publications: any[] = [];
   categories: any[] = [];
   specialties: any[] = [];
@@ -42,17 +43,37 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.filter.page = 0;
-    this.loadPublications();
     this.listenToFormChange();
     this.loadCategories();
     this.loadSpecialties();
     this.loadModules();
     this.loadUser();
+    this.listenToStream();
   }
 
 
   ngOnDestroy() {
     this.publicationStream.unsubscribe();
+  }
+
+  listenToStream() {
+    this.publicationStream = this.publicationsService.getStreamedPublications().subscribe(r => {
+      if (isNaN(r.data)) {
+        const pub: Publication = JSON.parse(r.data);
+        this.notificationService.sendNotification(new Notification(pub.title, 'book', pub.user, false));
+        this.publications = this.publications.filter(ite => ite.id !== pub.id);
+        this.publications.unshift(pub);
+      } else {
+        this.publications = this.publications.filter(item => item.id !== +r.data);
+      }
+    });
+  }
+
+  tabChanged(e) {
+    this.currentTab = e.index;
+    this.filter[e.index == 1 ? 'fPage' : 'page'] = 0;
+    this.filter[e.index == 0 ? 'fPage' : 'page'] = undefined;
+    this.filterPublications();
   }
 
   listenToFormChange() {
@@ -63,9 +84,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       })
   }
 
+
   filterPublications() {
     this.publications = [];
-    this.filter.page = 0;
     this.loadPublications();
   }
 
@@ -74,22 +95,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.publicationEnd = res.length === 0;
         this.publications = this.publications.concat(res);
-        this.publicationStream = this.publicationsService.getStreamedPublications().subscribe(r => {
-          if (isNaN(r.data)) {
-            const pub: Publication = JSON.parse(r.data);
-            this.notificationService.sendNotification(new Notification(pub.title, 'book', pub.user, false))
-            this.publications = this.publications.filter(ite => ite.id !== pub.id);
-            this.publications.unshift(pub);
-          } else {
-            this.publications = this.publications.filter(item => item.id !== +r.data);
-          }
-        });
       });
   }
 
 
   loadMore() {
-    this.filter.page += 1;
+    this.filter[this.currentTab == 0 ? 'page' : 'fPage'] += 1;
     this.loadPublications();
   }
 
@@ -117,8 +128,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     return this.specialties.filter(ite => ite.from <= year && ite.to >= year);
   }
 
-  getModuleBySpe(sp) {
-    return this.modules.filter(ite => ite.spcailtyId === sp);
+  getModuleBySpeAndYear(sp, year) {
+    return this.modules.filter(ite => ite.spcailtyId === sp && ite.year == year);
   }
 
   loadCategories() {

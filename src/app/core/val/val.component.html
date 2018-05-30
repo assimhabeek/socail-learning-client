@@ -1,0 +1,65 @@
+<mat-card>
+  <mat-card-header>
+    <h1> {{'PUBLICATIONS' | translate}}</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            <b>{{'PUBLICATION' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'REPORTE_COUNT' | translate}}</b>
+          </th>
+          <th>
+            <b>/</b>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of publications">
+          <td>{{ item[1] }}</td>
+          <td>{{item[2]}}</td>
+          <td>
+            <a mat-button color="accent" [routerLink]="'/index/publicationPreview/'+item[0]"> {{'GO' | translate}} </a>
+            <button mat-button color="warn" (click)="deletePublication(item[0])"> {{'DELETE' | translate}} </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <h1> {{'USERS' | translate}}</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            <b>{{'USER' | translate}}</b>
+          </th>
+          <th>
+            <b>{{'REPORTE_COUNT' | translate}}</b>
+          </th>
+          <th>
+            <b>/</b>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of users">
+          <td>{{ (item[1] + ' '+ item[2]) | uppercase }}</td>
+          <td>{{item[3]}}</td>
+          <td>
+            <a mat-button color="accent" [routerLink]="'/index/profilePreview/'+item[0]"> {{'GO' | translate}} </a>
+            <button mat-button color="warn" (click)="deleteUser(item[0])"> {{'DELETE' | translate}} </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

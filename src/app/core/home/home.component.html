@@ -1,7 +1,7 @@
 <div class="top-section">
   <h1>{{'HOME' | translate}}</h1>
   <span class="space"></span>
-  <mat-slider [max]="3" [min]="0.50" [step]="0.2" thumb-label="true" [(ngModel)]="publicationSize">
+  <mat-slider [max]="1.80" [min]="0.20" [step]="0.2" thumb-label="true" [(ngModel)]="publicationSize">
   </mat-slider>
 </div>
 <div class="add-button">
@@ -10,83 +10,89 @@
     <mat-icon>add</mat-icon>
   </a>
 </div>
-<mat-accordion>
-  <mat-expansion-panel class="filter">
-    <mat-expansion-panel-header>
-
-      <mat-panel-title>
-        <mat-icon>filter_list</mat-icon>
-        {{'FILTER'}}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <form #form="ngForm" novalidate>
-
-      <mat-form-field>
-        <mat-placeholder>
-          {{'SEARCH' |translate}}
-        </mat-placeholder>
-        <input type="text" matInput [(ngModel)]="filter.filter" name="filter">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-placeholder>
-          {{'CATEGORY' |translate}}
-        </mat-placeholder>
-        <mat-select [(ngModel)]="filter.category" type="number" name="category">
-          <mat-option *ngFor="let cat of categories" [value]="cat.id">{{cat.title | translate}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>{{'AFTER_DATE' | translate}}</mat-placeholder>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="filter.date" name="date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>
-          <mat-icon>timer</mat-icon>
-          {{'YEAR' |translate}}
-        </mat-placeholder>
-        <mat-select [(ngModel)]="filter.year" type="number" name="year">
-          <mat-option [value]="1">{{'FIRST_YEAR' | translate}}</mat-option>
-          <mat-option [value]="1">{{'SECOND_YEAR' | translate}}</mat-option>
-          <mat-option [value]="3">{{'Third_YEAR' | translate}}</mat-option>
-          <mat-option [value]="4">{{'MASTER' | translate:{num:1} }}</mat-option>
-          <mat-option [value]="5">{{'MASTER' | translate:{num:2} }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-placeholder>
-          {{'SPECIALTY' |translate}}
-        </mat-placeholder>
-        <mat-select [disabled]="!filter.year" [(ngModel)]="filter.specialty" type="number" name="specialty">
-          <mat-option *ngFor="let sp of getSpeByYear(filter.year)" [value]="sp.id">{{sp.abb}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-placeholder>
-          {{'MODULE' |translate}}
-        </mat-placeholder>
-        <mat-select [disabled]="!filter.specialty" [(ngModel)]="filter.module" type="number" name="module">
-          <mat-option *ngFor="let md of getModuleBySpe(filter.specialty)" [value]="md.id">{{md.abb}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div>
-        <button mat-raised-button type="reset" color="warn">
-          <mat-icon>clear</mat-icon> {{'CLEAR' | translate}}</button>
-      </div>
-    </form>
-  </mat-expansion-panel>
-
-</mat-accordion>
 
 
-<div class="pub-container" fxLayout="row wrap">
-  <app-publication *ngFor="let pub of publications" [fxFlex.xs]="(publicationSize*90)+'%'" [fxFlex.sm]="(publicationSize*80)+'%'"
-    [fxFlex.md]="(publicationSize*45)+'%'" [fxFlex]="(publicationSize*45)+'%'" [currentUser]="currentUser" [publication]="pub"
-    [categories]="categories" [specialties]="specialties" [modules]="modules"></app-publication>
-</div>
+<mat-tab-group (selectedTabChange)="tabChanged($event)">
+  <mat-tab label="{{ 'TRENDING' | translate}}">
+    <mat-expansion-panel class="filter">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>filter_list</mat-icon>
+          {{'FILTER'}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form #form="ngForm" novalidate>
+        <mat-form-field>
+          <mat-placeholder>
+            {{'SEARCH' |translate}}
+          </mat-placeholder>
+          <input type="text" matInput [(ngModel)]="filter.filter" name="filter">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            {{'CATEGORY' |translate}}
+          </mat-placeholder>
+          <mat-select [(ngModel)]="filter.category" type="number" name="category">
+            <mat-option *ngFor="let cat of categories" [value]="cat.id">{{cat.title | translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>{{'AFTER_DATE' | translate}}</mat-placeholder>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="filter.date" name="date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>
+            <mat-icon>timer</mat-icon>
+            {{'YEAR' |translate}}
+          </mat-placeholder>
+          <mat-select [(ngModel)]="filter.year" type="number" name="year">
+            <mat-option [value]="1">{{'FIRST_YEAR' | translate}}</mat-option>
+            <mat-option [value]="1">{{'SECOND_YEAR' | translate}}</mat-option>
+            <mat-option [value]="3">{{'Third_YEAR' | translate}}</mat-option>
+            <mat-option [value]="4">{{'MASTER' | translate:{num:1} }}</mat-option>
+            <mat-option [value]="5">{{'MASTER' | translate:{num:2} }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-placeholder>
+            {{'SPECIALTY' |translate}}
+          </mat-placeholder>
+          <mat-select [disabled]="!filter.year" [(ngModel)]="filter.specialty" type="number" name="specialty">
+            <mat-option *ngFor="let sp of getSpeByYear(filter.year)" [value]="sp.id">{{sp.abb}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-placeholder>
+            {{'MODULE' |translate}}
+          </mat-placeholder>
+          <mat-select [disabled]="!filter.specialty" [(ngModel)]="filter.module" type="number" name="module">
+            <mat-option *ngFor="let md of getModuleBySpeAndYear(filter.specialty,filter.year)" [value]="md.id">{{md.abb}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button type="reset" color="warn">
+            <mat-icon>clear</mat-icon> {{'CLEAR' | translate}}</button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+    <div fxLayout="row wrap" fxLayoutAlign="center start" fxLayoutGap="20px">
+      <app-publication *ngFor="let pub of publications" [fxFlex.xs]="(publicationSize*90)+'%'" [fxFlex.sm]="(publicationSize*80)+'%'"
+        [fxFlex.md]="(publicationSize*48)+'%'" [fxFlex]="(publicationSize*45)+'%'" [currentUser]="currentUser" [publication]="pub"
+        [categories]="categories" [specialties]="specialties" [modules]="modules"></app-publication>
+    </div>
+  </mat-tab>
+  <mat-tab [disabled]="!currentUser" label="{{'FRIENDS'|translate}}">
+    <div fxLayout="row wrap" fxLayoutAlign="center start" fxLayoutGap="20px">
+      <app-publication *ngFor="let pub of publications" [fxFlex.xs]="(publicationSize*90)+'%'" [fxFlex.sm]="(publicationSize*80)+'%'"
+        [fxFlex.md]="(publicationSize*48)+'%'" [fxFlex]="(publicationSize*40)+'%'" [currentUser]="currentUser" [publication]="pub"
+        [categories]="categories" [specialties]="specialties" [modules]="modules"></app-publication>
+    </div>
+  </mat-tab>
+</mat-tab-group>
 <mat-toolbar *ngIf="!publicationEnd" class="bottom">
   <button mat-button color="accent" (click)="loadMore()">{{'MORE'| translate}}</button>
 </mat-toolbar>

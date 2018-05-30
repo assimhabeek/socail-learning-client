@@ -19,6 +19,10 @@ import {
   MatSlideToggleModule,
   MatDatepickerModule,
   MatNativeDateModule,
+  MatTabsModule,
+  MatTableModule,
+  MatPaginator,
+  MatPaginatorModule
 } from '@angular/material';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -45,7 +49,11 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
     MatSliderModule,
     MatSlideToggleModule,
     MatDatepickerModule,
-    MatNativeDateModule],
+    MatNativeDateModule,
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule
+  ],
   exports: [
     MatButtonModule,
     MatExpansionModule,
@@ -66,7 +74,10 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
     MatSliderModule,
     MatSlideToggleModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

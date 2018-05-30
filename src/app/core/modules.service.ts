@@ -19,4 +19,16 @@ export class ModulesService {
     return this.httpService.get(URLS.modules, { params: { specialtyId: spId } });
   }
 
+  add(data: Module) {
+    return this.httpService.postWithAuth(URLS.modules, data, { responseType: 'text' });
+  }
+
+  edit(data: Module) {
+    return this.httpService.putWithAuth(URLS.modules, data, { responseType: 'text' });
+  }
+
+  delete(id: number) {
+    return this.httpService.deleteWithAuth(URLS.modules, { responseType: 'text', params: { id: id } });
+  }
+
 }

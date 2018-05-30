@@ -1,6 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { User } from './domain/user';
+
 export class Notification {
+  id:number;
   message: string;
   icon: string;
   user: User;

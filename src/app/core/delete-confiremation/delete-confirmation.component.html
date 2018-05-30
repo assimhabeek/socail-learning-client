@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{ 'DELETE_CONFIRMATION' | translate }}</h1>
+<mat-dialog-content>
+    {{ data | translate }}
+</mat-dialog-content>
+<mat-dialog-actions>
+    <div>
+        <button mat-button (click)="disAgree()">{{ 'NO' | translate}}</button>
+        <button mat-raised-button (click)="agree()" color="primary">{{ 'YES' | translate}}
+        </button>
+    </div>
+</mat-dialog-actions>

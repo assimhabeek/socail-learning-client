@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Inject, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { fadeListItems, slideInLeftAnimation } from '../../shared/animations';
 import { UsersService } from '../auth/users.service';
@@ -7,19 +7,21 @@ import { Router } from '@angular/router';
 import { Category } from '../domain/category';
 import { CategoriesService } from '../categories.service';
 import { NotificationService, Notification } from '../notification.service';
-
+import { ChatService } from '../chat/chat.service';
 
 class MenuItem {
   description: string;
   icon: string;
   title: string;
   router: string;
+  forAdmin: boolean;
 
-  constructor(description: string, icon: string, title: string, router: string) {
+  constructor(description: string, icon: string, title: string, router: string, forAdmin) {
     this.description = description;
     this.icon = icon;
     this.title = title;
     this.router = router;
+    this.forAdmin = forAdmin;
   }
 
 }
@@ -49,7 +51,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     media: MediaMatcher,
     private router: Router,
     private usersService: UsersService,
-    private categoriesService: CategoriesService) {
+    private chatService: ChatService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -62,9 +64,15 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   showItems() {
     this.menuItems = [
-      new MenuItem('PUBLICATIONS_DESCRIPTION', 'book', 'PUBLICATIONS', '/index'),
-      new MenuItem('FAQ_DESCRIPTION', 'question_answer', 'FAQ', '/index/faq'),
-      new MenuItem('CHAT_DESCRIPTION', 'chat', 'CHAT', '/index/chat')
+      new MenuItem('PUBLICATIONS_DESCRIPTION', 'book', 'PUBLICATIONS', '/index', false),
+      new MenuItem('MEMO_DESCRIPTION', 'library_booksr', 'MEMO', '/index/memo', false),
+      new MenuItem('FAQ_DESCRIPTION', 'question_answer', 'FAQ', '/index/faq', false),
+      new MenuItem('CHAT_DESCRIPTION', 'chat', 'CHAT', '/index/chat', false),
+      new MenuItem('VALIATION_DESCRIPTION', 'report', 'VALIATION', '/index/val', true),
+      new MenuItem('CATEGORY_DESCRIPTION', 'report', 'CATEGORY', '/index/cat', true),
+      new MenuItem('SPECIALTY_DESCRIPTION', 'report', 'SPECIALTY', '/index/spe', true),
+      new MenuItem('MODULE_DESCRIPTION', 'report', 'MODULE', '/index/mod', true),
+
     ];
   }
 
@@ -95,36 +103,8 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
+
+
 }
 
 
-@Component({
-  selector: 'app-user-setting-menu',
-  template: `
-    <button mat-icon-button [matMenuTriggerFor]="settingMenu" tabindex="-1">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #settingMenu="matMenu" xPosition="before">
-      <a mat-menu-item routerLink="./accounts">
-        <mat-icon>account_circle</mat-icon>
-        <span>{{'MANAGE_ACCOUNT' | translate}} </span>
-      </a>
-      <mat-divider></mat-divider>
-      <button mat-menu-item (click)="logout()">
-        <mat-icon>power_settings_new</mat-icon>
-        <span>{{'LOGOUT' | translate}} </span>
-      </button>
-    </mat-menu>`
-})
-
-export class UserSettingMenuComponent {
-
-  constructor(private userService: UsersService,
-    private router: Router) {
-  }
-
-  logout() {
-    this.userService.logout();
-    this.router.navigate(['login']);
-  }
-}

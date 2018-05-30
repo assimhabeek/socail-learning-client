@@ -1,0 +1,61 @@
+<mat-card class="mat-elevation-z8">
+  <mat-toolbar>
+    <button mat-mini-fab color="primary" (click)="onAdd()" matTooltip="{{'ADD'| translate}}">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button [disabled]="!selected" (click)="onDelete()" mat-mini-fab color="warn" matTooltip="{{'DELETE'| translate}}">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div class="form">
+    <form *ngIf="selected" [@fadeAnimation]="selected" catForm="ngForm" (change)="selected.changed=true" (ngSubmit)="submit()">
+      <mat-form-field>
+        <mat-placeholder>{{'TILTE' | translate}}</mat-placeholder>
+        <input type="text" matInput required #title="ngModel" name="title" [(ngModel)]="selected.title">
+        <mat-error *ngIf="title.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{'DESCRIPTION' | translate}}</mat-placeholder>
+        <input type="text" matInput required #description="ngModel" name="description" [(ngModel)]="selected.description">
+        <mat-error *ngIf="description.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="accent">
+        {{'SAVE' | translate}}
+      </button>
+
+    </form>
+  </div>
+  <mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>/</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox *ngIf="row.id==0 || row.id>4" (click)="$event.stopPropagation()" (change)="onSelect($event,row)" [checked]="selected==row">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef> {{'TITLE' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.title | translate}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> {{'DESCRIPTION' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.description | translate}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="save">
+      <mat-header-cell *matHeaderCellDef> / </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" *ngIf="element.id==0 || element.id>4" (click)="update(element)" [disabled]="!element.changed">
+          <mat-icon>save</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row [class.no-saved]="row.changed || row.id==0" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+</mat-card>

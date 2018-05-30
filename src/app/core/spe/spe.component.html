@@ -1,0 +1,99 @@
+<mat-card class="mat-elevation-z8">
+  <mat-toolbar>
+
+    <mat-form-field>
+      <mat-placeholder>
+        {{'FILTER' | translate}}
+      </mat-placeholder>
+      <input type="text" matInput (keyup)="filter($event)">
+    </mat-form-field>
+
+    <button mat-mini-fab color="primary" (click)="onAdd()" matTooltip="{{'ADD'| translate}}">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button [disabled]="!selected" (click)="onDelete()" mat-mini-fab color="warn" matTooltip="{{'DELETE'| translate}}">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div class="form">
+    <form *ngIf="selected" [@fadeAnimation]="selected" speForm="ngForm" (change)="selected.changed=true" (ngSubmit)="submit()">
+      <mat-form-field>
+        <mat-placeholder>{{'ABB' | translate}}</mat-placeholder>
+        <input type="text" matInput required #abb="ngModel" name="abb" [(ngModel)]="selected.abb">
+        <mat-error *ngIf="abb.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{'NAME' | translate}}</mat-placeholder>
+        <input type="text" matInput required #name="ngModel" name="name" [(ngModel)]="selected.name">
+        <mat-error *ngIf="name.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{'FROM' | translate}}</mat-placeholder>
+        <input type="number" [customMin]="1" [customMax]="selected.to" matInput required #from="ngModel" name="from" [(ngModel)]="selected.from">
+        <mat-error *ngIf="from.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+        <mat-error *ngIf="from.hasError('customMin') || from.hasError('customMax')">
+          <strong>{{'MAX_MIN_ERROR'|translate:{from:1,to:selected.to} }}</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{'TO' | translate}}</mat-placeholder>
+        <input type="number" [customMin]="selected.from" [customMax]="5" matInput required #to="ngModel" name="to" [(ngModel)]="selected.to">
+        <mat-error *ngIf="to.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+        <mat-error *ngIf="to.hasError('customMin') || to.hasError('customMax')">
+          <strong>{{'MAX_MIN_ERROR'|translate:{from:selected.from,to:5} }}</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="accent">
+        {{'SAVE' | translate}}
+      </button>
+
+    </form>
+  </div>
+  <mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>/</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="onSelect($event,row)" [checked]="selected==row">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="abb">
+      <mat-header-cell *matHeaderCellDef> {{'ABB' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.abb | translate}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> {{'NAME' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name | translate}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="from">
+      <mat-header-cell *matHeaderCellDef> {{'FROM' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.from }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="to">
+      <mat-header-cell *matHeaderCellDef> {{'TO' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.to }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="save">
+      <mat-header-cell *matHeaderCellDef> / </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="update(element)" [disabled]="!element.changed">
+          <mat-icon>save</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row [class.no-saved]="row.changed || row.id==0" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+</mat-card>

@@ -12,34 +12,48 @@ export class IsConnected implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.usersService.user
-      .catch((error) => {
-        this.router.navigate(['noConnection']);
-        return of(false);
-      }).map((user) => true);
+    return this.usersService.user.catch((error) => {
+      this.router.navigate(['noConnection']);
+      return of(false);
+    }).map((user) => true);
   }
 }
 
 
 @Injectable()
 export class IsLoggedIn implements CanActivate {
+
   constructor(public usersService: UsersService,
     public router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.usersService.user
-      .catch((error) => {
-        this.router.navigate(['noConnection']);
-        return of(false);
-      }).map((user) => {
-        if (user == null) {
-          this.router.navigate(['login']);
-        }
-        return user != null;
-      });
+    return this.usersService.isLoggedIn().map(IsLoggedIn => {
+      if (!IsLoggedIn) {
+        this.router.navigate(['/login']);
+      }
+      return IsLoggedIn;
+    });
   }
 }
+
+@Injectable()
+export class IsAdmin implements CanActivate {
+
+  constructor(public usersService: UsersService,
+    public router: Router) {
+  }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    return this.usersService.isAdmin().map(isAdmin => {
+      if (!isAdmin) {
+        this.router.navigate(['/index']);
+      }
+      return isAdmin;
+    });
+  }
+}
+
 
 @Injectable()
 export class IsNotVerified implements CanActivate {

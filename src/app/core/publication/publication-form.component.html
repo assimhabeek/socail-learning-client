@@ -7,7 +7,7 @@
         <mat-divider></mat-divider>
       </div>
       <div fxLayout="row wrap">
-        <div fxFlex.xs="100%" fxFlex.sm="70%" fxFlex="60%">
+        <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex="100%">
           <mat-form-field>
             <mat-placeholder>
               {{'TITLE' |translate}}
@@ -18,13 +18,13 @@
               <strong>{{'REQUIRED'|translate}}</strong>
             </mat-error>
           </mat-form-field>
-          <mat-form-field>
-            <mat-placeholder>
-              {{'DESCRIPTION' |translate}}
-            </mat-placeholder>
-            <textarea matInput [(ngModel)]="publication.description" autocomplete="description" matTextareaAutosize matAutosizeMinRows="5"
-              matAutosizeMaxRows="5" #description="ngModel" name="description"></textarea>
-          </mat-form-field>
+
+          <app-ngx-editor [imageEndPoint]="imageEndPoint" placeholder="{{'CONTENT' | translate}}" minHeight="100px" name="description"
+            [(ngModel)]="publication.description">
+          </app-ngx-editor>
+
+        </div>
+        <div fxFlex.xs="100%" fxFlex.sm="70%" fxFlex="35%">
           <mat-form-field>
             <mat-placeholder>
               {{'CATEGORY' |translate}}
@@ -36,8 +36,6 @@
               <strong>{{'REQUIRED'|translate}}</strong>
             </mat-error>
           </mat-form-field>
-        </div>
-        <div fxFlex.xs="100%" fxFlex.sm="70%" fxFlex="35%">
           <mat-form-field>
             <mat-placeholder>
               {{'SPECIALTY' |translate}}
@@ -54,10 +52,14 @@
               <mat-option *ngFor="let md of modules" [value]="md.id">{{md.abb}}</mat-option>
             </mat-select>
           </mat-form-field>
+          <mat-checkbox [(ngModel)]="publication.commentable" name="commentable">
+            {{'DISABLE_COMMENT' |translate}}
+          </mat-checkbox>
         </div>
       </div>
+
       <div class="form-buttom" fxLayout="column" fxLayoutAlign=" center">
-        <div class="captcha">
+        <div *ngIf="this.useRecaptch" class="captcha">
           <re-captcha [(ngModel)]="publication.captcha" [class.ng-captcha-invalid]="publicationform.submitted && captcha.hasError('required')"
             #captcha="ngModel" name="captcha" required></re-captcha>
           <mat-error *ngIf="publicationform.submitted && captcha.hasError('required')">
@@ -65,6 +67,7 @@
           </mat-error>
         </div>
         <div>
+
           <button mat-raised-button type="submit" color="primary">
             {{'SUBMIT' | translate}}
           </button>

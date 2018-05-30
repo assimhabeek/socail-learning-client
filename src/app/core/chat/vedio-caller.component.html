@@ -1,0 +1,6 @@
+<app-chat-vedio-audio *ngIf="chatService.acceptedRequest" (endVedioCall)="endCall()" (myId)="sendMessage($event)" [currentUser]="currentUser"
+  [otherPeerId]="chatService.otherPeerId" [acceptedRequest]="chatService.acceptedRequest">
+</app-chat-vedio-audio>
+
+
+<button (click)="call()">call</button>

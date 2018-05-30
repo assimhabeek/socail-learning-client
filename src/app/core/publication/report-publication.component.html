@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>{{ 'REPORT_PUBLICATION' | translate }}</h1>
+<form #reportForm="ngForm" novalidate (ngSubmit)="submit(reportForm.valid)">
+  <mat-dialog-content>
+    {{ 'PLEASE_TELL_WHY' | translate }}
+    <mat-form-field>
+      <mat-placeholder>
+        {{'REASON' |translate}}
+      </mat-placeholder>
+      <textarea matInput [(ngModel)]="description" autocomplete="description" matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
+        required #descript="ngModel" name="description"></textarea>
+      <mat-error *ngIf="descript.hasError('required')">
+        <strong>{{'REQUIRED'|translate}}</strong>
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="cancel()">{{ 'CANCEL' | translate}}</button>
+    <button mat-raised-button type="submit" color="primary">
+      {{'SUBMIT' | translate}}</button>
+  </mat-dialog-actions>
+</form>

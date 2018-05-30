@@ -1,0 +1,7 @@
+<div class="container">
+    <button class="endCall" mat-icon-button (click)="endCall()" color="warn">
+        <mat-icon>call_end</mat-icon>
+    </button>
+    <video #localVedio class="local" playsinline autoplay muted></video>
+    <video #remoteVedio class="remote" playsinline autoplay></video>
+</div>

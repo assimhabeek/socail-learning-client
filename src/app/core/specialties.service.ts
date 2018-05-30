@@ -17,4 +17,17 @@ export class SpecialtiesService {
   getSpecialties(): Observable<Specialty[]> {
     return this.httpService.get(URLS.specialties).share();
   }
+
+  add(data: Specialty) {
+    return this.httpService.postWithAuth(URLS.specialties, data, { responseType: 'text' });
+  }
+
+  edit(data: Specialty) {
+    return this.httpService.putWithAuth(URLS.specialties, data, { responseType: 'text' });
+  }
+
+  delete(id: number) {
+    return this.httpService.deleteWithAuth(URLS.specialties, { responseType: 'text', params: { id: id } });
+  }
+
 }

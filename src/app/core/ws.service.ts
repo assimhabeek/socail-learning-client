@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class WsService {
 
-  private webSocket = 'ws://' + environment.socket;
+  private webSocket = 'wss://' + environment.socket;
 
   constructor() {
   }

@@ -8,7 +8,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { IndexComponent, UserSettingMenuComponent } from './core/index/index.component';
+import { IndexComponent } from './core/index/index.component';
+import { UserSettingMenuComponent } from './core/index/user-setting/user-setting.component';
 import { HttpService } from './core/http.service';
 import { UsersService } from './core/auth/users.service';
 import { TokenStorage } from './core/auth/token.storage';
@@ -25,8 +26,10 @@ import { SuccessMessageComponent } from './core/success-message/success-message.
 import { SpecialtiesService } from './core/specialties.service';
 import {
   AttachmentFormComponent,
-  PublicationComponent, DeleteConfirmationComponent,
-  PublicationFormComponent
+  PublicationComponent,
+  ReportPublicationComponent,
+  PublicationFormComponent,
+  PublicationPreviewComponent
 } from './core/publication/publication.component';
 import { Attachment } from './core/domain/attachments';
 import { PublicationService } from './core/publication/publication.service';
@@ -37,11 +40,27 @@ import { CategoriesService } from './core/categories.service';
 import { NotificationService } from './core/notification.service';
 import { NotificationComponent } from './core/notification/notification.component';
 import { FaqComponent } from './core/faq/faq.component';
-import { ChatComponent, ChatRequestedComponent } from './core/chat/chat.component';
+import { MemoComponent } from './core/memo/memo.component';
+import { ChatComponent } from './core/chat/chat.component';
 import { ChatService } from './core/chat/chat.service';
 import { RecaptchaModule, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import { OpinionService } from './core/opinion.service';
+import { NgxEditorModule } from 'ngx-editor';
+import { SafePipe } from './shared/safe.pipe';
+import { FriendService } from './core/friend.service';
+import { ChatVedioAudioComponent } from './core/chat/chat-vedio-audio/chat-vedio-audio.component';
+import { ProfileComponent } from './core/profile/profile.component';
+import { ValComponent } from './core/val/val.component';
+import { SpeComponent } from './core/spe/spe.component';
+import { ModComponent } from './core/mod/mod.component';
+import { CatComponent } from './core/cat/cat.component';
+import { DeleteConfirmationComponent } from './core/delete-confiremation/delete-confiremation.component';
+import { CustomMaxDirective } from './shared/custom-max-validator.directive';
+import { CustomMinDirective } from './shared/custom-min-validator.directive';
+import { ContactsComponent } from './core/chat/contacts.component';
+import { VedioCallerComponent } from './core/chat/vedio-caller.component';
+import { ChatRequestedComponent } from './core/chat/chat-requested.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -59,17 +78,32 @@ export function createTranslateLoader(http: HttpClient) {
     SuccessMessageComponent,
     TimeAgoPipe,
     PublicationFormComponent,
+    PublicationPreviewComponent,
     DeleteConfirmationComponent,
     AttachmentFormComponent,
     NotificationComponent,
     FaqComponent,
     ChatComponent,
-    ChatRequestedComponent
+    ReportPublicationComponent,
+    SafePipe,
+    ChatVedioAudioComponent,
+    MemoComponent,
+    ChatRequestedComponent,
+    ProfileComponent,
+    ValComponent,
+    SpeComponent,
+    ModComponent,
+    CatComponent,
+    CustomMaxDirective,
+    CustomMinDirective,
+    ContactsComponent,
+    VedioCallerComponent
   ],
   entryComponents: [
     SuccessMessageComponent,
     DeleteConfirmationComponent,
-    ChatRequestedComponent
+    ChatRequestedComponent,
+    ReportPublicationComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +118,7 @@ export function createTranslateLoader(http: HttpClient) {
     LanguageSelectorModule,
     FlexLayoutModule,
     AuthModule,
+    NgxEditorModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -99,6 +134,7 @@ export function createTranslateLoader(http: HttpClient) {
     TokenStorage,
     UsersService,
     WsService,
+    FriendService,
     SpecialtiesService,
     ModulesService,
     CategoriesService,

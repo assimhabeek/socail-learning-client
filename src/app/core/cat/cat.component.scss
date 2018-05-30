@@ -1,0 +1,24 @@
+mat-card{
+    height: 100%;
+}
+
+mat-toolbar{
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+button{
+    margin: auto 5px;
+}
+.mat-column-select {
+  overflow: visible;
+}
+.mat-column-select,
+.mat-column-icon {
+  flex: 0 0 80px;
+}
+
+.form{
+    text-align: center;
+    min-height: 60px;
+}

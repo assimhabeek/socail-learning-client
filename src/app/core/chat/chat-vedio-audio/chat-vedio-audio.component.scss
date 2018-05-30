@@ -1,0 +1,23 @@
+.container{
+    position: relative;
+}
+.local{
+    background: #555;
+    bottom: 8px;
+    left: 0;
+    position: absolute;
+    height: 100px;
+    width: 100px;
+}
+.remote{
+    margin: 0 !important;
+    background: #333;
+    height: auto;
+    width: 100%;
+}
+.endCall{
+    z-index: 10;
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+}

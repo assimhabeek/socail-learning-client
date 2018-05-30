@@ -11,5 +11,6 @@ export const URLS = {
   modules: '/modules',
   publications: '/publications',
   chat: '/chat',
-  opinion: '/opinions'
+  opinion: '/opinions',
+  friend: '/friends'
 };

@@ -22,6 +22,23 @@ export class UsersService {
     return this._http.post(URLS.login, user, options);
   }
 
+
+  isLoggedIn() {
+    return this.tokenStorage.getStoredToken() == null
+      ? this._http.get(URLS.users).share()
+      : this._http.getWithAuth(URLS.users).map((user) =>
+        user != null,
+        (e) => { console.log(e) });
+  }
+
+  isAdmin() {
+    return this.tokenStorage.getStoredToken() == null
+      ? this._http.get(URLS.users).share()
+      : this._http.getWithAuth(URLS.users).map((user) =>
+        user ? user.isAdmin : false,
+        (e) => { console.log(e) });
+  }
+
   logout() {
     this.tokenStorage.removeToken();
     this.updateUserState();
@@ -81,4 +98,18 @@ export class UsersService {
   public getUsers() {
     return this._http.get(URLS.users + '/all');
   }
+
+  public getUserById(id: number) {
+    return this._http.get(URLS.users, { params: { id: id } });
+  }
+
+  public getReportedUsers() {
+    return this._http.get(URLS.users + '/reported');
+  }
+
+
+  public deleteAccount(id: number) {
+    return this._http.deleteWithAuth(URLS.users, { params: { id: id }, responseType: 'text' });
+  }
+
 }

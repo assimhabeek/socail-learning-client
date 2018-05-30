@@ -1,0 +1,115 @@
+<mat-card class="mat-elevation-z8">
+  <mat-toolbar>
+    <button mat-mini-fab color="primary" (click)="onAdd()" matTooltip="{{'ADD'| translate}}">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button [disabled]="!selected" (click)="onDelete()" mat-mini-fab color="warn" matTooltip="{{'DELETE'| translate}}">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div class="form">
+    <form *ngIf="selected" [@fadeAnimation]="selected" speForm="ngForm" (change)="selected.changed=true" (ngSubmit)="submit()">
+      <mat-form-field>
+        <mat-placeholder>{{'ABB' | translate}}</mat-placeholder>
+        <input type="text" matInput required #abb="ngModel" name="abb" [(ngModel)]="selected.abb">
+        <mat-error *ngIf="abb.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>{{'NAME' | translate}}</mat-placeholder>
+        <input type="text" matInput required #name="ngModel" name="name" [(ngModel)]="selected.name">
+        <mat-error *ngIf="name.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>
+          <mat-icon>timer</mat-icon>
+          {{'YEAR' |translate}}
+        </mat-placeholder>
+        <mat-select [required]="true" [(ngModel)]="selected.year" #year="ngModel" type="number" name="year">
+          <mat-option [value]="1">{{'FIRST_YEAR' | translate}}</mat-option>
+          <mat-option [value]="1">{{'SECOND_YEAR' | translate}}</mat-option>
+          <mat-option [value]="3">{{'Third_YEAR' | translate}}</mat-option>
+          <mat-option [value]="4">{{'MASTER' | translate:{num:1} }}</mat-option>
+          <mat-option [value]="5">{{'MASTER' | translate:{num:2} }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="year.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-placeholder>
+          {{'SPECIALTY' |translate}}
+        </mat-placeholder>
+        <mat-select [required]="true" [(ngModel)]="selected.spcailtyId" #specialty="ngModel" type="number" name="spcailtyId">
+          <mat-option *ngFor="let sp of getSpecialtiesByYear()" [value]="sp.id">{{sp.abb}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="specialty.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-placeholder>{{'SEMMSTER' | translate}}</mat-placeholder>
+        <input type="number" [customMin]="1" [customMax]="2" matInput required #semmster="ngModel" name="semmster" [(ngModel)]="selected.semmster">
+        <mat-error *ngIf="semmster.hasError('required')">
+          <strong>{{'REQUIRED'|translate}}</strong>
+        </mat-error>
+        <mat-error *ngIf="semmster.hasError('customMin') || semmster.hasError('customMax')">
+          <strong>{{'MAX_MIN_ERROR'|translate:{year:1,to:2} }}</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="accent">
+        {{'SAVE' | translate}}
+      </button>
+
+    </form>
+  </div>
+  <mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>/</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="onSelect($event,row)" [checked]="selected==row">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="abb">
+      <mat-header-cell *matHeaderCellDef> {{'ABB' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.abb | translate}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> {{'NAME' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name | translate}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="year">
+      <mat-header-cell *matHeaderCellDef> {{'year' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.year }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="semmster">
+      <mat-header-cell *matHeaderCellDef> {{'SEMMSTER' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.semmster }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="spcailtyId">
+      <mat-header-cell *matHeaderCellDef> {{'SPECIALTY' | translate}} </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{getSpeById(element.spcailtyId).abb}} </mat-cell>
+    </ng-container>
+
+
+
+    <ng-container matColumnDef="save">
+      <mat-header-cell *matHeaderCellDef> / </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="update(element)" [disabled]="!element.changed">
+          <mat-icon>save</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row [class.no-saved]="row.changed || row.id==0" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+</mat-card>

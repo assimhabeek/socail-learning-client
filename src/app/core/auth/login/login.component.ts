@@ -1,10 +1,10 @@
-import {Component, HostBinding, Inject, OnInit} from '@angular/core';
-import {User} from '../../domain/user';
-import {debounce, slideInLeftAnimation} from '../../../shared/animations';
-import {UsersService} from '../users.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {TokenStorage} from '../token.storage';
-import {Router} from '@angular/router';
+import { Component, HostBinding, Inject, OnInit } from '@angular/core';
+import { User } from '../../domain/user';
+import { debounce, slideInLeftAnimation } from '../../../shared/animations';
+import { UsersService } from '../users.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { TokenStorage } from '../token.storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   public errorMessage: string;
 
   constructor(private usersService: UsersService,
-              private router: Router) {
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
           this.usersService.storeToken(token, this.user.remmberMe);
           this.router.navigate(['/index']);
         }, (error: HttpErrorResponse) => {
-          this.errorMessage = error.status === 401 ? 'WRONG_USERNAME_PASSWORD' : 'NO_CONNECTION';
+          this.errorMessage = error.status === 401 ? 'WRONG_USERNAME_PASSWORD' : error.message;
         });
     }
   }

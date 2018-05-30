@@ -5,5 +5,5 @@
 
 export const environment = {
   production: true,
-  socket: 'localhost:8080'
+  socket: '192.168.173.1:8080'
 };

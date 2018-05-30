@@ -1,0 +1,14 @@
+<button mat-icon-button [matMenuTriggerFor]="settingMenu" tabindex="-1">
+  <img class="logo" [src]=" user.profileImage ? user.profileImage : './assets/img/profile-default.png'" alt="logo">
+</button>
+<mat-menu #settingMenu="matMenu" xPosition="before">
+  <a mat-menu-item routerLink="./accounts">
+    <mat-icon>account_circle</mat-icon>
+    <span>{{'MANAGE_ACCOUNT' | translate}} </span>
+  </a>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>power_settings_new</mat-icon>
+    <span>{{'LOGOUT' | translate}} </span>
+  </button>
+</mat-menu>

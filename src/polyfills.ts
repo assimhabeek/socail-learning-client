@@ -59,6 +59,10 @@ import 'web-animations-js';  // Run `npm install --save web-animations-js`.
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
+// rtc peer connection patch
+import 'zone.js/dist/webapis-rtc-peer-connection';
+// getUserMedia patch
+import 'zone.js/dist/zone-patch-user-media';
 
 
 /***************************************************************************************************

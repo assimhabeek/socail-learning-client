@@ -1,3 +1,7 @@
+$cubeSize: 3em;
+$light: #ECECEC;
+$dark: #34495e;
+
 html, body {
   margin: 0 !important;
   padding: 0 !important;
@@ -6,6 +10,7 @@ html, body {
   ms-overflow-x: hidden;
   font-family: "Roboto", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
+
 
 h1, h2 {
   font-weight: 300 !important;
