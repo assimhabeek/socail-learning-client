@@ -6,7 +6,6 @@ import { Specialty } from '../domain/spcialty';
 import { Category } from '../domain/category';
 import { Module } from '../domain/module';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
-import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoriesService } from '../categories.service';
 import { UsersService } from '../auth/users.service';
@@ -18,6 +17,7 @@ import { OpinionService } from '../opinion.service';
 import { Opinion } from '../domain/opinion';
 import { environment } from '../../../environments/environment';
 import { DeleteConfirmationComponent } from '../delete-confiremation/delete-confiremation.component';
+import * as moment from 'moment';
 
 const OpinionType = {
   LIKE: 1,
@@ -37,6 +37,7 @@ export class PublicationComponent implements OnInit {
   @Input() categories: Category[];
   @Input() specialties: Specialty[];
   @Input() modules: Module[];
+  @Input() compcat: boolean;
 
   private attachmentsAreFetched = false;
   private commentsAreFetched = false;
@@ -107,8 +108,11 @@ export class PublicationComponent implements OnInit {
     }
   }
 
-  markAsBest() {
-
+  markAsBest(commentId: number) {
+    this.publicationService.markAsBest(this.publication.id, commentId)
+      .subscribe(res => {
+        console.log(this.publication.comments);
+      });
   }
 
   resetComment() {
@@ -218,6 +222,7 @@ export class PublicationFormComponent implements OnInit {
   specialties: Specialty[];
   modules: Module[];
   user: User;
+  htmlEditor = false;
   imageEndPoint = "https://" + environment.socket + "/upload";
   useRecaptch = window.location.protocol.indexOf('https') > -1;
   constructor(private publicationService: PublicationService,

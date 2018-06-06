@@ -1,0 +1,31 @@
+<button mat-icon-button [matMenuTriggerFor]="messagesMenu" matTooltip="{{'READ_ALL'| translate}}" tabindex="-1">
+  <mat-icon>message</mat-icon>
+  <div class="messages-count" *ngIf="unReadMessageCount()!=0">{{unReadMessageCount()}}</div>
+</button>
+
+
+
+<mat-menu class="messagesMenu" #messagesMenu="matMenu" xPosition="before">
+  <div class="header" (click)="$event.stopPropagation()">
+    <mat-slide-toggle (change)="toggleAll($event)">
+      {{'READ_ALL' | translate}}
+    </mat-slide-toggle>
+  </div>
+  <mat-divider></mat-divider>
+
+  <mat-nav-list dense>
+    <mat-list-item *ngFor="let item of messages" [routerLink]="['/index/chatRoom']" [queryParams]="{ room: item.chatMessage.roomId }"
+      (click)="$event.stopPropagation()">
+      <img matListAvatar [src]="item.user.profileImage ? item.user.profileImage : './assets/img/profile-default.png'" />
+      <h6 mat-line>
+        <b>{{ item.user.lastName + ' ' + item.user.firstName | uppercase}}</b>
+      </h6>
+      <h5 mat-line>{{item.chatMessage.message}}</h5>
+      <span class="space"></span>
+      <mat-slide-toggle name="read" [(ngModel)]="item.isRead">
+        {{'READ' | translate}}
+      </mat-slide-toggle>
+    </mat-list-item>
+  </mat-nav-list>
+
+</mat-menu>

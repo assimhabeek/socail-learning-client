@@ -1,0 +1,14 @@
+.container{
+    width: 100%;
+    height: calc(100vh - 64px);
+    display: block;
+    position: relative;
+}
+button{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    position: absolute;
+    z-index: 10;
+}
+

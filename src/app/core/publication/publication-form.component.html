@@ -18,11 +18,15 @@
               <strong>{{'REQUIRED'|translate}}</strong>
             </mat-error>
           </mat-form-field>
-
-          <app-ngx-editor [imageEndPoint]="imageEndPoint" placeholder="{{'CONTENT' | translate}}" minHeight="100px" name="description"
-            [(ngModel)]="publication.description">
-          </app-ngx-editor>
-
+          <mat-slide-toggle [(ngModel)]="htmlEditor" name="htmlEditor">{{'EDIT_CODE'| translate}}</mat-slide-toggle>
+          <span [ngSwitch]="htmlEditor">
+            <app-ngx-editor *ngSwitchCase="false" [imageEndPoint]="imageEndPoint" placeholder="{{'CONTENT' | translate}}" minHeight="100px"
+              name="description" [(ngModel)]="publication.description">
+            </app-ngx-editor>
+            <mat-form-field *ngSwitchCase="true">
+              <textarea matInput matAutosizeMinRows="5" [(ngModel)]="publication.description" name="description"></textarea>
+            </mat-form-field>
+          </span>
         </div>
         <div fxFlex.xs="100%" fxFlex.sm="70%" fxFlex="35%">
           <mat-form-field>
@@ -44,7 +48,7 @@
               <mat-option *ngFor="let sp of specialties" [value]="sp.id">{{sp.abb}}</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field *ngIf="publication.categoryId != 2 && publication.categoryId != 4">
+          <mat-form-field *ngIf="publication.categoryId != 3 && publication.categoryId != 4">
             <mat-placeholder>
               {{'MODULE' |translate}}
             </mat-placeholder>
@@ -59,13 +63,13 @@
       </div>
 
       <div class="form-buttom" fxLayout="column" fxLayoutAlign=" center">
-        <div *ngIf="this.useRecaptch" class="captcha">
+        <!--div *ngIf="this.useRecaptch" class="captcha">
           <re-captcha [(ngModel)]="publication.captcha" [class.ng-captcha-invalid]="publicationform.submitted && captcha.hasError('required')"
             #captcha="ngModel" name="captcha" required></re-captcha>
           <mat-error *ngIf="publicationform.submitted && captcha.hasError('required')">
             <strong>{{'REQUIRED'|translate}}</strong>
           </mat-error>
-        </div>
+        </div -->
         <div>
 
           <button mat-raised-button type="submit" color="primary">

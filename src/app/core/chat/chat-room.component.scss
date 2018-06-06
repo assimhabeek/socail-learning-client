@@ -1,0 +1,64 @@
+.container{
+    height: calc(100vh - 64px);
+    width: 100%;
+    overflow: hidden;
+}
+
+.messagePool{ 
+    padding: 20px;
+    overflow: auto;
+}
+
+mat-card{
+    padding: 0!important;
+}
+form{
+    padding:0;
+    margin: auto;
+    width: 100%;
+}
+
+.chat-buble{
+    margin: 5px;
+    width: 100%;
+    mat-chip{
+        max-width: 200px;
+        white-space: normal !important;
+    }
+    span{
+        display: block;
+        font-size: 90%;
+    }
+    &.right{
+        text-align: right;
+    }
+}
+
+.sender-display{
+    img{
+        margin-left: 4px;
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+    }
+}
+
+
+mat-toolbar{
+mat-chip img{
+    height: 30px;
+    width: 30px;
+    margin: 0 5px;
+    border-radius: 50%;
+}
+mat-chip a{
+    text-decoration: none;
+}
+
+mat-list-item{
+    padding-top: 20px !important;
+
+    height: auto !important;
+}
+
+}

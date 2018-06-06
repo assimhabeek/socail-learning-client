@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Inject, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { fadeListItems, slideInLeftAnimation } from '../../shared/animations';
+import { fadeListItems, routerAnimation, slideSideNav } from '../../shared/animations';
 import { UsersService } from '../auth/users.service';
 import { User } from '../domain/user';
 import { Router } from '@angular/router';
@@ -8,20 +8,19 @@ import { Category } from '../domain/category';
 import { CategoriesService } from '../categories.service';
 import { NotificationService, Notification } from '../notification.service';
 import { ChatService } from '../chat/chat.service';
+import { PublicationPreviewComponent } from '../publication/publication.component';
+import { PublicationService } from '../publication/publication.service';
 
 class MenuItem {
   description: string;
   icon: string;
   title: string;
   router: string;
-  forAdmin: boolean;
-
-  constructor(description: string, icon: string, title: string, router: string, forAdmin) {
+  constructor(description: string, icon: string, title: string, router: string) {
     this.description = description;
     this.icon = icon;
     this.title = title;
     this.router = router;
-    this.forAdmin = forAdmin;
   }
 
 }
@@ -31,7 +30,7 @@ class MenuItem {
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
-  animations: [slideInLeftAnimation, fadeListItems]
+  animations: [routerAnimation, fadeListItems, slideSideNav]
 })
 
 export class IndexComponent implements OnInit, OnDestroy {
@@ -41,7 +40,19 @@ export class IndexComponent implements OnInit, OnDestroy {
   user: any = {};
   showConfirmBar = true;
   mobileQuery: MediaQueryList;
+  fullItems: MenuItem[] = [
+    new MenuItem('PUBLICATIONS_DESCRIPTION', 'book', 'PUBLICATIONS', '/index'),
+    new MenuItem('MEMO_DESCRIPTION', 'library_booksr', 'MEMO', '/index/memo'),
+    new MenuItem('FAQ_DESCRIPTION', 'question_answer', 'FAQ', '/index/faq'),
+    new MenuItem('CHAT_DESCRIPTION', 'chat', 'CHAT', '/index/chat'),
+    new MenuItem('VALIATION_DESCRIPTION', 'report', 'VALIATION', '/index/val'),
+    new MenuItem('CATEGORY_DESCRIPTION', 'view_array', 'CATEGORY', '/index/cat'),
+    new MenuItem('SPECIALTY_DESCRIPTION', 'view_week', 'SPECIALTY', '/index/spe'),
+    new MenuItem('MODULE_DESCRIPTION', 'view_module', 'MODULE', '/index/mod')
+  ]
   menuItems: MenuItem[] = [];
+  adminItems: MenuItem[] = [];
+
   items = [];
 
 
@@ -51,7 +62,8 @@ export class IndexComponent implements OnInit, OnDestroy {
     media: MediaMatcher,
     private router: Router,
     private usersService: UsersService,
-    private chatService: ChatService) {
+    private chatService: ChatService,
+    private publicationService: PublicationService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -59,21 +71,14 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadUser();
+    this.chatService.conncetToChat();
+    this.publicationService.listenToStream();
   }
 
 
   showItems() {
-    this.menuItems = [
-      new MenuItem('PUBLICATIONS_DESCRIPTION', 'book', 'PUBLICATIONS', '/index', false),
-      new MenuItem('MEMO_DESCRIPTION', 'library_booksr', 'MEMO', '/index/memo', false),
-      new MenuItem('FAQ_DESCRIPTION', 'question_answer', 'FAQ', '/index/faq', false),
-      new MenuItem('CHAT_DESCRIPTION', 'chat', 'CHAT', '/index/chat', false),
-      new MenuItem('VALIATION_DESCRIPTION', 'report', 'VALIATION', '/index/val', true),
-      new MenuItem('CATEGORY_DESCRIPTION', 'report', 'CATEGORY', '/index/cat', true),
-      new MenuItem('SPECIALTY_DESCRIPTION', 'report', 'SPECIALTY', '/index/spe', true),
-      new MenuItem('MODULE_DESCRIPTION', 'report', 'MODULE', '/index/mod', true),
-
-    ];
+    this.menuItems = this.fullItems.slice(0, 4);
+    this.adminItems = this.fullItems.slice(4, 8);
   }
 
   loadUser() {
@@ -84,9 +89,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
 
-
   hideItems() {
     this.menuItems = [];
+    this.adminItems = [];
   }
 
   toggleMenu() {

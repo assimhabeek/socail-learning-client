@@ -24,6 +24,8 @@ import { ModComponent } from './core/mod/mod.component';
 import { SpeComponent } from './core/spe/spe.component';
 import { ContactsComponent } from './core/chat/contacts.component';
 import { VedioCallerComponent } from './core/chat/vedio-caller.component';
+import { ChatRoomComponent } from './core/chat/chat-room.componen';
+import { ConversationComponent } from './core/chat/conversation.component';
 
 const authRoutes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [NotForLoggedUsers] },
@@ -45,10 +47,12 @@ export const appRoutes: Routes = [
         path: 'chat', component: ChatComponent, canActivate: [IsLoggedIn],
         children: [
           { path: 'contacts', component: ContactsComponent },
-          { path: '', redirectTo: '/index/chat', pathMatch: 'full' },
-          { path: '**', redirectTo: '/index/chat', pathMatch: 'full' }]
+          { path: 'conversations', component: ConversationComponent },
+          { path: '', component: ContactsComponent, pathMatch: 'full' },
+          { path: '**', redirectTo: '', pathMatch: 'full' }]
       },
       { path: 'vedioCall', component: VedioCallerComponent },
+      { path: 'chatRoom', component: ChatRoomComponent },
       { path: 'publicationForm/:id', component: PublicationFormComponent, canActivate: [IsLoggedIn] },
       { path: 'publicationPreview/:id', component: PublicationPreviewComponent },
       { path: 'profilePreview/:id', component: ProfileComponent },

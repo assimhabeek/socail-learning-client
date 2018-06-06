@@ -12,5 +12,10 @@ export const URLS = {
   publications: '/publications',
   chat: '/chat',
   opinion: '/opinions',
-  friend: '/friends'
+  friend: '/friends',
+  room: '/room',
+  messages: '/messages',
+  roomUsers: '/roomUsers',
+  isRegistred: '/isRegistred',
+  markBest: '/markBest'
 };

@@ -1,44 +1,62 @@
-<mat-nav-list dense>
-    <mat-list-item *ngFor="let user of getPeople()">
-        <img matListAvatar [src]="user.profileImage ? user.profileImage : './assets/img/profile-default.png'" />
-        <h6 mat-line>
-            <a [routerLink]="'/index/profilePreview/' + user.id">
-                <b>{{ user.lastName + ' ' + user.firstName | uppercase}}</b>
-            </a>
-        </h6>
-        <a *ngIf="!isBlocked(user.id)" mat-icon-button color="accent" [routerLink]="['/index/vedioCall']" [queryParams]="{ id: user.id }"
-            matTooltip="{{'SEND_CHAT_REQUEST' | translate}}">
-            <mat-icon>videocam</mat-icon>
-        </a>
-        <button *ngIf="!isBlocked(user.id)" mat-icon-button color="primary" matTooltip="{{'SEND_MESSAGE' | translate}}">
-            <mat-icon>chat</mat-icon>
-        </button>
+<mat-card>
+    <mat-card-header>
+        <form #form="ngForm">
+            <mat-form-field>
+                <mat-placeholder>{{'FILTER'|translate}}</mat-placeholder>
+                <input type="text" matInput [(ngModel)]="filter" name="filter">
+            </mat-form-field>
+        </form>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-nav-list dense>
+            <mat-list-item *ngFor="let user of getPeople()">
+                <img matListAvatar [src]="user.profileImage ? user.profileImage : './assets/img/profile-default.png'" />
+                <h6 mat-line>
+                    <a [routerLink]="'/index/profilePreview/' + user.id">
+                        <b>{{ user.lastName + ' ' + user.firstName | uppercase}}</b>
+                    </a>
+                </h6>
+                <a *ngIf="!isBlocked(user.id)" mat-icon-button color="accent" [routerLink]="['/index/vedioCall']" [queryParams]="{ id: user.id }"
+                    matTooltip="{{'SEND_CHAT_REQUEST' | translate}}">
+                    <mat-icon>videocam</mat-icon>
+                </a>
+                <a *ngIf="!isBlocked(user.id)" mat-icon-button color="primary" [routerLink]="['/index/chatRoom']" [queryParams]="{ firstPerson: user.id }"
+                    matTooltip="{{'SEND_MESSAGE' | translate}}">
+                    <mat-icon>chat</mat-icon>
+                </a>
 
-        <button *ngIf="!isFriend(user.id) && !isBlocked(user.id) && !isRequestReceived(user.id) && !isRequestSent(user.id)" mat-icon-button
-            color="accent" (click)="sendRequest(user.id)" matTooltip="{{'SEND_FRIEND_REQUEST' | translate}}">
-            <mat-icon>add</mat-icon>
-        </button>
+                <button *ngIf="!isFriend(user.id) && !isBlocked(user.id) && !isRequestReceived(user.id) && !isRequestSent(user.id)" mat-icon-button
+                    color="accent" (click)="sendRequest(user.id)" matTooltip="{{'SEND_FRIEND_REQUEST' | translate}}">
+                    <mat-icon>add</mat-icon>
+                </button>
 
-        <button *ngIf="isRequestReceived(user.id)" mat-icon-button color="accent" (click)="accept(user.id)" matTooltip="{{'ACCEPT_FRIEND' | translate}}">
-            <mat-icon>check</mat-icon>
-        </button>
+                <button *ngIf="isRequestReceived(user.id)" mat-icon-button color="accent" (click)="accept(user.id)" matTooltip="{{'ACCEPT_FRIEND' | translate}}">
+                    <mat-icon>check</mat-icon>
+                </button>
 
-        <mat-chip-list>
-            <mat-chip *ngIf="isRequestSent(user.id)" color="primary" selected="true">{{'WAITING' | translate}}</mat-chip>
-            <mat-chip *ngIf="isFriend(user.id)" color="primary" selected="true">{{'FRIEND' | translate}}</mat-chip>
-            <mat-chip *ngIf="isRequestReceived(user.id)" color="primary" selected="true">{{'RECEIVED' | translate}}</mat-chip>
-            <mat-chip *ngIf="isBlocked(user.id)" color="warn" selected="true">{{'BLOCKED' | translate}}</mat-chip>
-        </mat-chip-list>
+                <mat-chip-list>
+                    <mat-chip *ngIf="isRequestSent(user.id)" color="primary" selected="true">{{'WAITING' | translate}}</mat-chip>
+                    <mat-chip *ngIf="isFriend(user.id)" color="primary" selected="true">{{'FRIEND' | translate}}</mat-chip>
+                    <mat-chip *ngIf="isRequestReceived(user.id)" color="primary" selected="true">{{'RECEIVED' | translate}}</mat-chip>
+                    <mat-chip *ngIf="isBlocked(user.id)" color="warn" selected="true">{{'BLOCKED' | translate}}</mat-chip>
+                </mat-chip-list>
 
-        <button *ngIf="(isFriend(user.id)  || isRequestReceived(user.id) || isRequestSent(user.id)) && !isBlocked(user.id)" mat-icon-button
-            color="warn" (click)="cancel(user.id)" matTooltip="{{'DELETE_FRIEND' | translate}}">
-            <mat-icon>delete</mat-icon>
-        </button>
+                <button *ngIf="(isFriend(user.id)  || isRequestReceived(user.id) || isRequestSent(user.id)) && !isBlocked(user.id)" mat-icon-button
+                    color="warn" (click)="cancel(user.id)" matTooltip="{{'DELETE_FRIEND' | translate}}">
+                    <mat-icon>delete</mat-icon>
+                </button>
 
-        <button *ngIf="isFriend(user.id) || isRequestReceived(user.id)" mat-icon-button color="warn" (click)="block(user.id)" matTooltip="{{'BLOCK' | translate}}">
-            <mat-icon>block</mat-icon>
-        </button>
+                <button *ngIf="isFriend(user.id) || isRequestReceived(user.id)" mat-icon-button color="warn" (click)="block(user.id)" matTooltip="{{'BLOCK' | translate}}">
+                    <mat-icon>block</mat-icon>
+                </button>
 
-        <mat-divider></mat-divider>
-    </mat-list-item>
-</mat-nav-list>
+                <mat-divider></mat-divider>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-card-content>
+    <mat-card-actions>
+        <mat-paginator [pageIndex]="pageIndex" [pageSize]="10" (page)="pageChanged($event)" [length]="total-1">
+
+        </mat-paginator>
+    </mat-card-actions>
+</mat-card>

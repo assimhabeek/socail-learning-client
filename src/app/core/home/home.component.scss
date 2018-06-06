@@ -1,30 +1,43 @@
-.top-section {
-  display: flex;
-  margin: 80px auto 20px auto !important;
-  width: 90%;
-}
-
-.space {
-  flex: 1 1 auto;
-}
-
-.bottom {
-  bottom: 0;
-  height: 36px;
-  button {
-    margin: auto;
-  }
-  text-align: center;
+.sl-home .sl-banner{
+    width: 100%;
 }
 
 
-.pub-container {
-  margin: 0  36px 36px 36px;
+.sl-home .sl-publication-pool{
+    margin: 10px 48px;
 }
 
-.add-button {
+.sl-home .preview-tools{
+    position: relative;
+    width: 100%;
+    text-align: right;
+}
+
+.sl-home .preview-tools mat-divider{
+    display: inline-block;
+    height: 24px;
+    vertical-align:middle;
+}
+
+.sl-home .filter-tools{
+   margin: 10px auto;
+   width: 90%; 
+   overflow: hidden;
+   text-align: center;
+   mat-form-field{
+       margin: 5px 10px;
+       width: 30%;
+       min-width: 140px;
+   }
+   button{
+       display: block;
+       margin: auto;
+   }
+}
+
+.sl-home .add-button {
   width: 80%;
-  margin: auto;
+  margin: 40px auto;
   position: relative;
   mat-divider {
     position: absolute;
@@ -37,23 +50,20 @@
   }
 }
 
-.filter{
-  width: 100%;
-  margin:20px auto;
-  text-align: center;
-  .mat-form-field{
-    margin: auto 20px;
-  }
-}
 
-mat-panel-title{
-  mat-icon{
-    font-size: 120%;
-    margin:auto 10px !important;
-  }
+.sl-home .publication-space{
+    min-height: 300px;
 }
 
 mat-tab-group{
-  width: 90%;
-  margin: 10px auto;
+    width: 80%;
+    margin: auto;
+}
+
+.mat-tab-labels{
+    justify-content: center !important;
+}
+
+.sl-home app-publication{
+    margin-right: 0!important;
 }

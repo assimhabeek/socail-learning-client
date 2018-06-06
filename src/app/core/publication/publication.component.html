@@ -1,109 +1,115 @@
-<mat-card class="sl-publication mat-elevation-z6">
-  <mat-card-header>
+<mat-card class="sl-publication mat-elevation-z6" [style.padding.px]="compcat?12:24">
+  <mat-card-header *ngIf="!compcat">
     <div mat-card-avatar class="publish-avatar" [style.backgroundImage]="'url('+ publication.user.profileImage +')'"></div>
     <mat-card-title>
       <a [routerLink]="'/index/profilePreview/' + publication.user.id">
         <b>{{publication.user.lastName +' ' + publication.user.firstName | uppercase}}</b>
       </a>
     </mat-card-title>
-    <div class="space"></div>
+
+    <div class="space">
+    </div>
     {{publication.date | timeAgo}}
   </mat-card-header>
+  <span *ngIf="compcat" class="compcat-title">
+    <a mat-button [routerLink]="'/index/publicationPreview/' + publication.id">
+      {{publication.title}}
+    </a>
+  </span>
+  <span *ngIf="!compcat">
+    <mat-divider></mat-divider>
+    <h3 class="pub-title">
+      <b>{{publication.title}}</b>
+    </h3>
 
-  <mat-divider></mat-divider>
-  <h3 class="pub-title">
-    <b>{{publication.title}}</b>
-  </h3>
+    <mat-card-content>
+      <p [innerHTML]="publication.description | safe: 'html'"></p>
+    </mat-card-content>
+    <mat-card-actions>
+      <mat-accordion>
+        <mat-expansion-panel class="mat-elevation-z0" (opened)="showReCap()">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{'ATTACHMENTS' | translate}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <re-captcha *ngIf="openAttachments && useRecaptch" (resolved)="attachmentOpened()"></re-captcha>
+          <mat-nav-list>
+            <mat-list-item *ngFor="let attach of publication.attachments">
+              <mat-icon mat-list-icon>file_download</mat-icon>
+              <a *ngIf="!currentUser" [routerLink]="'/login'  ">{{attach.name | uppercase}}</a>
+              <a *ngIf="currentUser" [href]="attach.link" target="_blank">{{attach.name | uppercase}}</a>
+            </mat-list-item>
+          </mat-nav-list>
+        </mat-expansion-panel>
 
-  <mat-card-content>
-    <p [innerHTML]="publication.description | safe: 'html'"></p>
-  </mat-card-content>
-
-  <mat-card-actions>
-    <mat-accordion>
-      <mat-expansion-panel class="mat-elevation-z0" (opened)="showReCap()">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{'ATTACHMENTS' | translate}}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <re-captcha *ngIf="openAttachments && useRecaptch" (resolved)="attachmentOpened()"></re-captcha>
-        <mat-nav-list>
-          <mat-list-item *ngFor="let attach of publication.attachments">
-            <mat-icon mat-list-icon>file_download</mat-icon>
-            <a *ngIf="!currentUser" [routerLink]="'/login'  ">{{attach.name | uppercase}}</a>
-            <a *ngIf="currentUser" [href]="attach.link" target="_blank">{{attach.name | uppercase}}</a>
-          </mat-list-item>
-        </mat-nav-list>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel *ngIf="publication.categoryId==2 || !publication.commentable" (opened)="commentOpened()" class="mat-elevation-z0">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ (publication.categoryId == 2 ? 'RESPONSES' : 'COMMENTS') | translate}}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-card class="comment mat-elevation-z0" *ngFor="let comment of publication.comments" [class.sl-primary-font]="comment.bestAnswer">
-          <mat-card-header>
-            <div mat-card-avatar class="publish-avatar" [style.backgroundImage]="'url('+ comment.user.profileImage +')'"></div>
-            <h6 mat-card-title>
-              <b>{{comment.user.lastName +' ' + comment.user.firstName | uppercase}}</b>
-            </h6>
-            <h5 mat-card-subtitle> {{comment.description}}</h5>
-            <h6 mat-card-subtitle>{{comment.date | timeAgo}}</h6>
-            <div class="space"></div>
-            <div *ngIf="publication.categoryId==2">
-              <button mat-button color="primary" (click)="markAsBest()">{{ comment.bestAnswer ? 'REMOVE_ANSWEER':'MARK_BEST'}}</button>
-            </div>
-          </mat-card-header>
-        </mat-card>
-        <form *ngIf="currentUser" novalidate #commentform="ngForm" (ngSubmit)="commented(commentform.valid)">
-          <mat-form-field>
-            <mat-placeholder>
-              {{ publication.categoryId == 2 ? 'RESPONSE' : 'COMMENT' | translate}}
-            </mat-placeholder>
-            <textarea matInput [(ngModel)]="newComment.description" autocomplete="description" matTextareaAutosize matAutosizeMinRows="1"
-              matAutosizeMaxRows="5" #comment="ngModel" name="description"></textarea>
-          </mat-form-field>
-          <button mat-raised-button type="submit" color="primary">
-            {{publication.categoryId == 2 ? 'RESPONSE' : 'COMMENT' | translate}}
+        <mat-expansion-panel *ngIf="publication.categoryId==2 || !publication.commentable" (opened)="commentOpened()" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ (publication.categoryId == 2 ? 'RESPONSES' : 'COMMENTS') | translate}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-card class="comment mat-elevation-z0" *ngFor="let comment of publication.comments" [class.sl-primary-font]="comment.bestAnswer">
+            <mat-card-header>
+              <div mat-card-avatar class="publish-avatar" [style.backgroundImage]="'url('+ comment.user.profileImage +')'"></div>
+              <h6 mat-card-title>
+                <b>{{comment.user.lastName +' ' + comment.user.firstName | uppercase}}</b>
+              </h6>
+              <h5 mat-card-subtitle> {{comment.description}}</h5>
+              <h6 mat-card-subtitle>{{comment.date | timeAgo}}</h6>
+              <div *ngIf="publication.categoryId==2 && currentUser && publication.userId == currentUser.id">
+                <button mat-button color="primary" (click)="markAsBest(comment.id)">{{ comment.bestAnswer ? 'REMOVE_ANSWEER':'MARK_BEST'}}</button>
+              </div>
+            </mat-card-header>
+          </mat-card>
+          <form *ngIf="currentUser" novalidate #commentform="ngForm" (ngSubmit)="commented(commentform.valid)">
+            <mat-form-field>
+              <mat-placeholder>
+                {{ publication.categoryId == 2 ? 'RESPONSE' : 'COMMENT' | translate}}
+              </mat-placeholder>
+              <textarea matInput [(ngModel)]="newComment.description" autocomplete="description" matTextareaAutosize matAutosizeMinRows="1"
+                matAutosizeMaxRows="5" #comment="ngModel" name="description"></textarea>
+            </mat-form-field>
+            <button mat-raised-button type="submit" color="primary">
+              {{publication.categoryId == 2 ? 'RESPONSE' : 'COMMENT' | translate}}
+            </button>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <span *ngIf="currentUser">
+        <span *ngIf="currentUser.id==publication.userId">
+          <a [routerLink]="'./publicationForm/' + publication.id" mat-icon-button color="accent" matTooltip="{{'EDIT'|translate}}"
+            tabindex="-1">
+            <mat-icon>edit</mat-icon>
+          </a>
+          <button mat-icon-button color="warn" matTooltip="{{'DELETE'|translate}}" tabindex="-1" (click)="deletePublication()">
+            <mat-icon>delete</mat-icon>
           </button>
-        </form>
-      </mat-expansion-panel>
-    </mat-accordion>
-    <span *ngIf="currentUser">
-      <span *ngIf="currentUser.id==publication.userId">
-        <a [routerLink]="'./publicationForm/' + publication.id" mat-icon-button color="accent" matTooltip="{{'EDIT'|translate}}"
-          tabindex="-1">
-          <mat-icon>edit</mat-icon>
-        </a>
-        <button mat-icon-button color="warn" matTooltip="{{'DELETE'|translate}}" tabindex="-1" (click)="deletePublication()">
-          <mat-icon>delete</mat-icon>
-        </button>
+        </span>
+        <span>
+          <button *ngIf="currentUser.id!=publication.userId" mat-icon-button [color]="opinion && opinion.opinion==3 ? 'primary' :'' "
+            matTooltip="{{'REPORT_PUBLICATION' | translate}}" color="primary" (click)="reportPublication()">
+            <mat-icon>report</mat-icon>
+          </button>
+          <button mat-icon-button [disabled]="currentUser.id==publication.userId" [color]="opinion && opinion.opinion==1 ? 'accent' :'' "
+            matTooltip="{{'LIKE' | translate}}" tabindex="-1" (click)="like()">
+            <mat-icon>thumb_up</mat-icon> {{ publication.likes }}
+          </button>
+          <button [disabled]="currentUser.id==publication.userId" mat-icon-button [color]="opinion && opinion.opinion==2 ? 'warn' :'' "
+            matTooltip="{{'LIKE' | translate}}" tabindex="-1" (click)="disLike()">
+            <mat-icon>thumb_down</mat-icon> {{ publication.dislikes }}
+          </button>
+        </span>
       </span>
-      <span>
-        <button *ngIf="currentUser.id!=publication.userId" mat-icon-button [color]="opinion && opinion.opinion==3 ? 'primary' :'' "
-          matTooltip="{{'REPORT_PUBLICATION' | translate}}" color="primary" (click)="reportPublication()">
-          <mat-icon>report</mat-icon>
-        </button>
-        <button mat-icon-button [disabled]="currentUser.id==publication.userId" [color]="opinion && opinion.opinion==1 ? 'accent' :'' "
-          matTooltip="{{'LIKE' | translate}}" tabindex="-1" (click)="like()">
-          <mat-icon>thumb_up</mat-icon> {{ publication.likes }}
-        </button>
-        <button [disabled]="currentUser.id==publication.userId" mat-icon-button [color]="opinion && opinion.opinion==2 ? 'warn' :'' "
-          matTooltip="{{'LIKE' | translate}}" tabindex="-1" (click)="disLike()">
-          <mat-icon>thumb_down</mat-icon> {{ publication.dislikes }}
-        </button>
-      </span>
-    </span>
-  </mat-card-actions>
-  <mat-divider></mat-divider>
-  <mat-card-footer>
-    <mat-chip-list>
-      <mat-chip color="primary" selected="true">{{getCategoryById(publication.categoryId) | translate}}</mat-chip>
-      <mat-chip *ngIf="publication.specialtyId" color="accent" selected="true">
-        {{displaySpecialtyModule(publication.moduleId,publication.specialtyId)}}
-      </mat-chip>
-    </mat-chip-list>
-  </mat-card-footer>
+    </mat-card-actions>
+    <mat-divider></mat-divider>
+    <mat-card-footer>
+      <mat-chip-list>
+        <mat-chip color="primary" selected="true">{{getCategoryById(publication.categoryId) | translate}}</mat-chip>
+        <mat-chip *ngIf="publication.specialtyId" color="accent" selected="true">
+          {{displaySpecialtyModule(publication.moduleId,publication.specialtyId)}}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-card-footer>
+  </span>
 </mat-card>

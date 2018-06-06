@@ -1,14 +1,16 @@
 export class Chat {
   public id: number;
-  public senderId: number;
-  public receiverId: number;
+  public sender: number;
   public message: string;
   public messageDate: string;
+  public roomId: number;
 
-  constructor(id: number, senderId: number, receiverId: number, message: string, messageDate: string) {
+
+  constructor(id: number, senderId: number, message: string, messageDate: string, roomId: number) {
     this.id = id;
-    this.senderId = senderId;
+    this.sender = senderId;
     this.message = message;
     this.messageDate = messageDate;
+    this.roomId = roomId;
   }
 }

@@ -15,17 +15,20 @@ export class ChatVedioAudioComponent implements OnInit {
   @Output() endVedioCall: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('remoteVedio') public remoteVedio: ElementRef;
-  @ViewChild('localVedio') public localVedio: ElementRef;
+  /* @ViewChild('localVedio') public localVedio: ElementRef;*/
 
   @Input() public set otherPeerId(v: string) {
     if (v) {
+      console.log(v);
       this.peer.signal(JSON.parse(v));
     }
   };
 
   public peer;
   public signeld;
+  public streamIsOn;
   private _otherPeerId;
+
   constructor() { }
 
   ngOnInit() {
@@ -35,6 +38,7 @@ export class ChatVedioAudioComponent implements OnInit {
     });
 
     this.peer.on('signal', (data) => {
+      console.log(data);
       this.myId.emit(JSON.stringify(data));
       this.signeld = true;
     });
@@ -43,7 +47,7 @@ export class ChatVedioAudioComponent implements OnInit {
       navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         .then((strem) => {
           this.peer.addStream(strem);
-          this.localVedio.nativeElement.srcObject = strem;
+          /*          this.localVedio.nativeElement.srcObject = strem;*/
         })
         .catch((error) => {
           console.log(error);
@@ -52,6 +56,8 @@ export class ChatVedioAudioComponent implements OnInit {
     });
 
     this.peer.on('stream', (stream) => {
+      console.log(stream);
+      this.streamIsOn = true;
       this.remoteVedio.nativeElement.srcObject = stream;
     });
 
@@ -60,7 +66,6 @@ export class ChatVedioAudioComponent implements OnInit {
   }
 
   endCall() {
-    console.log("tt");
     this.peer.destroy();
     this.endVedioCall.emit("");
   }

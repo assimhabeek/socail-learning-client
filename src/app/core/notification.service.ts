@@ -2,14 +2,14 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { User } from './domain/user';
 
 export class Notification {
-  id:number;
+  id: number;
   message: string;
-  icon: string;
+  publicationId: number;
   user: User;
   isRead: boolean;
-  constructor(message: string, icon: string, user: User, isRead: boolean) {
+  constructor(message: string, publicationId: number, user: User, isRead: boolean) {
     this.message = message;
-    this.icon = icon;
+    this.publicationId = publicationId;
     this.user = user;
     this.isRead = isRead;
   }

@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { User } from '../../domain/user';
-import { debounce, slideInLeftAnimation } from '../../../shared/animations';
+import { debounce, routerAnimation } from '../../../shared/animations';
 import { UsersService } from '../users.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -13,7 +13,7 @@ import { SpecialtiesService } from '../../specialties.service';
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  animations: [slideInLeftAnimation, debounce]
+  animations: [routerAnimation, debounce]
 })
 export class RegisterComponent implements OnInit {
   @HostBinding('@routeAnimation') routeAnimation = true;
@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
 @Component({
   selector: 'app-registration-token-validation',
   templateUrl: './registration-token-validation.component.html',
-  animations: [slideInLeftAnimation]
+  animations: [routerAnimation]
 
 })
 export class RegistrationTokenValidationComponent implements OnInit {
@@ -108,7 +108,7 @@ export class RegistrationTokenValidationComponent implements OnInit {
 @Component({
   selector: 'app-email-send',
   templateUrl: './email-send.component.html',
-  animations: [slideInLeftAnimation]
+  animations: [routerAnimation]
 
 })
 export class EmailSendComponent {

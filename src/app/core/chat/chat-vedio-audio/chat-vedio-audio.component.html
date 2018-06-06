@@ -2,6 +2,17 @@
     <button class="endCall" mat-icon-button (click)="endCall()" color="warn">
         <mat-icon>call_end</mat-icon>
     </button>
-    <video #localVedio class="local" playsinline autoplay muted></video>
-    <video #remoteVedio class="remote" playsinline autoplay></video>
+    <!--video #localVedio class="local" playsinline autoplay muted>
+    </video-->
+
+    <video #remoteVedio class="remote" playsinline autoplay>
+    </video>
+    <div *ngIf="!streamIsOn" class="loader">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
 </div>

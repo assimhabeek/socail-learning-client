@@ -10,7 +10,7 @@
   <div class="form">
     <form *ngIf="selected" [@fadeAnimation]="selected" catForm="ngForm" (change)="selected.changed=true" (ngSubmit)="submit()">
       <mat-form-field>
-        <mat-placeholder>{{'TILTE' | translate}}</mat-placeholder>
+        <mat-placeholder>{{'TITLE' | translate}}</mat-placeholder>
         <input type="text" matInput required #title="ngModel" name="title" [(ngModel)]="selected.title">
         <mat-error *ngIf="title.hasError('required')">
           <strong>{{'REQUIRED'|translate}}</strong>

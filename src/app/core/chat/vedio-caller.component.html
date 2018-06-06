@@ -1,6 +1,7 @@
-<app-chat-vedio-audio *ngIf="chatService.acceptedRequest" (endVedioCall)="endCall()" (myId)="sendMessage($event)" [currentUser]="currentUser"
-  [otherPeerId]="chatService.otherPeerId" [acceptedRequest]="chatService.acceptedRequest">
-</app-chat-vedio-audio>
-
-
-<button (click)="call()">call</button>
+<div class="container">
+    <app-chat-vedio-audio *ngIf="chatService.acceptedRequest && currentUser" (endVedioCall)="endCall()" (myId)="sendMessage($event)"
+        [currentUser]="currentUser" [otherPeerId]="chatService.otherPeerId" [acceptedRequest]="chatService.acceptedRequest">
+    </app-chat-vedio-audio>
+    <button *ngIf="!chatService.acceptedRequest" mat-raised-button color="primary" (click)="call()">
+        <mat-icon>call</mat-icon> {{ 'CALL' | translate }}</button>
+</div>

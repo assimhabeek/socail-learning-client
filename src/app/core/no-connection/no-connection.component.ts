@@ -1,5 +1,5 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {slideInLeftAnimation} from '../../shared/animations';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { routerAnimation } from '../../shared/animations';
 
 @Component({
   selector: 'app-no-connection',
@@ -20,7 +20,7 @@ import {slideInLeftAnimation} from '../../shared/animations';
       </mat-card-actions>
     </mat-card>
   `,
-  animations: [slideInLeftAnimation]
+  animations: [routerAnimation]
 })
 export class NoConnectionComponent implements OnInit {
   @HostBinding('@routeAnimation') routeAnimation = true;

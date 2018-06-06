@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpService } from '../http.service';
 import { URLS } from '../urls';
 import { WsService } from '../ws.service';
 import { Attachment } from '../domain/attachments';
 import { Publication } from '../domain/publication';
+import { NotificationService, Notification } from '../notification.service';
 
 const removeFalsy = (obj) => {
   let newObj = {};
@@ -29,13 +30,26 @@ const formatDate = (obj) => {
 export class PublicationService {
 
 
+  public strem: EventEmitter<any> = new EventEmitter();
+
   constructor(private _http: HttpService,
+    public notificationService: NotificationService,
     private _ws: WsService) {
   }
 
   public getPublications(filter: any) {
     return this._http.getWithAuth(URLS.publications, {
       params: formatDate(removeFalsy(filter))
+    });
+  }
+
+  listenToStream() {
+    this.getStreamedPublications().subscribe(r => {
+      if (isNaN(r.data)) {
+        const pub: Publication = JSON.parse(r.data);
+        this.notificationService.sendNotification(new Notification(pub.title, pub.id, pub.user, false));
+      }
+      this.strem.emit(r.data);
     });
   }
 
@@ -105,6 +119,16 @@ export class PublicationService {
   public deleteAttachment(id: number) {
     return this._http.deleteWithAuth(URLS.attachments, {
       responseType: 'text', params: { id: id }
+    });
+  }
+
+  public markAsBest(publicationId: number, comment: number) {
+    return this._http.postWithAuth(URLS.comments + URLS.markBest, {}, {
+      responseType: 'text',
+      params: {
+        publicationId: publicationId,
+        commentId: comment
+      }
     });
   }
 

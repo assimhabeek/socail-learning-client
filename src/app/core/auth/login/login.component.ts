@@ -1,6 +1,6 @@
 import { Component, HostBinding, Inject, OnInit } from '@angular/core';
 import { User } from '../../domain/user';
-import { debounce, slideInLeftAnimation } from '../../../shared/animations';
+import { debounce, routerAnimation } from '../../../shared/animations';
 import { UsersService } from '../users.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TokenStorage } from '../token.storage';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  animations: [slideInLeftAnimation, debounce]
+  animations: [routerAnimation, debounce]
 })
 export class LoginComponent implements OnInit {
   @HostBinding('@routeAnimation') routeAnimation = true;

@@ -1,14 +1,14 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
-import {User} from '../../domain/user';
-import {UsersService} from '../users.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {debounce, slideInLeftAnimation} from '../../../shared/animations';
-import {Router} from '@angular/router';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { User } from '../../domain/user';
+import { UsersService } from '../users.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { debounce, routerAnimation } from '../../../shared/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-password-recovery',
   templateUrl: './password-recovery.component.html',
-  animations: [slideInLeftAnimation, debounce]
+  animations: [routerAnimation, debounce]
 
 })
 export class PasswordRecoveryComponent implements OnInit {
@@ -21,7 +21,7 @@ export class PasswordRecoveryComponent implements OnInit {
 
 
   constructor(private usersService: UsersService,
-              private router: Router) {
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -60,7 +60,7 @@ export class PasswordRecoveryComponent implements OnInit {
       </mat-card-actions>
     </mat-card>
   `,
-  animations: [slideInLeftAnimation]
+  animations: [routerAnimation]
 
 })
 export class PasswordSentComponent {

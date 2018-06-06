@@ -1,5 +1,7 @@
 @mixin social-learning-publication-form-theme($theme) {
   $warn: map-get($theme, warn);
+  $primary: map-get($theme, primary);
+  
   .no-saved {
     box-sizing: border-box;
     border: 2px solid mat-color($warn);

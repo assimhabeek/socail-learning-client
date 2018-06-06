@@ -86,7 +86,7 @@ export class StyleManager {
     if (theme.isDefault) {
       this.removeStyle('theme');
     } else {
-      this.setStyle('theme', `assets/${theme.href}`);
+      this.setStyle('theme', `assets/custom-themes/${theme.href}`);
     }
 
     if (this.currentTheme) {

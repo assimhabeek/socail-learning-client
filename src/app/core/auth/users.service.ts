@@ -99,6 +99,10 @@ export class UsersService {
     return this._http.get(URLS.users + '/all');
   }
 
+  public getUsersByFilterAndPage(page: number, filter: string) {
+    return this._http.get(URLS.users, { params: { filter: filter, page: page } });
+  }
+
   public getUserById(id: number) {
     return this._http.get(URLS.users, { params: { id: id } });
   }

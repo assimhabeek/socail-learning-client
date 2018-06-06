@@ -1,11 +1,11 @@
-import { Component, ViewChild, HostBinding, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, HostBinding, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { PublicationService } from '../publication/publication.service';
 import { SpecialtiesService } from '../specialties.service';
 import { ModulesService } from '../modules.service';
 import { CategoriesService } from '../categories.service';
 import { UsersService } from '../auth/users.service';
 import { User } from '../domain/user';
-import { fadeAnimation } from '../../shared/animations';
+import { fadeAnimation, slideAnimation } from '../../shared/animations';
 import { NotificationService, Notification } from '../notification.service';
 import { Publication } from '../domain/publication';
 import { NgForm } from '@angular/forms';
@@ -15,65 +15,63 @@ import 'rxjs/add/operator/debounceTime';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  animations: [fadeAnimation]
+  animations: [fadeAnimation, slideAnimation],
+  encapsulation: ViewEncapsulation.None
+
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   @HostBinding('@fadeAnimation') fadeAnimation = true;
   @HostBinding('style.display') display = 'block';
   @ViewChild('form') ngForm: NgForm;
 
   filter: any = {};
-  currentTab: number = 0;
-  publicationSize = 1.2;
+  publicationSize = 1;
   publications: any[] = [];
   categories: any[] = [];
   specialties: any[] = [];
-  publicationStream;
   modules: any[] = [];
-  publicationEnd = false;
+  total: number;
+  openFilter = false;
   currentUser: User;
+  compact = true;
 
   constructor(public publicationsService: PublicationService,
     public specialtiesService: SpecialtiesService,
     public modulesService: ModulesService,
     public categoriesService: CategoriesService,
-    public notificationService: NotificationService,
     public usersService: UsersService) {
   }
 
   ngOnInit() {
     this.filter.page = 0;
-    this.listenToFormChange();
     this.loadCategories();
     this.loadSpecialties();
     this.loadModules();
     this.loadUser();
-    this.listenToStream();
-  }
-
-
-  ngOnDestroy() {
-    this.publicationStream.unsubscribe();
-  }
-
-  listenToStream() {
-    this.publicationStream = this.publicationsService.getStreamedPublications().subscribe(r => {
-      if (isNaN(r.data)) {
-        const pub: Publication = JSON.parse(r.data);
-        this.notificationService.sendNotification(new Notification(pub.title, 'book', pub.user, false));
+    this.listenToFormChange();
+    this.publicationsService.strem.subscribe(res => {
+      if (isNaN(res)) {
+        const pub: Publication = JSON.parse(res);
         this.publications = this.publications.filter(ite => ite.id !== pub.id);
         this.publications.unshift(pub);
       } else {
-        this.publications = this.publications.filter(item => item.id !== +r.data);
+        this.publications = this.publications.filter(item => item.id !== +res);
       }
     });
+
   }
 
+
+
+
   tabChanged(e) {
-    this.currentTab = e.index;
     this.filter[e.index == 1 ? 'fPage' : 'page'] = 0;
     this.filter[e.index == 0 ? 'fPage' : 'page'] = undefined;
     this.filterPublications();
+  }
+
+  toggleFilter() {
+    this.openFilter = !this.openFilter;
   }
 
   listenToFormChange() {
@@ -93,14 +91,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadPublications() {
     this.publicationsService.getPublications(this.filter)
       .subscribe(res => {
-        this.publicationEnd = res.length === 0;
-        this.publications = this.publications.concat(res);
+        this.publications = res[1];
+        this.total = res[0];
       });
   }
 
 
-  loadMore() {
-    this.filter[this.currentTab == 0 ? 'page' : 'fPage'] += 1;
+  pageChanged($event, type: number) {
+    this.filter[type == 1 ? 'fPage' : 'page'] = $event.pageIndex;
     this.loadPublications();
   }
 
@@ -139,4 +137,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
 
+  zoomIn() {
+    this.publicationSize = this.publicationSize == 3 ? this.publicationSize : this.publicationSize + 0.2;
+    console.log(this.publicationSize);
+  }
+
+  zommOut() {
+    this.publicationSize = this.publicationSize == 0.2 ? this.publicationSize : this.publicationSize - 0.2;
+  }
+
+  toggleCompcat() {
+    this.compact = !this.compact;
+    this.publicationSize = !this.compact ? 1 : 10000;
+  }
 }

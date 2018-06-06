@@ -63,7 +63,24 @@
 }
 
 .sl-index-container .container {
-  height: 100%;
   display: block;
+  height: 100%;
+  box-sizing: border-box;
 }
 
+.sl-index-container mat-nav-list{
+  min-height: 276px;
+}
+
+.sl-index-container .small-side-nav{
+  position: fixed;
+  height: 100%;
+  padding: 100px 5px 5px 5px !important;
+  width: 36px;
+  overflow: auto;
+  z-index: 20;
+}
+
+.sl-index-container mat-sidenav-content{
+  height: 100vh;
+}

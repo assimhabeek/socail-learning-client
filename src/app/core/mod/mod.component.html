@@ -58,7 +58,7 @@
           <strong>{{'REQUIRED'|translate}}</strong>
         </mat-error>
         <mat-error *ngIf="semmster.hasError('customMin') || semmster.hasError('customMax')">
-          <strong>{{'MAX_MIN_ERROR'|translate:{year:1,to:2} }}</strong>
+          <strong>{{'MAX_MIN_ERROR'|translate:{from:1,to:2} }}</strong>
         </mat-error>
       </mat-form-field>
 
@@ -85,7 +85,7 @@
       <mat-cell *matCellDef="let element"> {{element.name | translate}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="year">
-      <mat-header-cell *matHeaderCellDef> {{'year' | translate}} </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{'YEAR' | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.year }} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="semmster">

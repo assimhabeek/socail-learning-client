@@ -24,6 +24,7 @@
       <app-language-selector></app-language-selector>
     </div>
     <div *ngIf="user">
+      <app-messages></app-messages>
       <app-notification></app-notification>
       <app-user-setting-menu [user]="user"></app-user-setting-menu>
     </div>
@@ -31,8 +32,8 @@
   </mat-toolbar>
 
   <mat-sidenav-container>
-    <mat-sidenav class="sideNav mat-elevation-z6" #snav [opened]="!mobileQuery.matches" (openedChange)="toggleMenu()" [position]="'start'"
-      [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches?56:64">
+    <mat-sidenav class="sideNav mat-elevation-z6" #snav [opened]="false" (openedChange)="toggleMenu()" [position]="'start'" [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches?56:64">
       <div class="profile-info">
         <div class="profile-image" [style.backgroundImage]="'url('+ (user && user.profileImage ? user.profileImage : './assets/img/sl-logo-bg.png') +')'">
         </div>
@@ -43,9 +44,23 @@
         </div>
       </div>
       <mat-nav-list [@listAnimation]="menuItems.length" dense>
+        <h3 mat-subheader class="sl-primary-background">{{'NAVIGATION_PANEL' | translate}}</h3>
         <div *ngFor="let item of menuItems">
-          <a *ngIf="(user && user.isAdmin && item.forAdmin) || !item.forAdmin" mat-list-item [routerLink]="item.router">
-            <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
+          <a mat-list-item [routerLink]="item.router">
+            <mat-icon mat-list-icon color="primary">{{item.icon}}</mat-icon>
+            <h3 mat-line>
+              <b>{{item.title | translate}}</b>
+            </h3>
+            <p mat-line> {{item.description | translate}} </p>
+            <mat-divider></mat-divider>
+          </a>
+        </div>
+      </mat-nav-list>
+      <mat-nav-list *ngIf="user && user.isAdmin" [@listAnimation]="adminItems.length" dense>
+        <h3 mat-subheader class="sl-primary-background">{{'ADMIN_SPACE' | translate}}</h3>
+        <div *ngFor="let item of adminItems">
+          <a mat-list-item [routerLink]="item.router">
+            <mat-icon mat-list-icon color="primary">{{item.icon}}</mat-icon>
             <h3 mat-line>
               <b>{{item.title | translate}}</b>
             </h3>
@@ -57,7 +72,15 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <div class="container" [style.marginTop.px]="mobileQuery.matches ? 56 : 64">
+      <mat-card *ngIf="!snav.opened" [@slideSideNav]="!snav.opened" class="small-side-nav sl-primary-background mat-elevation-z8">
+        <div *ngFor="let item of fullItems.slice(0,user && user.isAdmin ? 8 :4)">
+          <a mat-icon-button [routerLink]="item.router" [matTooltipPosition]="'after'" [matTooltip]="item.title | translate">
+            <mat-icon>{{item.icon}}</mat-icon>
+          </a>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-card>
+      <div class="container" [style.paddingTop.px]="mobileQuery.matches ? 56 : 64">
         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>

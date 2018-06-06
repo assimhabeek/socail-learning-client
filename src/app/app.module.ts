@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { RoutingModule } from './routing.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IndexComponent } from './core/index/index.component';
@@ -61,6 +61,9 @@ import { CustomMinDirective } from './shared/custom-min-validator.directive';
 import { ContactsComponent } from './core/chat/contacts.component';
 import { VedioCallerComponent } from './core/chat/vedio-caller.component';
 import { ChatRequestedComponent } from './core/chat/chat-requested.component';
+import { ChatRoomComponent } from './core/chat/chat-room.componen';
+import { ConversationComponent } from './core/chat/conversation.component';
+import { MessagesComponent } from './core/messages/messages.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -97,7 +100,10 @@ export function createTranslateLoader(http: HttpClient) {
     CustomMaxDirective,
     CustomMinDirective,
     ContactsComponent,
-    VedioCallerComponent
+    VedioCallerComponent,
+    ChatRoomComponent,
+    ConversationComponent,
+    MessagesComponent
   ],
   entryComponents: [
     SuccessMessageComponent,
@@ -116,6 +122,7 @@ export function createTranslateLoader(http: HttpClient) {
     ThemePickerModule,
     ImageCropperModule,
     LanguageSelectorModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
     AuthModule,
     NgxEditorModule,

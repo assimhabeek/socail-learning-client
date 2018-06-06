@@ -6,7 +6,7 @@
 
 
 <mat-menu class="notificationMenu" #notificationMenu="matMenu" xPosition="before">
-  <div class="header">
+  <div class="header" (click)="$event.stopPropagation()">
     <mat-slide-toggle (change)="toggleAll($event)">
       {{'READ_ALL' | translate}}
     </mat-slide-toggle>
@@ -14,12 +14,16 @@
   <mat-divider></mat-divider>
 
   <mat-nav-list dense>
-    <mat-list-item *ngFor="let item of notifications">
+    <mat-list-item *ngFor="let item of notifications" [routerLink]="'/index/publicationPreview/' + item.publicationId" (click)="$event.stopPropagation()">
       <img matListAvatar [src]="item.user.profileImage ? item.user.profileImage : './assets/img/profile-default.png'" />
       <h6 mat-line>
-        <b>{{ item.user.lastName + ' ' + item.user.firstName | uppercase}}</b>
+        <a [routerLink]="'/index/profilePreview/' + item.user.id">
+          <b>{{ item.user.lastName + ' ' + item.user.firstName | uppercase}}</b>
+        </a>
       </h6>
-      <h5 mat-line>{{item.message}}</h5>
+      <h5 mat-line>
+        {{item.message}}
+      </h5>
       <span class="space"></span>
       <mat-slide-toggle name="read" [(ngModel)]="item.isRead">
         {{'READ' | translate}}
