@@ -1,4 +1,10 @@
 mat-card{
+   width: 100%;
+    max-width: 900px;
+    padding: 64px;
+    display: block;
+    margin: auto;
+    box-sizing: border-box;
     height: 100%;
 }
 
@@ -6,6 +12,9 @@ mat-toolbar{
     -moz-justify-content: center;
     -webkit-justify-content: center;
     justify-content: center;
+    mat-form-field{
+        font-size: 16px;
+    }
 }
 button{
     margin: auto 5px;

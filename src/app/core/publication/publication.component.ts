@@ -5,7 +5,7 @@ import { PublicationService } from './publication.service';
 import { Specialty } from '../domain/spcialty';
 import { Category } from '../domain/category';
 import { Module } from '../domain/module';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoriesService } from '../categories.service';
 import { UsersService } from '../auth/users.service';
@@ -18,6 +18,7 @@ import { Opinion } from '../domain/opinion';
 import { environment } from '../../../environments/environment';
 import { DeleteConfirmationComponent } from '../delete-confiremation/delete-confiremation.component';
 import * as moment from 'moment';
+import { SnackBarComponent } from '../snak/snak.component';
 
 const OpinionType = {
   LIKE: 1,
@@ -111,8 +112,17 @@ export class PublicationComponent implements OnInit {
   markAsBest(commentId: number) {
     this.publicationService.markAsBest(this.publication.id, commentId)
       .subscribe(res => {
-        console.log(this.publication.comments);
+        const comment = this.publication.comments.find(ite => ite.id == commentId);
+        this.publication.comments.filter(ite => ite.id != commentId).forEach((item, i) => {
+          item.bestAnswer = false;
+        });
+        comment.bestAnswer = !comment.bestAnswer;
       });
+  }
+
+  deleteComment(commentId: number) {
+    this.publicationService.deleteComment(commentId)
+      .subscribe();
   }
 
   resetComment() {
@@ -150,7 +160,13 @@ export class PublicationComponent implements OnInit {
           this.publication.comments = res;
           this.publicationService.getStreamedComment(this.publication.id)
             .subscribe((comment) => {
-              this.publication.comments.push(JSON.parse(comment.data));
+              if (isNaN(JSON.parse(comment.data))) {
+                let com = JSON.parse(comment.data);
+                this.publication.comments = this.publication.comments.filter(ite => ite.id !== com.id);
+                this.publication.comments.push(com);
+              } else {
+                this.publication.comments = this.publication.comments.filter(item => item.id !== +JSON.parse(comment.data));
+              }
             });
         });
     }
@@ -226,6 +242,7 @@ export class PublicationFormComponent implements OnInit {
   imageEndPoint = "https://" + environment.socket + "/upload";
   useRecaptch = window.location.protocol.indexOf('https') > -1;
   constructor(private publicationService: PublicationService,
+    public snackBar: MatSnackBar,
     private categoriesService: CategoriesService,
     private specialtiesService: SpecialtiesService,
     private modulesService: ModulesService,
@@ -312,12 +329,23 @@ export class PublicationFormComponent implements OnInit {
             this.publication.id = +res;
             this.router.navigate(['/index/publicationForm', +res]);
             this.useRecaptch = false;
+            this.openSnackBar('PUBLICATION_ADDED');
           });
       } else {
         this.publicationService.editPublication(this.publication)
-          .subscribe();
+          .subscribe(res => {
+            this.openSnackBar('PUBLICATION_EDITED');
+          });
       }
     }
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: message,
+      duration: 50000,
+      horizontalPosition: 'start'
+    });
   }
 
   deleteAttachment($event) {
@@ -329,7 +357,9 @@ export class PublicationFormComponent implements OnInit {
           this.attachments = this.attachments.filter(item => item !== $event);
           if ($event.id !== 0) {
             this.publicationService.deleteAttachment($event.id)
-              .subscribe();
+              .subscribe(res => {
+                this.openSnackBar('ATTACHMENT_DELETED');
+              });
           }
         }
       });
@@ -370,6 +400,7 @@ export class PublicationPreviewComponent implements OnInit {
     this.route.params.subscribe(params => {
       const id = params['id'];
       if (+id !== 0) {
+
         this.loadPublication(id);
         this.loadUser();
         this.loadCategories();
@@ -436,7 +467,16 @@ export class AttachmentFormComponent {
   @Input() attachment;
   @Output() attachmentDelete: EventEmitter<any> = new EventEmitter();
 
-  constructor(private attachmentService: PublicationService) {
+  constructor(private attachmentService: PublicationService,
+    public snackBar: MatSnackBar) {
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: message,
+      duration: 50000,
+      horizontalPosition: 'start'
+    });
   }
 
 
@@ -446,6 +486,7 @@ export class AttachmentFormComponent {
         this.attachmentService.addAttachment(this.attachment)
           .subscribe(res => {
             this.attachment.id = res;
+            this.openSnackBar('ATTACHMENT_ADDED');
           });
       } else {
         this.attachmentService.editAttachment(this.attachment)

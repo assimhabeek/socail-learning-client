@@ -7,6 +7,7 @@ export class User {
   public username: string;
   public password: string;
   public year: number;
+  public eve: number;
   public specialtyId: number;
   public isAdmin: boolean;
   public remmberMe: boolean;
@@ -14,9 +15,9 @@ export class User {
   public profileImage: string;
 
   constructor(username: string, password: string,
-              firstName?: string, lastName?: string, about?: string,
-              email?: string, year?: number, specialtyId?: number,
-              isAdmin?: boolean, remmberMe?: boolean, verified?: boolean, profileImage?: string) {
+    firstName?: string, lastName?: string, about?: string,
+    email?: string, year?: number, specialtyId?: number,
+    isAdmin?: boolean, remmberMe?: boolean, verified?: boolean, profileImage?: string) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;

@@ -30,6 +30,7 @@ export class ChatRequest {
 @Injectable()
 export class ChatService {
 
+  public messaageStream: any;
   public messages: Subject<any>;
   public lastRequest;
   public acceptedRequest: ChatRequest;
@@ -57,29 +58,33 @@ export class ChatService {
 
   public streamCallRequest(): Observable<any> {
     return this.messages.map((response: MessageEvent) => {
-      console.log(response);
-      return JSON.parse(response.data);
+      return response.data;
     });;
   }
 
   listenToCallRequest() {
-    this.streamCallRequest().subscribe(res => {
-      switch (res.eventType) {
-        case eventTypes.CHAT_REQUESTED:
-          this.chatRequested(res)
-          break;
-        case eventTypes.CALL_ACCEPTED:
-          this.chatAccetpted(res);
-          break;
-        case eventTypes.CALL_REJECTED:
-          this.chatRejected(res);
-          break;
-        case eventTypes.CALLER_ID:
-          this.callerIdReceived(res);
-          break;
-        default:
-          this.chatMessageRecevied(res);
-          break;
+    this.messaageStream = this.streamCallRequest().subscribe(resp => {
+      try {
+        const res = JSON.parse(resp);
+        switch (res.eventType) {
+          case eventTypes.CHAT_REQUESTED:
+            this.chatRequested(res)
+            break;
+          case eventTypes.CALL_ACCEPTED:
+            this.chatAccetpted(res);
+            break;
+          case eventTypes.CALL_REJECTED:
+            this.chatRejected(res);
+            break;
+          case eventTypes.CALLER_ID:
+            this.callerIdReceived(res);
+            break;
+          default:
+            this.chatMessageRecevied(res);
+            break;
+        }
+      } catch (e) {
+        console.log(e);
       }
     });
   }
@@ -137,6 +142,10 @@ export class ChatService {
     this.messages.next(data);
   }
 
+  close() {
+    this.messages.next('close');
+  }
+
   sendChatRequest(userId: number, id: number) {
     let chatRequest: ChatRequest = {
       id: 0,
@@ -181,6 +190,10 @@ export class ChatService {
     return this._http.getWithAuth(URLS.messages, { params: { roomId: roomId } });
   }
 
+  getUnReadMessages() {
+    return this._http.getWithAuth(URLS.messages + '/unRead');
+  }
+
   sendChatMessage(message: Chat) {
     return this._http.postWithAuth(URLS.messages, message, { responseType: 'text' });
   }
@@ -188,6 +201,5 @@ export class ChatService {
   addUserToRomm(roomId: number, userId: number) {
     return this._http.postWithAuth(URLS.roomUsers, {}, { params: { room: roomId, user: userId } });
   }
-
 
 }

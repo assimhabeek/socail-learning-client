@@ -64,6 +64,7 @@ import { ChatRequestedComponent } from './core/chat/chat-requested.component';
 import { ChatRoomComponent } from './core/chat/chat-room.componen';
 import { ConversationComponent } from './core/chat/conversation.component';
 import { MessagesComponent } from './core/messages/messages.component';
+import { SnackBarComponent } from './core/snak/snak.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -103,13 +104,15 @@ export function createTranslateLoader(http: HttpClient) {
     VedioCallerComponent,
     ChatRoomComponent,
     ConversationComponent,
-    MessagesComponent
+    MessagesComponent,
+    SnackBarComponent
   ],
   entryComponents: [
     SuccessMessageComponent,
     DeleteConfirmationComponent,
     ChatRequestedComponent,
-    ReportPublicationComponent
+    ReportPublicationComponent,
+    SnackBarComponent
   ],
   imports: [
     BrowserModule,

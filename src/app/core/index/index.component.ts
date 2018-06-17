@@ -71,7 +71,6 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadUser();
-    this.chatService.conncetToChat();
     this.publicationService.listenToStream();
   }
 
@@ -85,6 +84,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.usersService.user
       .subscribe((user: User) => {
         this.user = user;
+            this.chatService.conncetToChat();
       });
   }
 
@@ -106,6 +106,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+    this.publicationService.publicationStream.unsubscribe();
   }
 
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DEST_PATH="./src/assets"
-INPUT_PATH=$DEST_PATH/custom-themes/
+DEST_PATH="./src/assets/custom-themes/"
+INPUT_PATH=$DEST_PATH
 
 
 echo Building custom theme scss files.
@@ -16,6 +16,5 @@ do
   $(npm bin)/node-sass $FILE > $DEST_PATH/$BASENAME.css
 done
 
-pause
 echo Finished building CSS.
 

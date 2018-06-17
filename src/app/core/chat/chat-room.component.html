@@ -1,35 +1,37 @@
 <div class="container" fxLayout="column">
-    <mat-toolbar>
-        <form #addForm="ngForm" (ngSubmit)="submitAddFrom(addForm.valid)">
-            <mat-form-field class="example-full-width">
-                <mat-placeholder>{{'ADD_USER'| translate }}</mat-placeholder>
-                <input matInput required="true" [matAutocomplete]="auto" [formControl]="userCtrl" name="user">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                    <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
-                        <img style="vertical-align:middle;" aria-hidden [src]="user.profileImage || './assets/img/profile-default.png'" height="25"
-                        />
-                        <span>{{ user.lastName + ' ' + user.firstName }}</span> |
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-            <button mat-icon-button color="accent" matTooltip="{{'ADD' | translate}}">
-                <mat-icon>add</mat-icon>
-            </button>
-        </form>
-        <mat-chip-list>
-            <mat-chip *ngFor="let member of roomUsers">
+    <mat-card>
+        <mat-card-header>
+            <form #addForm="ngForm" (ngSubmit)="submitAddFrom(addForm.valid)">
+                <mat-form-field class="add-user-input">
+                    <mat-placeholder>{{'ADD_USER'| translate }}</mat-placeholder>
+                    <input matInput required="true" [matAutocomplete]="auto" [formControl]="userCtrl" name="user">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+                            <img style="vertical-align:middle;border-radius: 50%;" aria-hidden [src]="user.profileImage || './assets/img/profile-default.png'"
+                                height="25" />
+                            <span>{{ user.lastName + ' ' + user.firstName }}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <button mat-icon-button color="accent" matTooltip="{{'ADD' | translate}}">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </form>
+        </mat-card-header>
+        <mat-card-content>
+            <a *ngFor="let member of roomUsers" [routerLink]="'/index/profilePreview/' + member.id">
                 <img [src]="member.profileImage ? member.profileImage : './assets/img/profile-default.png'">
-                <a [routerLink]="'/index/profilePreview/' + member.id">
+                <span fxHide fxShow.md="true" fxShow.lg="true" fxShow.xl="true">
                     {{member.lastName + ' ' + member.firstName | uppercase}}
-                </a>
-            </mat-chip>
-        </mat-chip-list>
-    </mat-toolbar>
+                </span>
+            </a>
+        </mat-card-content>
+    </mat-card>
     <div class="messagePool" fxFlex #scrollMe [scrollTop]="scrollMe.scrollHeight">
         <mat-chip-list [@fadeChat]="messages.length">
             <div *ngFor="let mess of messages" class="chat-buble" [class.right]="mess.sender==currentUser.id">
-                <span *ngIf="getUser(mess.sender)" class="sender-display">
-                    <img [src]="getUser(mess.sender).profileImage ? getUser(mess.sender).profileImage : './assets/img/profile-default.png'"> {{getUser(mess.sender).lastName + ' ' + getUser(mess.sender).firstName | uppercase}}
+                <span *ngIf="getUser(mess.sender) && mess.sender!=currentUser.id" class="sender-display">
+                    <img [src]="getUser(mess.sender).profileImage ? getUser(mess.sender).profileImage : './assets/img/profile-default.png'">
                 </span>
                 <mat-chip [color]="mess.sender==currentUser.id ? 'primary': 'accent'" selected="true" [innerHtml]="mess.message"></mat-chip>
                 <span>
@@ -39,7 +41,7 @@
         </mat-chip-list>
     </div>
     <mat-divider></mat-divider>
-    <mat-card>
+    <mat-card class="send-card">
         <form fxLayout="row" #chatForm="ngForm" (ngSubmit)="submit(chatForm)">
             <mat-form-field fxFlex>
                 <textarea maxRows="3" minRows='3' matInput #mess="ngModel" required name="message" [(ngModel)]="message.message"></textarea>
@@ -48,8 +50,10 @@
                 </mat-error>
             </mat-form-field>
             &nbsp;&nbsp;
-            <button mat-raised-button color="primary" class="submit">
-                <mat-icon>send</mat-icon> &nbsp;&nbsp; {{'SEND' | translate}}</button>
+            <div>
+                <button mat-button color="primary" class="submit">
+                    <mat-icon>send</mat-icon> &nbsp;&nbsp; {{'SEND' | translate}}</button>
+            </div>
         </form>
     </mat-card>
 

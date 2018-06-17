@@ -70,6 +70,12 @@ export class ModComponent implements OnInit {
       });
   }
 
+  filter($event) {
+    let filterValue = $event.target.value.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
 
   onDelete() {
     const config = new MatDialogConfig();

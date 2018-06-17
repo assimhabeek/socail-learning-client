@@ -2,6 +2,10 @@
   <mat-card>
     <img class="mat-elevation-z6" [src]="user.profileImage ? user.profileImage : './assets/img/profile-default.png'">
     <h1>{{ (user.lastName + ' ' + user.firstName) | uppercase}}</h1>
+    <mat-icon [color]=" user.eve > 5 ? 'primary' : ''">start</mat-icon>
+    <mat-icon [color]=" user.eve > 20 ? 'primary' : ''">start</mat-icon>
+    <mat-icon [color]=" user.eve > 50 ? 'primary' : ''">start</mat-icon>
+    <mat-icon [color]=" user.isAdmin  ? 'primary' : ''">verified_user</mat-icon>
     <mat-card-content>
       <p class="display-2">{{ user.about }}</p>
     </mat-card-content>

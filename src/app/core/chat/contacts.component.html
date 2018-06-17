@@ -7,7 +7,7 @@
             </mat-form-field>
         </form>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content class="contacts-pool">
         <mat-nav-list dense>
             <mat-list-item *ngFor="let user of getPeople()">
                 <img matListAvatar [src]="user.profileImage ? user.profileImage : './assets/img/profile-default.png'" />

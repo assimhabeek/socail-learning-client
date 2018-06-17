@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   total: number;
   openFilter = false;
   currentUser: User;
-  compact = true;
+  compact = false;
 
   constructor(public publicationsService: PublicationService,
     public specialtiesService: SpecialtiesService,
@@ -139,7 +139,6 @@ export class HomeComponent implements OnInit {
 
   zoomIn() {
     this.publicationSize = this.publicationSize == 3 ? this.publicationSize : this.publicationSize + 0.2;
-    console.log(this.publicationSize);
   }
 
   zommOut() {

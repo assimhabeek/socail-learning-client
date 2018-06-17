@@ -1,16 +1,45 @@
-.top-section {
-  display: flex;
-  margin: 80px auto 20px auto !important;
-  width: 90%;
+.sl-memo .add-button {
+  width: 80%;
+  margin: 40px auto;
+  position: relative;
+  mat-divider {
+    position: absolute;
+    top: 50% !important;
+    width: 100%;
+  }
+  a {
+    display: block;
+    margin: 10px auto;
+  }
 }
 
-.sl-publication{
-  margin: 10px;
-  height: 100%;
+
+.sl-memo .publication-space{
+    min-height: 300px;
+}
+
+
+
+.sl-memo .sl-publication-pool{
+    margin: 10px 48px;
+}
+
+.sl-memo .preview-tools{
+    position: relative;
+    width: 100%;
+    text-align: right;
+}
+
+.sl-memo .preview-tools mat-divider{
+    display: inline-block;
+    height: 24px;
+    vertical-align:middle;
+}
+
+.sl-memo .sl-publication{
+  margin: 20px;
+}
+.sl-memo mat-card{
   box-sizing: border-box;
-  overflow: hidden;
-}
-
-.space {
-  flex: 1 1 auto;
+    margin-right: 0!important;
 }

@@ -92,7 +92,7 @@ export class ChatRoomComponent implements OnInit {
 
 
   createRoom(userId: number, id: number) {
-    this.chatService.createRoom(new Room(0, userId, id))
+    this.chatService.createRoom(new Room(0, userId, id, false, false))
       .subscribe(res => {
         this.roomId = +res;
         this.init();

@@ -1,0 +1,9 @@
+<div fxlayout="row">
+    <div [style.lineHeight]="3">
+        {{data | translate}}
+    </div>
+    <span fxFlex></span>
+    <button matTooltip="{{'CLOSE' | translate}}" (click)="close()" mat-icon-button>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>

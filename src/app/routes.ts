@@ -48,8 +48,8 @@ export const appRoutes: Routes = [
         children: [
           { path: 'contacts', component: ContactsComponent },
           { path: 'conversations', component: ConversationComponent },
-          { path: '', component: ContactsComponent, pathMatch: 'full' },
-          { path: '**', redirectTo: '', pathMatch: 'full' }]
+          { path: '', redirectTo: 'conversations', pathMatch: 'full' },
+          { path: '**', redirectTo: 'conversations', pathMatch: 'full' }]
       },
       { path: 'vedioCall', component: VedioCallerComponent },
       { path: 'chatRoom', component: ChatRoomComponent },

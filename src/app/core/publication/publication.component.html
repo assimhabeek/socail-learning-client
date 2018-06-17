@@ -11,9 +11,13 @@
     </div>
     {{publication.date | timeAgo}}
   </mat-card-header>
-  <span *ngIf="compcat" class="compcat-title">
-    <a mat-button [routerLink]="'/index/publicationPreview/' + publication.id">
-      {{publication.title}}
+  <span *ngIf="compcat" class="compcat-title" fxlayout="row">
+    <h3>
+      <b>{{publication.title}}</b>
+    </h3>
+    <span fxFlex></span>
+    <a mat-button color="accent" [routerLink]="'/index/publicationPreview/' + publication.id">
+      {{'MORE' | translate}}
     </a>
   </span>
   <span *ngIf="!compcat">
@@ -37,31 +41,38 @@
           <mat-nav-list>
             <mat-list-item *ngFor="let attach of publication.attachments">
               <mat-icon mat-list-icon>file_download</mat-icon>
-              <a *ngIf="!currentUser" [routerLink]="'/login'  ">{{attach.name | uppercase}}</a>
+              <a *ngIf="!currentUser" [routerLink]="'/login' ">{{attach.name | uppercase}}</a>
               <a *ngIf="currentUser" [href]="attach.link" target="_blank">{{attach.name | uppercase}}</a>
             </mat-list-item>
           </mat-nav-list>
         </mat-expansion-panel>
-
         <mat-expansion-panel *ngIf="publication.categoryId==2 || !publication.commentable" (opened)="commentOpened()" class="mat-elevation-z0">
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{ (publication.categoryId == 2 ? 'RESPONSES' : 'COMMENTS') | translate}}
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-card class="comment mat-elevation-z0" *ngFor="let comment of publication.comments" [class.sl-primary-font]="comment.bestAnswer">
-            <mat-card-header>
-              <div mat-card-avatar class="publish-avatar" [style.backgroundImage]="'url('+ comment.user.profileImage +')'"></div>
-              <h6 mat-card-title>
-                <b>{{comment.user.lastName +' ' + comment.user.firstName | uppercase}}</b>
-              </h6>
-              <h5 mat-card-subtitle> {{comment.description}}</h5>
-              <h6 mat-card-subtitle>{{comment.date | timeAgo}}</h6>
-              <div *ngIf="publication.categoryId==2 && currentUser && publication.userId == currentUser.id">
-                <button mat-button color="primary" (click)="markAsBest(comment.id)">{{ comment.bestAnswer ? 'REMOVE_ANSWEER':'MARK_BEST'}}</button>
-              </div>
-            </mat-card-header>
-          </mat-card>
+          <div class="comment" *ngFor="let comment of publication.comments" fxlayout="row">
+            <div fxFlex="20%">
+              <button (click)="markAsBest(comment.id)" *ngIf="currentUser.id==publication.userId" mat-icon-button [color]="comment.bestAnswer? 'warn': ''"
+                [matTooltip]="(comment.bestAnswer?  'UNMARK' : 'MARK_AS_BEST') | translate">
+                <mat-icon>verified_user</mat-icon>
+              </button>
+              <button *ngIf="currentUser.id==comment.userId || currentUser.id==publication.userId" mat-icon-button color="warn" matTooltip="{{ 'DELETE'|translate}}"
+                tabindex="-1" (click)="deleteComment(comment.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div fxFlex="80%">
+              <img class="comment-avatar" [src]="comment.user.profileImage?comment.user.profileImage:
+            './assets/img/profile-default.png'">
+              <b class="name">{{comment.user.lastName +' ' + comment.user.firstName | uppercase}}
+                <mat-icon color="primary" *ngIf="comment.bestAnswer">verified_user</mat-icon>
+              </b>
+              <h5> {{comment.description}}</h5>
+              <h6>{{comment.date | timeAgo}}</h6>
+            </div>
+          </div>
           <form *ngIf="currentUser" novalidate #commentform="ngForm" (ngSubmit)="commented(commentform.valid)">
             <mat-form-field>
               <mat-placeholder>
@@ -78,25 +89,25 @@
       </mat-accordion>
       <span *ngIf="currentUser">
         <span *ngIf="currentUser.id==publication.userId">
-          <a [routerLink]="'./publicationForm/' + publication.id" mat-icon-button color="accent" matTooltip="{{'EDIT'|translate}}"
-            tabindex="-1">
+          <a [routerLink]=" '/index/publicationForm/' + publication.id" mat-icon-button color="accent" matTooltip="{{
+            'EDIT'|translate}}" tabindex="-1">
             <mat-icon>edit</mat-icon>
           </a>
-          <button mat-icon-button color="warn" matTooltip="{{'DELETE'|translate}}" tabindex="-1" (click)="deletePublication()">
+          <button mat-icon-button color="warn" matTooltip="{{ 'DELETE'|translate}}" tabindex="-1" (click)="deletePublication()">
             <mat-icon>delete</mat-icon>
           </button>
         </span>
         <span>
-          <button *ngIf="currentUser.id!=publication.userId" mat-icon-button [color]="opinion && opinion.opinion==3 ? 'primary' :'' "
-            matTooltip="{{'REPORT_PUBLICATION' | translate}}" color="primary" (click)="reportPublication()">
+          <button *ngIf="currentUser.id!=publication.userId" mat-icon-button [color]="opinion && opinion.opinion==3 ?
+            'primary' : ''" matTooltip="{{ 'REPORT_PUBLICATION' | translate}}" color="primary" (click)="reportPublication()">
             <mat-icon>report</mat-icon>
           </button>
-          <button mat-icon-button [disabled]="currentUser.id==publication.userId" [color]="opinion && opinion.opinion==1 ? 'accent' :'' "
-            matTooltip="{{'LIKE' | translate}}" tabindex="-1" (click)="like()">
+          <button mat-icon-button [disabled]="currentUser.id==publication.userId" [color]="opinion && opinion.opinion==1
+            ? 'accent' : ''" matTooltip="{{ 'LIKE' | translate}}" tabindex="-1" (click)="like()">
             <mat-icon>thumb_up</mat-icon> {{ publication.likes }}
           </button>
-          <button [disabled]="currentUser.id==publication.userId" mat-icon-button [color]="opinion && opinion.opinion==2 ? 'warn' :'' "
-            matTooltip="{{'LIKE' | translate}}" tabindex="-1" (click)="disLike()">
+          <button [disabled]="currentUser.id==publication.userId" mat-icon-button [color]="opinion && opinion.opinion==2
+            ? 'warn' : ''" matTooltip="{{ 'DISLIKE' | translate}}" tabindex="-1" (click)="disLike()">
             <mat-icon>thumb_down</mat-icon> {{ publication.dislikes }}
           </button>
         </span>

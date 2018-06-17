@@ -64,6 +64,7 @@ export class ContactsComponent implements OnInit {
     this.ngForm.valueChanges
       .debounceTime(400)
       .subscribe(res => {
+        this.pageIndex=0;
         this.loadPeople();
       })
   }

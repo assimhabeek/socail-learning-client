@@ -5,6 +5,7 @@ import { WsService } from '../ws.service';
 import { Attachment } from '../domain/attachments';
 import { Publication } from '../domain/publication';
 import { NotificationService, Notification } from '../notification.service';
+import { Subject } from 'rxjs';
 
 const removeFalsy = (obj) => {
   let newObj = {};
@@ -31,6 +32,8 @@ export class PublicationService {
 
 
   public strem: EventEmitter<any> = new EventEmitter();
+  public publicationStream: any;
+  private conncetion: Subject<any>;
 
   constructor(private _http: HttpService,
     public notificationService: NotificationService,
@@ -43,11 +46,22 @@ export class PublicationService {
     });
   }
 
+
+  close() {
+    this.conncetion.next('close');
+  }
+
+
   listenToStream() {
-    this.getStreamedPublications().subscribe(r => {
+    this.conncetion = this.getStreamedPublications();
+    this.publicationStream = this.conncetion.subscribe(r => {
       if (isNaN(r.data)) {
-        const pub: Publication = JSON.parse(r.data);
-        this.notificationService.sendNotification(new Notification(pub.title, pub.id, pub.user, false));
+        try {
+          const pub: Publication = JSON.parse(r.data);
+          this.notificationService.sendNotification(new Notification(pub.title, pub.id, pub.user, false));
+        } catch (e) {
+          console.log(e);
+        }
       }
       this.strem.emit(r.data);
     });
@@ -118,6 +132,12 @@ export class PublicationService {
 
   public deleteAttachment(id: number) {
     return this._http.deleteWithAuth(URLS.attachments, {
+      responseType: 'text', params: { id: id }
+    });
+  }
+
+  public deleteComment(id: number) {
+    return this._http.deleteWithAuth(URLS.comments, {
       responseType: 'text', params: { id: id }
     });
   }

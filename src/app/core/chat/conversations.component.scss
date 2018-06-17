@@ -1,9 +1,18 @@
-mat-chip img{
+.conv{
+    margin: 5px;
+}
+.conv img{
     height: 30px;
     width: 30px;
     margin: 0 5px;
     border-radius: 50%;
+        vertical-align: middle;
 }
+
+.conv a{
+    text-decoration: none;
+}
+
 mat-list-item{
     padding-top: 20px !important;
 

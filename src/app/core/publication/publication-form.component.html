@@ -1,13 +1,14 @@
 <div class="sl-publication-form">
-  <h1 mat-card-title>{{ 'PUBLICATION' | translate}}</h1>
   <form novalidate #publicationform="ngForm" (ngSubmit)="submit(publicationform.valid)">
     <mat-card>
+      <h1 mat-card-title>{{ 'PUBLICATION' | translate}}</h1>
+
       <div class="sl-form-section-header">
         <h4>{{'PUBLICATION_BODY'| translate}}</h4>
         <mat-divider></mat-divider>
       </div>
       <div fxLayout="row wrap">
-        <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex="100%">
+        <div fxFlex.xs="100%" fxFlex.sm="100%" fxFlex="70%">
           <mat-form-field>
             <mat-placeholder>
               {{'TITLE' |translate}}
@@ -24,6 +25,7 @@
               name="description" [(ngModel)]="publication.description">
             </app-ngx-editor>
             <mat-form-field *ngSwitchCase="true">
+              <mat-placeholder>{{'CONTENT' | translate}}</mat-placeholder>
               <textarea matInput matAutosizeMinRows="5" [(ngModel)]="publication.description" name="description"></textarea>
             </mat-form-field>
           </span>
@@ -63,13 +65,13 @@
       </div>
 
       <div class="form-buttom" fxLayout="column" fxLayoutAlign=" center">
-        <!--div *ngIf="this.useRecaptch" class="captcha">
+        <div *ngIf="this.useRecaptch" class="captcha">
           <re-captcha [(ngModel)]="publication.captcha" [class.ng-captcha-invalid]="publicationform.submitted && captcha.hasError('required')"
             #captcha="ngModel" name="captcha" required></re-captcha>
           <mat-error *ngIf="publicationform.submitted && captcha.hasError('required')">
             <strong>{{'REQUIRED'|translate}}</strong>
           </mat-error>
-        </div -->
+        </div>
         <div>
 
           <button mat-raised-button type="submit" color="primary">

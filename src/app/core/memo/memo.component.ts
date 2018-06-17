@@ -19,10 +19,11 @@ export class MemoComponent implements OnInit {
   public publications: Publication[] = [];
   public currentUser: User;
   publicationEnd = false;
-  public publicationSize = 0.8;
+  public publicationSize = 1;
   public openAttachments = false;
   private attachmentsAreFetched = false;
   public useRecaptch = window.location.protocol.indexOf('https') > -1;
+  public total;
 
   filter: any = {};
 
@@ -31,7 +32,7 @@ export class MemoComponent implements OnInit {
 
   ngOnInit() {
     this.filter.page = 0;
-    this.filter.category = 2;
+    this.filter.category = 3;
     this.loadUser();
 
     this.loadPublications();
@@ -51,6 +52,20 @@ export class MemoComponent implements OnInit {
     }
   }
 
+  zoomIn() {
+    this.publicationSize = this.publicationSize == 3 ? this.publicationSize : this.publicationSize + 0.2;
+  }
+
+  zommOut() {
+    this.publicationSize = this.publicationSize == 0.2 ? this.publicationSize : this.publicationSize - 0.2;
+  }
+
+  pageChanged($event) {
+    this.filter.page = $event.pageIndex;
+    this.loadPublications();
+  }
+
+
   attachmentOpened(pub) {
     if (!this.attachmentsAreFetched) {
       this.attachmentsAreFetched = true;
@@ -64,8 +79,8 @@ export class MemoComponent implements OnInit {
   loadPublications() {
     this.publicationsService.getPublications(this.filter)
       .subscribe(res => {
-        this.publicationEnd = res.length === 0;
-        this.publications = this.publications.concat(res);
+        this.publications = res[1];
+        this.total = res[0];
       });
   }
 

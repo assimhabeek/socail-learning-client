@@ -43,18 +43,35 @@ a{
   font-family: "Roboto", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: bold;
 }
-
-.comment {
-  padding-left: 20px;
-  padding-top: 7px;
-  padding-bottom: 7px;
-  word-break: break-all;
-  word-wrap: break-word;
+.comment{
+  padding-top: 10px;
+  overflow: hidden;
+  text-align: start;
+  .comment-avatar{
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+  }
+  mat-icon{
+    vertical-align:top;
+  }
+  .name{
+    font-size: 12px;
+    vertical-align: top;
+    display: inline-block;
+  }
+  h6,h5{
+    margin: 0 !important;
+  }
+  h6{
+    text-align: end;
+  }
 }
 .comment mat-icon{
-  font-size: 48px;
+  font-size: 24px;
   font-weight: bolder;
 }
+
 form {
   text-align: center;
   .mat-form-field {
@@ -67,7 +84,10 @@ form {
 .pub-title{
   margin-top:10px;
 }
+
 .compcat-title{
   white-space: nowrap;
-  text-align: center;
+  h3{
+    margin: 0!important;
+  }
 }

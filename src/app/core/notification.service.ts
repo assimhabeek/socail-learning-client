@@ -7,6 +7,7 @@ export class Notification {
   publicationId: number;
   user: User;
   isRead: boolean;
+
   constructor(message: string, publicationId: number, user: User, isRead: boolean) {
     this.message = message;
     this.publicationId = publicationId;

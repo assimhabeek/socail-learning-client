@@ -1,13 +1,11 @@
 <mat-list>
     <mat-list-item *ngFor="let item of conversations">
-        <mat-chip-list>
-            <mat-chip *ngFor="let member of item.users">
-                <img [src]="member.profilImage ? member.profilImage : './assets/img/profile-default.png'">
-                <a [routerLink]="'/index/profilePreview/' + member.id">
-                    {{member.lastName + ' ' + member.firstName | uppercase}}
-                </a>
-            </mat-chip>
-        </mat-chip-list>
+        <div class="conv" *ngFor="let member of item.users">
+            <img [src]="member.profileImage ? member.profileImage : './assets/img/profile-default.png'">
+            <a [routerLink]="'/index/profilePreview/' + member.id">
+                {{member.lastName + ' ' + member.firstName | uppercase}}
+            </a>
+        </div>
         <span class="spacer"></span>
         <a mat-button color="primary" [routerLink]="['/index/chatRoom']" [queryParams]="{ room: item.room }">
             {{'JOIN' | translate}}

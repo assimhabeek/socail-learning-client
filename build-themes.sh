@@ -15,6 +15,6 @@ do
   BASENAME=${FILENAME%.scss}
   $(npm bin)/node-sass $FILE > $DEST_PATH/$BASENAME.css
 done
+
 echo Finished building CSS.
-sleep 800
 

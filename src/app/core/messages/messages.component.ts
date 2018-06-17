@@ -27,6 +27,7 @@ export class MessagesComponent implements OnInit {
   ngOnInit() {
     this.userService.user.subscribe(res => {
       this.currentUser = res;
+      this.laodMessages();
       this.listenToMessages();
     })
   }
@@ -53,6 +54,25 @@ export class MessagesComponent implements OnInit {
 
   toggleAll(value) {
     this.messages.forEach(i => i.isRead = value.checked);
+  }
+
+  laodMessages() {
+    this.chatService.getUnReadMessages().subscribe((res: Chat[]) => {
+      res.forEach((message: Chat) => {
+        if (message.sender != this.currentUser.id) {
+          if (this.messages.filter(ite => ite.chatMessage.sender === message.sender).length > 0) {
+            let mes = this.messages.filter(ite => ite.chatMessage.sender === message.sender)[0];
+            mes.chatMessage = message;
+            mes.isRead = false;
+          } else {
+            this.userService.getUserById(message.sender)
+              .subscribe(res => {
+                this.messages.unshift({ chatMessage: message, user: res, isRead: false });
+              });
+          }
+        }
+      });
+    });
   }
 
 

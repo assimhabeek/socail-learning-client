@@ -1,5 +1,11 @@
 <mat-card class="mat-elevation-z8">
   <mat-toolbar>
+    <mat-form-field>
+      <mat-placeholder>
+        {{'FILTER' | translate}}
+      </mat-placeholder>
+      <input type="text" matInput (keyup)="filter($event)">
+    </mat-form-field>
     <button mat-mini-fab color="primary" (click)="onAdd()" matTooltip="{{'ADD'| translate}}">
       <mat-icon>add</mat-icon>
     </button>
@@ -94,7 +100,7 @@
     </ng-container>
     <ng-container matColumnDef="spcailtyId">
       <mat-header-cell *matHeaderCellDef> {{'SPECIALTY' | translate}} </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{getSpeById(element.spcailtyId).abb}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{getSpeById(element.spcailtyId) ? getSpeById(element.spcailtyId).abb : ''}} </mat-cell>
     </ng-container>
 
 

@@ -6,10 +6,10 @@
   "scripts": {
     "ng": "ng",
     "sssl": "ng serve --ssl true --ssl-key \"C:\\Users\\Assim\\WebstormProjects\\certs\\server.key\" --ssl-cert \"C:\\Users\\Assim\\WebstormProjects\\certs\\server.crt\"",
-    "build": "npm run build-themes && ng build --prod",
+    "build": "npm run build-themes && ng build --prod --aot",
     "el": "electron .",
     "electron-aot": "ng build --prod --base-href=./ && electron .",
-    "el-build": "ng build --prod --base-href=./ && electron-packager . --platform=win32",
+    "el-build": "electron-packager . --overwrite --platform=win32",
     "start": "npm run build-themes && ng serve --aot --sourcemaps=false",
     "start-jit": "npm run build-themes && ng serve --sourcemaps=false",
     "lint": "tslint \"src/**/*.ts\"",
